@@ -7,7 +7,7 @@
     <!-- shortnameofaddon@firstname.lastname -->
     <em:id>react@david.nz</em:id>
     <!-- full name of addon, is displayed  -->     
-    <em:name>My React test in Thunderbird</em:name>
+    <em:name>Thunderbird AB (react)</em:name>
     <!-- version number of addon -->
     <em:version>1.0</em:version>
     <!-- author's name -->

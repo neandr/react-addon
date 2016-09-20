@@ -1,4 +1,4 @@
-NAME:=react-test
+NAME:=ABnew
 NAME_XPI:=$(NAME).xpi
 XPI_SRC:=$(wildcard content/*) $(wildcard modules/*) $(wildcard defaults/*)
 SRC = $(wildcard react/*.jsx)
@@ -26,3 +26,5 @@ npm: package.json
 clean:
 	rm $(LIB)
 	rm $(NAME_XPI)
+
+rebuild: clean all

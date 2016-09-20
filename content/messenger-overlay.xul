@@ -16,8 +16,8 @@
     <toolbarbutton 
          class="toolbarbutton-1 chromeclass-toolbar-additional"
          id="AddressBookTab-button"
-         label="React"
-         tooltiptext="React"
+         label="ABnew"
+         tooltiptext="TB AB new (React)"
          oncommand="reactTabType.open();"
          removable="true"
 

@@ -1,5 +1,5 @@
 reactTabType = {
-  name: "reactTab",
+  name: "ABnew",
   perTabPanel: "vbox",
   lastTabID: 0,
   modes: {
@@ -52,7 +52,7 @@ reactTabType = {
     }
 
     // TODO: l10n
-    aTab.title = "react";
+    aTab.title = "ABnew";
     aTab.browser.loadURI("chrome://react/content/reactTab.xhtml");
 
     this.lastBrowserId++;
