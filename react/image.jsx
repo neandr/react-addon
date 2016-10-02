@@ -1,34 +1,17 @@
-class Layout extends React.Component {
+class ProfileImage extends React.Component {
+  handleURLRevoke() {
+    URL.revokeObjectURL(this.props.image);
+  }
   render() {
     const imageStyle = {
       borderRadius: "50%"
     };
     return (
       <div>
-        <h1>It's working!</h1>
-        <img src={'images/1.jpg'} style={imageStyle}/>
+        <img onload={this.handleURLRevoke} src={this.props.image} style={imageStyle}/>
       </div>
-
     );
   }
 }
 
-const app = document.getElementById('app');
-ReactDOM.render(<Layout/>,app);
 
-
-//
-// var contact = React.createClass({
-//   render: function() {
-//     return (
-//       // <h1> Joely Huang </h1>
-//       <p>
-//         Hello, <input type="text" placeholder="Your name here" />!
-//       </p>
-//     );
-//   }
-// });
-// ReactDOM.render(
-//   <contact />,
-//   document.getElementById('main')
-// );
