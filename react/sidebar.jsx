@@ -14,16 +14,16 @@ var ContactSidebar = React.createClass({
   renderName: function(contact){
 console.log("renderName: ", contact.name, contact.id);		//XXX
 console.trace();
+    var style = {'background-color': ''};
 
-    var className;
     if(contact.id==this.props.currentID){
-        className = 'contact-detail-true'
-    } else {
-        className = 'contact-detail'
+      style = {'background-color': '#ccc'};
     }
+	var cDetail = 'contact-detail'
     return (
-      <div id="contact-item" className={className}  key={this.props.contactNames} 
-      	onClick={this.displayContact.bind(null, contact)}>{contact.name}
+      <div id="contact-item" >
+        <li key={this.props.contactNames} className={cDetail}  style={style} 
+             onClick={this.displayContact.bind(null, contact)}>{contact.name}</li>
       </div>
     );
   },
@@ -35,9 +35,9 @@ console.trace();
                 <input id="search-bar" type="text" name ="search" placeholder="Search"></input>
               </div>
               <span id="sidebar-buttons">
-                <input type="button" value="Export" onClick={this.export}></input>
-                <input type="button" value="Import" onClick={this.import}></input>
-                <input type="button" value="+" onClick={this.add}></input>
+                <button id="buttons" onClick={this.export}>Export</button>
+                <button id="buttons" onClick={this.import}>Import</button>
+                <button id="buttons" onClick={this.add}>+</button>
               </span>
             </div>
             <br />
