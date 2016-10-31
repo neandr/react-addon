@@ -1,17 +1,14 @@
-<?xml version="1.0"?>
-
-<RDF xmlns="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-     xmlns:em="http://www.mozilla.org/2004/em-rdf#">
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><RDF xmlns="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:em="http://www.mozilla.org/2004/em-rdf#">
 
   <Description about="urn:mozilla:install-manifest">
     <!-- shortnameofaddon@firstname.lastname -->
     <em:id>react@david.nz</em:id>
     <!-- full name of addon, is displayed  -->     
-    <em:name>Thunderbird AB (react)</em:name>
+    <em:name>Thunderbird vContacts</em:name>
     <!-- version number of addon -->
     <em:version>1.0</em:version>
     <!-- author's name -->
-    <em:creator>david</em:creator>
+    <em:creator>vuw project team</em:creator>
     <em:targetApplication>
       <Description>
         <!-- Id to which mozilla application addon targets, curerntly Thunderbird -->
@@ -23,5 +20,15 @@
       </Description>
     </em:targetApplication>
    
-  </Description>      
+
+  <em:developer>Hannah Craighead</em:developer>
+  <em:developer>Ellie Coyle</em:developer>
+  <em:developer>Miguel Orevillo</em:developer>
+  <em:developer>David Barnett</em:developer>
+  <em:developer>Andrew Daly</em:developer>
+  <em:developer>Joely Huang</em:developer>
+
+  <em:developer/>
+  
+  <em:contributor>Philipp Kewisch</em:contributor><em:contributor>Guenter Wahl</em:contributor></Description>
 </RDF>

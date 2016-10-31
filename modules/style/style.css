@@ -1,12 +1,25 @@
-@import url(resources/buttons.css);
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+
+/*@import url(resources/buttons.css);*/
+
+body {
+  background-color: white;
+  color: #0f0f0f;
+  margin: 0;
+}
+
+/*Sidebar Styling*/
 
 #sidebar {
-  width: 20vw;
+  width: 25vw;
   height: 100vh;
   min-height: 100px;
   min-width: 100px;
   overflow-x: hidden;
-  background-color: #0f0;
+  overflow-y: hidden;
+  background-color: #f3f4f4;
   float: left;
 }
 
@@ -15,17 +28,151 @@
 }
 
 #sidebar-buttons{
-  display: flex;
-  flex-wrap: wrap;
-  /*justify-content: space-around;*/
-  margin-left:5%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+  /*margin-left:5%;*/
+  /*padding-top: 2%;*/
+}
+
+#sidebar-buttons input[type="button"]{
+  background-color: white;
+  border-radius: 2px;
+  border: 1px solid #ccc;
+  padding-top:5px;
+  padding-bottom: 5px;
+  font-size: 0.8rem;
+  width: 70px;
+}
+
+#sidebar-buttons input[type="button"]:hover{
+  background-color: #e5e5e5;
+  cursor: pointer;
+}
+
+#search-bar {
+  margin: 5%;
+  width: 90%;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  color: #333;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  font-size: 0.9em;
+}
+
+#search-bar:focus {
+  border-color: #ddd;
+  box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102, 175, 233, 0.6);
 }
 
 #contacts-list {
-  overflow-y: auto;
-  height: 90%;
+  height: 85vh;
   margin-left:5%;
+  margin-right:5%;
+  list-style-type: none;
+  overflow-y: auto;
 }
+
+#contacts-list ul {
+  padding-left: 0;
+}
+
+.contact-detail {
+  width: 90%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: left;
+  white-space: nowrap;
+  margin: auto;
+  padding-left: 5px;
+}
+
+.contact-group {
+   background-color: rgba(243, 235, 235, 0.47);
+   color: gray;
+   border-bottom: 1px solid gray;
+   font-family: sans serif;
+   font-size: 1.2em;
+   font-weight: 600;
+   margin-top: 16px;
+   padding-left: 20px;
+}
+
+#contact-name{
+  display: flex;
+  padding: 15px;
+  margin: auto;
+}
+
+#contact-name.true{
+  background-color: white;
+}
+
+#contact-name:hover{
+  background-color: white !important;
+  cursor: pointer;
+}
+
+/*General Styling*/
+
+.buttons{
+  background-color: white;
+  border-radius: 2px;
+  border: 1px solid #ccc;
+  padding-top:5px;
+  padding-bottom: 5px;
+  font-size: 0.8rem;
+  width: 70px;
+}
+
+.buttons.upload{
+  display: none;
+}
+
+.buttons:hover{
+  /*background-color: #999;
+  cursor: pointer;*/
+  background-color: #e5e5e5;
+  cursor:pointer;
+}
+
+.buttons.tag{
+   background-color: #ccc;
+   cursor:default;
+}
+
+.buttons.add{
+   background-color: RGBA(191, 246, 183, 0.3);
+   width: auto;
+}
+
+.buttons.remove{
+   background-color: RGBA(252, 176, 176, 0.3);
+   width: auto;
+   margin-left: 0;
+}
+
+.buttons.center{
+  position: fixed;
+  top: 50%;
+  left: 50%;
+}
+/*================modal styling================*/
+.modal{
+  max-height: calc(100% - 100px);
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border:2px solid #443b3b;
+  background-color: RGBA(255, 191, 191,1);
+  text-align:center;
+  color: RGBA(165, 44, 44,1);
+  padding:20px;
+}
+
+/*===============Main page Styling===============*/
 
 #main {
 	background-color: white;
@@ -34,32 +181,72 @@
 	height: 100vh;
   min-height: 100px;
   min-width: 100px;
-  overflow-y: scroll;
+  /*overflow-y: scroll;*/
   overflow-x: hidden;
-  padding-left: 3%;
-  padding-right: 3%;
+  padding-left: 2vw;
+  padding-right: 1vw;
+}
+
+#main-header {
+  height: 35vh;
+}
+
+#main-contact {
+  overflow-y: scroll;
+  height: 65vh;
+  width: 100%
+}
+
+#main-buttons {
+  padding-bottom: 2vh;
+  clear: both;
+}
+
+img.side-profile-img {
+  border-radius: 50%;
+  width: 5vh;
+  height: 5vh;
+  float: left;
+}
+
+img.profile-img{
+  border-radius: 50%;
+}
+
+#profile-img {
+  /*width: 20vw;*/
+  width: 32vh;
+  float: left;
+}
+
+.profile-img {
+  border-radius: 50%;
+  height: 29vh;
+  width: 29vh;
+}
+
+.profile-img.editing:hover{
+  cursor: pointer;
 }
 
 #header {
   display: flex;
 }
 
-#profile-img {
-  width: 20vw;
-  height: 100%;
-  float: left;
-}
-
 #header-text {
   position: relative;
+  margin-top: auto;
+  margin-bottom: auto;
 	width: auto;
   height: 100%;
 }
 
-#search-bar {
-  margin: 5%;
-  width: 90%;
+description.headerstyle {
+  font-size: .8em;
+  margin-right:2px;
 }
+
+/*====================Main Fields Page Styling======================*/
 
 #field {
   display: flex;
@@ -68,20 +255,33 @@
   align-items: center;
 }
 
-#contact-item {        /* //XX added gN */
-    display: flex;
-    width: 90%;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    text-align: left;
+#field input[type="text"]{
+  margin: 2%;
+  width: 250px;
+  border-radius: 3px;
+  border: 1px solid #ccc;
+  color: #333;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  font-size: 0.9em;
+  padding-left: 5px;
 }
 
-body {
-  background-color: white;
-  color: #0f0f0f;
-  margin: 0;
+#field select{
+  border-radius: 3px;
+  border: 1px solid #ccc;
+  color: #333;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  font-size: 0.9em;
 }
 
-.circle{
-  border-radius: 50%;
+.contact-detail {
+  width: 90%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: left;
+  white-space: nowrap;
+  margin: auto;
+  padding-left: 5px;
 }

@@ -2,6 +2,11 @@
   <!ENTITY % htmlDTD PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "DTD/xhtml1-strict.dtd"> %htmlDTD;
 ]>
 <html xmlns="http://www.w3.org/1999/xhtml">
+
+<!-- This Source Code Form is subject to the terms of the Mozilla Public
+   - License, v. 2.0. If a copy of the MPL was not distributed with this
+   - file, You can obtain one at http://mozilla.org/MPL/2.0/. -->
+
 <head>
   <!-- This meta charset tag has to be above the license block, or
        window.arguments is undefined.  See bug 617339.  -->
@@ -13,48 +18,35 @@
             src="resource://react/lib/react-dom-15.0.2.min.js">
     </script>
     <script type="text/javascript"
+            src="resource://react/lib/react-modal.min.js">
+    </script>
+    <script type="text/javascript"
             src="resource://react/lib/mabAddressbook.js">
     </script>
+    <script type="text/javascript"
+            src="resource://react/lib/mabAddressbookUtil.js">
+    </script>
+    <script type="text/javascript"
+            src="resource://react/lib/contactParser.js">
+    </script>
+    <script type="text/javascript"
+            src="resource://react/lib/images.js">
+    </script>
     <link rel="stylesheet" type="text/css" href="resource://react/style/style.css"></link>
-    <!-- <link rel="stylesheet" type="text/css" href="resource://react/style/buttons.css"></link> -->
 </head>
   <body>
     <div id="addressBook">
     </div>
-    <!-- <div id="sidebar">
-    </div>
-
-    <div id="main">
-      <div id="contact">
-      <br />
-      <br />
-        <div id="header">
-          <div id="profile-img">
-          </div>
-          <div id="header-text">
-          </div>
-        </div>
-        <div id="personal">
-        </div>
-        <div id="work">
-        </div>
-        <div id="address">
-        </div>
-        <div id="web-pages">
-        </div>
-        <div id="chat">
-        </div>
-        <div id="test">
-        </div>
-        <div id="app">
-        </div>
-      </div> -->
-    <!-- </div> -->
-    <script type="text/javascript" src="resource://react/react/sidebar.js"></script>
+    <script type="text/javascript" src="resource://react/react/deleteModal.js"></script>
+    <script type="text/javascript" src="resource://react/react/profileImage.js"></script>
+    <script type="text/javascript" src="resource://react/react/contactButton.js"></script>
+    <script type="text/javascript" src="resource://react/react/sidebarHeader.js"></script>
+    <script type="text/javascript" src="resource://react/react/header.js"></script>
+    <script type="text/javascript" src="resource://react/react/addressForm.js"></script>
+    <script type="text/javascript" src="resource://react/react/addressField.js"></script>
     <script type="text/javascript" src="resource://react/react/contactField.js"></script>
     <script type="text/javascript" src="resource://react/react/contactSection.js"></script>
+    <script type="text/javascript" src="resource://react/react/sidebar.js"></script>
     <script type="text/javascript" src="resource://react/react/addressbook.js"></script>
-    <script type="text/javascript" src="resource://react/react/image.js"></script>
-    <script type="text/javascript" src="resource://react/react/header.js"></script>
   </body>
 </html>

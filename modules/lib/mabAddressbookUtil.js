@@ -1,3 +1,7 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+
 const Cc = Components.classes;
 const Ci = Components.interfaces;
 
@@ -62,10 +66,12 @@ var AddressbookUtil = {
   },
 
   /**
+   * Ask the user to point to a vCard and import the contacts into the database
    *
-   * @returns {Contact[]}
+   * @param {Addressbook} Addressbook to add the imported contacts to
+   * @returns {Promise[]} Array of promises for adding the new contacts
    */
-  importContacts: function() {
+  importContacts: function(addressbook) {
 
     var filePickerInterface = Components.interfaces.nsIFilePicker;
     var filePicker = Components.classes["@mozilla.org/filepicker;1"].createInstance(filePickerInterface);
@@ -94,6 +100,86 @@ var AddressbookUtil = {
 
       inputStream.close();
 
+      var contacts = ICAL.parse(fileContents);
+      // detect error from parsing
+      if (!contacts) {
+        throw "Invalid vCard";
+      }
+
+      // check if it is an array of vcards or a single vcard
+      if (contacts[0] == 'vcard') {
+        // make a single contact a list to work with the next section
+        contacts = [contacts];
+      }
+
+      // convert jcards into Contact objects
+      var contactPromises = contacts.map(function(vcard) {
+        var contact =  new ICAL.Component(vcard);
+
+        // try to get the name of the contact
+        var name = contact.getFirstPropertyValue("fn");
+        // fall back to the 'n' for a name
+        if (!name) {
+          name = contact.getFirstPropertyValue("n");
+          name = Array.isArray(name) ? name.join(" ").trim() : name;
+        }
+        // fall back to email for a name
+        if (!name) {
+          name = contact.getFirstPropertyValue("email");
+        }
+
+        // get the photo
+        var photo = undefined;
+        var photoProperty = contact.getFirstProperty("photo");
+
+        if (photoProperty) {
+          if (photoProperty.type === "binary") {
+            var imageType = "image/" + photoProperty.getParameter("type").toLowerCase();
+            photo = AddressbookUtil.b64toBlob(photoProperty.getValues(), imageType);
+          }
+        }
+
+        return {
+          name: name.trim(),
+          jcards: [vcard],
+          photo: photo
+        };
+
+      // do another map of the contacts in a sperate loop so
+      // if a single contact fails none of the contacts will be
+      // be inserted into the database
+      }).map(function(contact) {
+        // TODO: check if it already exists and add it?
+
+        // add the contact to the addressbook
+        addressbook.add(contact);
+      });
+
+      return contactPromises;
     }
+  },
+
+  b64toBlob: function(b64Data, contentType, sliceSize) {
+    contentType = contentType || '';
+    sliceSize = sliceSize || 512;
+
+    var byteCharacters = atob(b64Data);
+    var byteArrays = [];
+
+    for (var offset = 0; offset < byteCharacters.length; offset += sliceSize) {
+      var slice = byteCharacters.slice(offset, offset + sliceSize);
+
+      var byteNumbers = new Array(slice.length);
+      for (var i = 0; i < slice.length; i++) {
+        byteNumbers[i] = slice.charCodeAt(i);
+      }
+
+      var byteArray = new Uint8Array(byteNumbers);
+      
+      byteArrays.push(byteArray);
+    }
+
+    var blob = new Blob(byteArrays, {type: contentType});
+    return blob;
   }
 }

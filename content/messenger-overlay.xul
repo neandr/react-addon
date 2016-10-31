@@ -16,8 +16,8 @@
     <toolbarbutton 
          class="toolbarbutton-1 chromeclass-toolbar-additional"
          id="AddressBookTab-button"
-         label="ABnew"
-         tooltiptext="TB AB new (React)"
+         label="vContacts(n)"
+         tooltiptext="TB/AB VUWproject with use of React"
          oncommand="reactTabType.open();"
          removable="true"
 

@@ -1,3 +1,7 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+
 /** -------------- CONTACT SECTION -------------------------*/
 var ContactSection = React.createClass({
     add: function() {
@@ -26,21 +30,15 @@ var ContactSection = React.createClass({
         if (this.props.editing) {
             return (
                 <div className="contact-section">
-                    <h3>{this.props.type}</h3>
-                    <hr></hr>
+                    <div className="contact-group">{this.props.type}</div>
                     {this.props.fields.map(this.renderForm)}
-                    <table id="field">
-                        <tr>
-                            <td><button id="buttons" onClick={this.add}>Add</button></td>
-                        </tr>
-                    </table>
+                    <button className="buttons" onClick={this.add}>Add</button>
                 </div>
             )
         } else {
             return (
                 <div className="contact-section">
-                    <h3>{this.props.type}</h3>
-                    <hr></hr>
+                    <div className="contact-group">{this.props.type}</div>
                     {this.props.fields.map(this.renderDisplay)}
                 </div>
             )

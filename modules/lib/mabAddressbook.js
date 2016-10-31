@@ -14,15 +14,21 @@ const DB_NAME = 'addrbook';
 const CONTACTS_STORE_NAME = 'contacts';
 const DB_VERSION = 2;
 
-const DB_ERR_NOT_CONN = "Connection to the database has not been opened, make sure you called Addressbook.open()";
+const DB_ERR_NOT_CONN = "Connection to the database has not been opened, please make sure you called Addressbook.open()";
 
+/**
+* @constructor
+* @param idb - IndexedDB Factory
+**/
 function Addressbook(idb) {
-  // FIXME: passes in IndexedDB factory
   this.indexedDB = idb;
 };
 
+/**
+* Creates and opens databse.
+* @param idb - IndexedDB Factory
+**/
 Addressbook.open = function(idb) {
-  // FIXME: passes in IndexedDB factory
   return new Addressbook(idb).open();
 }
 
@@ -32,9 +38,12 @@ Addressbook.prototype = {
   classID:          Components.ID(UUID),
   contractID:       contractID,
 
+/**
+* Open connection with db.
+* @returns {Promise} - promise of open connection to db.
+**/
   open: function() {
     let addrbook = this;
-    // FIXME: passes in IndexedDB factory
     let indexedDB = this.indexedDB;
 
     return new Promise(function(resolve, reject) {
@@ -57,10 +66,6 @@ Addressbook.prototype = {
   },
 
   _onsuccess: function(event) {
-    // FIXME: debug
-    // console.log("Success");
-    // console.log(event);
-
     this._db = event.target.result;
 
     if (this.onsuccess !== undefined) {
@@ -68,134 +73,171 @@ Addressbook.prototype = {
     }
   },
   _onerror: function(event) {
-    // FIXME: debug
-    // console.log("Error");
-    // console.log(event);
 
     if (this.onerror !== undefined) {
       this.onerror(event);
     }
   },
   _onupgradeneeded: function(event) {
-    // console.log("Upgrade Change");
-    // console.log(event);
     var db = event.target.result;
 
     // setup our object stores
     var contactsStore = db.createObjectStore(CONTACTS_STORE_NAME,
         { keyPath: "uuid", autoIncrement: true });
 
-    // set up our indexes
+  /**
+  * Set up indexes for db
+  **/
     contactsStore.createIndex("name", "name", { unique: false });
+  /**
+  * Set up seed data for mock db
+  **/
+    contactsStore.add({name: "Simon Perreault", email: "simon.perreault@viagenie.ca" , jcards: [
+      ["vcard", [
+        ["version", {}, "text", "4.0"],
+        ["fn", {}, "text", "Simon Perreault"],
+        ["n", {}, "text", ["Perreault", "Simon", "", "", ["ing. jr", "M.Sc."]] ],
+        ["bday", {}, "date-and-or-time", "--02-03"],
+        ["anniversary", {}, "date-and-or-time", "2009-08-08T14:30:00-05:00" ],
+        ["gender", {}, "text", "M"],
+        ["lang", { "pref": "1" }, "language-tag", "fr"],
+        ["lang", { "pref": "2" }, "language-tag", "en"],
+        ["org", { "type": "work" }, "text", "Viagenie"],
+        ["adr", { "type": "work" }, "text", [ "", "Suite D2-630", "2875 Laurier", "Quebec", "QC", "G1V 2M2", "Canada" ] ],
+        ["tel", { "type": ["work", "voice"], "pref": "1" }, "uri", "tel:+1-418-656-9254;ext=102" ],
+        ["tel", { "type": ["work", "cell", "voice", "video", "text"] }, "uri", "tel:+1-418-262-6501" ],
+        ["email", { "type": "work" }, "text", "simon.perreault@viagenie.ca" ],
+        ["geo", { "type": "work" }, "uri", "geo:46.772673,-71.282945"],
+        ["key", { "type": "work" }, "uri", "http://www.viagenie.ca/simon.perreault/simon.asc" ],
+        ["tz", {}, "utc-offset", "-05:00"],
+        ["url", { "type": "home" }, "uri", "http://nomis80.org"]
+      ]]
+    ]});
 
-    // seed data
-    contactsStore.add({name: "Simon Perreault", email: "simon.perreault@viagenie.ca" , jcard: [
-      ["vcard",
-        [
-          ["version", {}, "text", "4.0"],
-          ["fn", {}, "text", "Simon Perreault"],
-          ["n",
-            {},
-            "text",
-            ["Perreault", "Simon", "", "", ["ing. jr", "M.Sc."]]
-          ],
-          ["bday", {}, "date-and-or-time", "--02-03"],
-          ["anniversary",
-            {},
-            "date-and-or-time",
-            "2009-08-08T14:30:00-05:00"
-          ],
-          ["gender", {}, "text", "M"],
-          ["lang", { "pref": "1" }, "language-tag", "fr"],
-          ["lang", { "pref": "2" }, "language-tag", "en"],
-          ["org", { "type": "work" }, "text", "Viagenie"],
-          ["adr",
-            { "type": "work" },
-            "text",
-            [
-              "",
-              "Suite D2-630",
-              "2875 Laurier",
-              "Quebec",
-              "QC",
-              "G1V 2M2",
-              "Canada"
-            ]
-          ],
-          ["tel",
-            { "type": ["work", "voice"], "pref": "1" },
-            "uri",
-            "tel:+1-418-656-9254;ext=102"
-          ],
-          ["tel",
-            { "type": ["work", "cell", "voice", "video", "text"] },
-            "uri",
-            "tel:+1-418-262-6501"
-          ],
-          ["email",
-            { "type": "work" },
-            "text",
-            "simon.perreault@viagenie.ca"
-          ],
-          ["geo", { "type": "work" }, "uri", "geo:46.772673,-71.282945"],
-          ["key",
-            { "type": "work" },
-            "uri",
-            "http://www.viagenie.ca/simon.perreault/simon.asc"
-          ],
-          ["tz", {}, "utc-offset", "-05:00"],
-          ["url", { "type": "home" }, "uri", "http://nomis80.org"]
-        ]
-      ]
-]});
+    contactsStore.add({name: "Bob Perreault", email: "bob.perreault@viagenie.ca" , jcards: [
+      ["vcard", [
+        ["version", {}, "text", "4.0"],
+        ["fn", {}, "text", "Bob Perreault"],
+        ["n", {}, "text", ["Perreault", "Bob", "", "", ["ing. jr", "M.Sc."]] ],
+        ["bday", {}, "date-and-or-time", "--02-03"],
+        ["anniversary", {}, "date-and-or-time", "2009-08-08T14:30:00-05:00" ],
+        ["gender", {}, "text", "M"],
+        ["lang", { "pref": "1" }, "language-tag", "fr"],
+        ["lang", { "pref": "2" }, "language-tag", "en"],
+        ["org", { "type": "work" }, "text", "Viagenie"],
+        ["adr", { "type": "work" }, "text", [ "", "Suite D2-630", "2875 Laurier", "Quebec", "QC", "G1V 2M2", "Canada" ] ],
+        ["tel", { "type": ["work", "voice"], "pref": "1" }, "uri", "tel:+1-418-656-9254;ext=102" ],
+        ["tel", { "type": ["work", "cell", "voice", "video", "text"] }, "uri", "tel:+1-418-262-6501" ],
+        ["email", { "type": "work" }, "text", "bob.perreault@viagenie.ca" ],
+        ["geo", { "type": "work" }, "uri", "geo:46.772673,-71.282945"],
+        ["key", { "type": "work" }, "uri", "http://www.viagenie.ca/bob.perreault/bob.asc" ],
+        ["tz", {}, "utc-offset", "-05:00"],
+        ["url", { "type": "home" }, "uri", "http://nomis80.org"]
+      ]]
+    ]});
   },
 
-  add: function(contactObj) {
-    let ab = this;
-
+  add: function(rawContact) {
     return this._contactRequest("readwrite", function(transaction) {
-      contactObj = ab._convertFromICALComponent(contactObj);
-      return transaction.add(contactObj);
+      return transaction.add(rawContact);
     });
   },
 
-  update: function(contactObj) {
-    let ab = this;
-
+  update: function(contact) {
     return this._contactRequest("readwrite",function(transaction) {
-      contactObj = this._convertFromICALComponent(contactObj);
-      return  transaction.put(contactObj);
-    } );
+      return transaction.put(contact.toJSON());
+    });
   },
 
+  /**
+  * Return all contacts in db.
+  * @returns {Promise} of an array of all contact objects in the db.
+  **/
   getAll: function() {
-    let ab = this;
-
     return this._contactRequest("readonly",
         function(transaction) {
-          return  transaction.getAll();
+          return transaction.getAll();
         })
-    .then(function(contacts) {
-      return contacts.map(function(contact) {
-        return ab._convertToICALComponent(contact);
+    .then(function(rawContacts) {
+      return rawContacts.map(function(rawContact) {
+        return new Contact(rawContact);
       });
     });
   },
 
-  getById: function(id) {
-    let ab = this;
-
+  /**
+  * Return all contacts in db.
+  * @returns {Promise} of an array of all contact objects in the db.
+  **/
+  getAllNameIdAndPhoto: function() {
     return this._contactRequest("readonly",
-        function(transaction) { return  transaction.get(id); } )
-      .then(function(contact) { return ab._convertToICALComponent(contact);  } );
+        function(transaction) {
+          return transaction.getAll();
+        })
+    .then(function(rawContacts) {
+      return rawContacts.map(function(rawContact) {
+        return {name: rawContact.name, id: rawContact.uuid, photo: ContactParser.getPhotoURL(rawContact.photo)};
+      });
+    });
   },
 
+  /**
+  * Return a contact.
+  * @param id - id of contact required.
+  * @return {Promise} of a contact
+  **/
+  getById: function(id) {
+    return this._contactRequest("readonly",
+        function(transaction) {
+          return  transaction.get(id);
+        })
+    .then(function(rawContact) {
+      return new Contact(rawContact);
+    });
+  },
+  /**
+  * Delete contact by id
+  * @param {Integer} id - id of contact to be deleted.
+  * @returns {Promise} to delete contact of input id
+  **/
   deleteById: function(id) {
     return this._contactRequest("readwrite",function(transaction) { return  transaction.delete(id); } );
   },
 
+  /**
+  * Returns all names and IDs in the db.
+  * @returns {Promise} - of all names and IDs in db.
+  **/
   getNameAndId: function() {
+    return this._contactNameCursor(function(cursor) {
+      return { uuid: cursor.primaryKey, name: cursor.key };
+    });
+  },
 
+  /**
+  * Returns all names and IDs in the db that match the search term
+  * @param {String} string to match against
+  * @returns {Promise} - of all names and IDs in db.
+  **/
+  searchByName: function(search) {
+    return this._contactNameCursor(function(cursor) {
+      // all lower case so case does not matter in search
+      if (cursor.key.toLowerCase().indexOf(search.toLowerCase()) !== -1) {
+        return { uuid: cursor.primaryKey, name: cursor.key };
+      }
+    });
+  },
+
+  /**
+   * A general cursor function that takes a filter function with a single argument of the current
+   * cursor element. Any value returned from the filter function is returned in the promise.
+   *
+   * This is a cursor over the 'name' index
+   *
+   * @param {function} a filter function to choose which items are returned
+   * @returns {Promise} with the value of an array filled with the filtered values
+  **/
+  _contactNameCursor: function(filter) {
     let db = this._db;
 
     return new Promise(function(resolve, reject) {
@@ -220,8 +262,12 @@ Addressbook.prototype = {
       // setup response functions
       request.onsuccess = function(event) {
         var cursor = event.target.result;
+
         if (cursor) {
-          results.push({ uuid: cursor.primaryKey, name: cursor.key });
+          var result = filter(cursor);
+          if (result) {
+            results.push(result);
+          }
           cursor.continue();
         } else {
           resolve(results);
@@ -234,32 +280,11 @@ Addressbook.prototype = {
     });
   },
 
-  _convertToICALComponent: function(contactObj) {
-    var result = contactObj;
-
-    result.jcards = result.jcards.map(function(jcard) {
-      return new ICAL.Component(jcard);
-    });
-    return result;
-  },
-
-  _convertFromICALComponent: function(contactObj) {
-    var result = contactObj;
-
-    result.jcards = result.jcards.map(function(jcard) {
-      // check if the jcard is in the array format
-      if (Array.isArray(jcard)) {
-        // is presumably a in array jCard format
-        // validate it by parsing it as a Component then convert it back into jCard
-        return new ICAL.Component(jcard).toJSON();
-      } else {
-        // jcard is an ICAL.Component, so convert it to jCard
-        return jcard.toJSON();
-      }
-    });
-    return result;
-  },
-
+  /**
+  * @param {string} access -  level of access to db needed.
+  * @param {function} requestFn - takes an IDB transaction
+  * @returns {Promise} - the result of the request function
+  **/
   _contactRequest: function(access, requestFn) {
 
     let db = this._db;
@@ -288,7 +313,43 @@ Addressbook.prototype = {
       };
     });
   }
+};
 
+
+/**
+ * @constructor
+ */
+function Contact(rawContact) {
+  this.uuid = rawContact.uuid;
+  this.name = rawContact.name;
+  this.photo = rawContact.photo;
+  this.jcards = this._convertFromRawJCard(rawContact.jcards);
+};
+
+
+Contact.prototype = {
+
+  _convertFromRawJCard: function(jcards) {
+    return jcards.map(function(jcard) {
+      return new ICAL.Component(jcard);
+    });
+  },
+
+  _convertToRawJCard: function() {
+
+    return this.jcards.map(function(jcard) {
+      return jcard.toJSON();
+    });
+  },
+
+  toJSON: function() {
+    return {
+      uuid : this.uuid,
+      name : this.name,
+      photo: this.photo,
+      jcards: this._convertToRawJCard()
+    };
+  }
 };
 
 // vim: set sw=2 ts=2 expandtab ft=javascript:

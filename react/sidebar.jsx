@@ -1,50 +1,27 @@
-/** -------------- SIDEBAR -------------------------*/
-var ContactSidebar = React.createClass({
-  add: function(){
-  },
-  delete: function(){
-  },
-  import: function(){
-  },
-  export: function(){
-  },
-  displayContact: function(contact) {
-    this.props.viewContact(contact.id);
-  },
-  renderName: function(contact){
-console.log("renderName: ", contact.name, contact.id);		//XXX
-console.trace();
-    var style = {'background-color': ''};
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-    if(contact.id==this.props.currentID){
-      style = {'background-color': '#ccc'};
-    }
-	var cDetail = 'contact-detail'
-    return (
-      <div id="contact-item" >
-        <li key={this.props.contactNames} className={cDetail}  style={style} 
-             onClick={this.displayContact.bind(null, contact)}>{contact.name}</li>
-      </div>
-    );
-  },
-  render: function() {
-      return (
-          <div>
-            <div id="sidebar-header">
-              <div>
-                <input id="search-bar" type="text" name ="search" placeholder="Search"></input>
-              </div>
-              <span id="sidebar-buttons">
-                <button id="buttons" onClick={this.export}>Export</button>
-                <button id="buttons" onClick={this.import}>Import</button>
-                <button id="buttons" onClick={this.add}>+</button>
-              </span>
-            </div>
-            <br />
-            <div id="contacts-list">
-                {this.props.contactNames.map(this.renderName)}
-            </div>
-          </div>
-      );
-  },
-});
+/**
+* @desc Provides a scrollable sidebar of all contacts as well as a locked header
+* to support actions on contacts
+*/
+var ContactSidebar = (props) => (
+  <div>
+    <SidebarHeader add={props.add} export={props.export} import={props.import}/>
+    <br />
+    <div id="contacts-list">
+      <ul>
+        {props.contactNames.map(function(contact) {
+          return <ContactButton
+            contact={contact}
+            image={contact.photo}
+            viewContact={props.viewContact}
+            selected={props.selected && props.selected.indexOf(contact.id) > -1}
+            />
+          })
+        }
+      </ul>
+    </div>
+  </div>
+);

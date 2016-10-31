@@ -1,3 +1,7 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+
 // Fields options
 var Email = {name: "Email", options: ["Work", "Home"], key: "email"};
 var Phone = {name: "Phone", options: ["Mobile", "Home", "Work", "Fax", "Pager"], key: "tel"};
@@ -7,21 +11,27 @@ var Chat = {name: "Chat", options: ["Google Talk", "AIM (R)", "Yahoo", "Skype", 
 
 
 var ContactSections = [Email, Phone, Address, Webpage, Chat];
+var PersonalDetails = ["name", "nickName", "displayName", "birthday"];
 
 var AddressBook = React.createClass({
   getInitialState: function() {
-    var contactSections = this.createEmptyContactSections();
-    var tempContactSections = this.createEmptyContactSections();
-    var personalSection = this.createEmptyPersonalSection();
-    var tempPersonalSection = this.createEmptyPersonalSection();
+    var contactSections = ContactParser.createEmptyContactSections(this.props.contactSections);
+    var tempContactSections = ContactParser.createEmptyContactSections(this.props.contactSections);
+    var personalSection = ContactParser.createEmptyPersonalSection(this.props.personalDetails);
+    var tempPersonalSection = ContactParser.createEmptyPersonalSection(this.props.personalDetails);
     return {
-      contactNames: [],
-      currentPersonID: -1,
+      contactsList: [],
+      selectedIds: [],
+      contact: null,
+      name: null,
+      tempContact: null,
       editing: false,
+      photoUrl: "images/1.jpg",
       contactSections: contactSections,
       tempContactSections: tempContactSections,
       personalSection: personalSection,
-      tempPersonalSection: tempPersonalSection
+      tempPersonalSection: tempPersonalSection,
+      modals: {delete: false}
     }
   },
   createEmptyContactSections: function() {
@@ -40,97 +50,58 @@ var AddressBook = React.createClass({
     return {name: "", nickname: "", displayName: "", birthday: ""};
   },
   componentDidMount: function() {
+    this.loadInContacts();
+  },
+  componentWillMount: function() {
+    ReactModal.setAppElement('body');
+  },
+  loadInContacts: function() {
     var cSide = this;
     Addressbook.open(indexedDB).then(function(addrbook) {
-      addrbook.getNameAndId().then((contacts) => {
-        var contactNames = [];
+      addrbook.getAllNameIdAndPhoto().then((contacts) => {
+        var contactsList = [];
         for(var i = 0; i < contacts.length; i++) {
-          contactNames.push({name: contacts[i].name, id: contacts[i].uuid});
+          contactsList.push({name: contacts[i].name, id: contacts[i].id, photo: contacts[i].photo});
         }
-        cSide.setState({contactNames: contactNames});
+        contactsList.sort((a,b) => a.name.toLowerCase() > b.name.toLowerCase());
+        cSide.setState({contactsList: contactsList});
       });
     });
   },
-  getContactDetails: function(id) {
+  addContact: function() {
+    
+  },
+  import: function(file) {
     var self = this;
-    var contactSections = this.createEmptyContactSections();
-    var tempContactSections = this.createEmptyContactSections();
-    var personalSection = this.createEmptyPersonalSection();
-    var tempPersonalSection = this.createEmptyPersonalSection();
-
-    Addressbook.open(indexedDB).then(function(addrbook) {
-      addrbook.getById(id).then(function(contact) {
-        var details = contact.jcards[0].getAllProperties();
-        for (var i = 0; i < details.length; i++) {
-          self.parseProperty(details[i], contactSections, tempContactSections, personalSection, tempPersonalSection);
-        }
-        self.setState({
-          contactSections: contactSections,
-          tempContactSections: tempContactSections,
-          personalSection: personalSection,
-          tempPersonalSection: tempPersonalSection
-        });
+    Addressbook.open(indexedDB).then(AddressbookUtil.importContacts).then(self.loadInContacts);
+  },
+  export: function() {
+      var selectedIds = this.state.selectedIds;
+      if (selectedIds.length > 0) {
+      Addressbook.open(indexedDB).then(function(addrbook) {
+        Promise.all(selectedIds.map((id) => addrbook.getById(id))).then(function(contacts) {
+          AddressbookUtil.exportContact(contacts);
+        })
       });
-    });
-  },
-  parseProperty: function(property, cFields, tFields, pField, tpField) {
-    var name = property.name;
-    var type = property.getParameter("type");
-    var content = property.getFirstValue();
-    if (Array.isArray(type)) {
-      type = type[0];
     }
-    if (type) {
-      type = type.charAt(0).toUpperCase() + type.slice(1);
-    }
-
-    switch (name) {
-      case "email":
-        this.addFieldProperty(0, type, content, cFields);
-        this.addFieldProperty(0, type, content, tFields);
-        break;
-      case "tel":
-        this.addFieldProperty(1, type, content, cFields);
-        this.addFieldProperty(1, type, content, tFields);
-        break;
-      case "adr":
-        this.addFieldProperty(2, type, content, cFields);
-        this.addFieldProperty(2, type, content, tFields);
-        break;
-      case "url":
-        this.addFieldProperty(3, type, content, cFields);
-        this.addFieldProperty(3, type, content, tFields);
-        break;
-      case "fn":
-        pField.name = content;
-        tpField.name = content;
-        break;
-      case "nn":
-        pField.nickName = content;
-        tpField.nickName = content;
-        break;
-      case "dn":
-        pField.displayName = content;
-        tpField.displayName = content;
-        break;
-      case "bday":
-        pField.birthday = content.toString();
-        tpField.birthday = content.toJSDate().toISOString();
-        break;
-      default:
-        break;
-    }
-  },
-  addFieldProperty: function(index, currentOption, content, fields) {
-    var fieldID = fields[index].fields.length;
-    fields[index].fields.push({
-      currentOption: currentOption,
-      content: content,
-      fieldID: fieldID
-    });
   },
   edit: function() {
     this.setState({editing: true});
+  },  
+  deleteContact: function() {
+    this.closeModal('delete');
+    var self = this;
+    Addressbook.open(indexedDB).then(function(addrbook) {
+      var idToDelete = self.state.selectedIds[0];
+      addrbook.deleteById(idToDelete).then((contact) => {
+        // display notification banner
+        var conList = ContactParser.deleteContact(self.state.contactsList, idToDelete);
+        self.setState({
+          selectedIds: [],
+          contactsList: conList
+        });
+      });
+    });
   },
   addField: function(index) {
       var tempSection = this.state.tempContactSections[index];
@@ -142,107 +113,215 @@ var AddressBook = React.createClass({
         }
       }
       var fieldID = tempSection.fields.length;
+      var tempContact = this.state.tempContact;
+      var property = ContactParser.addContactDetail(tempContact, tempSection.key, content, tempSection.options[0]);
       tempSection.fields.push({
           currentOption: tempSection.options[0],
           content: content,
-          fieldID: fieldID
+          fieldID: fieldID,
+          jCardIndex: 0,
+          property: property
       });
       var tempSections = this.state.tempContactSections;
       tempSections[index] = tempSection;
-      this.setState({tempContactSections: tempSections});
+
+      this.setState({
+        tempContactSections: tempSections,
+        tempContact: tempContact
+      });
   },
   removeField: function(index, fieldID) {
       var tSection = this.state.tempContactSections[index];
-      tSection.fields.splice(fieldID, 1);
+      var field = tSection.fields.splice(fieldID, 1)[0];
       var tempSections = this.state.tempContactSections;
       tempSections[index] = tSection;
-      this.setState({tempContactSections: tempSections});
+
+      var tempContact = this.state.tempContact;
+      ContactParser.removeContactDetail(tempContact, field.property, field.jCardIndex);
+
+      this.setState({
+        tempContactSections: tempSections,
+        tempContact: tempContact
+      });
   },
   save: function() {
       var cSections = [];
       var tSections = this.state.tempContactSections;
+      var tempContact = this.state.tempContact;
+      var tpSection = this.state.tempPersonalSection;
+      var pSection = ContactParser.createEmptyPersonalSection(this.props.personalDetails);
+      var conList = this.state.contactsList;
+      var name = this.state.name;
+      var id = this.state.selectedIds[0];
+
+      for (var key in tpSection) {
+        if(key == "name" && (name != tpSection[key].content)) {
+          name = tpSection[key].content;
+          tempContact.name = name;
+          ContactParser.rename(id, name, conList);
+        }
+        pSection[key] = tpSection[key];
+      }
+
+      var contact = conList.find(function(contact) {
+        return contact.id == id;
+      });
+      contact.photo = ContactParser.getPhotoURL(tempContact.photo);
+
+      var contact = new Contact(tempContact.toJSON());
       for (var i = 0; i < tSections.length; i++) {
           var fields = [];
           for (var j = 0; j < tSections[i].fields.length; j++) {
             fields.push({
               currentOption: tSections[i].fields[j].currentOption,
-              content: tSections[i].fields[j].content
+              content: tSections[i].fields[j].content,
+              fieldID: tSections[i].fields[j].fieldID,
+              jCardIndex: tSections[i].fields[j].jCardIndex,
+              property: ContactParser.findCloneProperty(tSections[i].fields[j].property, contact)
             });
           }
           cSections.push({
             name: tSections[i].name,
             options: tSections[i].options,
             fields: fields,
-            index: i
+            index: i,
+            key: tSections[i].key
           });
       }
-      var tpSection = this.state.tempPersonalSection;
-      var pSection = this.createEmptyPersonalSection();
-      for (var key in tpSection) {
-        pSection[key] = tpSection[key];
-      }
+
       this.setState({
+        name: name,
+        contactsList: conList,
+        contact: contact,
+        tempContact: tempContact,
         contactSections: cSections,
         personalSection: pSection,
         editing: false
       });
+      ContactParser.updateContact(tempContact, this);
   },
   cancel: function() {
       var tSections = [];
       var cSections = this.state.contactSections;
+      var contact = this.state.contact;
+      var tempContact = new Contact(contact.toJSON());
       for (var i = 0; i < cSections.length; i++) {
         var fields = [];
         for (var j = 0; j < cSections[i].fields.length; j++) {
           fields.push({
             currentOption: cSections[i].fields[j].currentOption,
-            content: cSections[i].fields[j].content
+            content: cSections[i].fields[j].content,
+            fieldID: cSections[i].fields[j].fieldID,
+            jCardIndex: cSections[i].fields[j].jCardIndex,
+            property: ContactParser.findCloneProperty(cSections[i].fields[j].property, tempContact)
           });
         }
           tSections.push({
             name: cSections[i].name,
             options: cSections[i].options,
             fields: fields,
-            index: i
+            index: i,
+            key: cSections[i].key
           });
       }
-      this.setState({tempContactSections: tSections});
-      this.setState({editing: false});
+      this.setState({
+        tempContactSections: tSections,
+        editing: false,
+        tempContact: tempContact
+      });
   },
   updateContent: function(newText, index, fieldID) {
     var tSection = this.state.tempContactSections[index];
-    tSection.fields[fieldID].content = newText;
+    var field = tSection.fields[fieldID];
+    field.content = newText;
     var tSections = this.state.tempContactSections;
     tSections[index] = tSection;
-    this.setState({tempContactSections: tSections});
+    var tempContact = this.state.tempContact;
+    ContactParser.updateValue(tempContact, field.property, field.jCardIndex, newText);
+    this.setState({
+      tempContactSections: tSections,
+      tempContact: tempContact
+    });
   },
   updatePersonalDetail: function(detail, newText) {
     var tDetails = this.state.tempPersonalSection;
-    tDetails[detail] = newText;
-    this.setState({tempPersonalSection: tDetails});
+    tDetails[detail].content = newText;
+    var tempContact = this.state.tempContact;
+    ContactParser.updateValue(tempContact, tDetails[detail].property, tDetails[detail].jCardIndex, newText);
+    this.setState({
+      tempPersonalSection: tDetails,
+      tempContact: tempContact
+    });
   },
   updateOption: function(option, index, fieldID) {
       var tSection = this.state.tempContactSections[index];
-      tSection.fields[fieldID].currentOption = option;
+      var field = tSection.fields[fieldID];
+      field.currentOption = option;
       var tSections = this.state.tempContactSections;
+      var tempContact = this.state.tempContact;
       tSections[index] = tSection;
-      this.setState({tempContactSections: tSections});
+      ContactParser.updateOption(tempContact, field.property, field.jCardIndex, option);
+      this.setState({
+        tempContactSections: tSections,
+        tempContact: tempContact
+      });
   },
-  setContactID: function(id) {
-    this.getContactDetails(id);
+  updateProfileImage: function(image) {
+    var imageFile = image.files[0];
+    var tempContact = this.state.tempContact;
+    tempContact.photo = imageFile;
+    var contactsList = this.state.contactsList;
     this.setState({
-      currentPersonID: id,
+      tempContact: tempContact,
+      contactsList: contactsList
     });
+  },
+  setContactID: function(event, id, name) {
+    var selected = this.state.selectedIds;
+    if ((event.ctrlKey || event.metaKey) && selected.length > 0) {
+      var index = selected.indexOf(id);
+      if (index == -1) { // selects contact
+        selected.push(id);
+      } else { // deselects contact
+        selected.splice(index, 1);
+      }
+      this.setState({
+        selectedIds: selected
+      });
+    } else {
+      ContactParser.getContactDetails(id, this);
+      this.setState({
+        selectedIds: [id],
+        name: name
+      });
+    }
+  },
+  openModal: function(type) {
+    var modals = this.state.modals;
+    modals[type] = true;
+    this.setState({modals: modals});
+  },
+  closeModal: function(type) {
+    var modals = this.state.modals;
+    modals[type] = false;
+    this.setState({modals: modals});
   },
   editingDisplay: function() {
     if (!this.state.editing) {
-      return (<div>
-        <button id="buttons" onClick={this.edit}>Edit</button>
+      return (<div id="main-buttons">
+        <button className="buttons" onClick={this.edit}>Edit</button>
+        <button className="buttons" onClick={this.openModal.bind(null, 'delete')}>Delete</button>
       </div>);
     } else {
-      return (<div>
-        <button id="buttons" onClick={this.save}>Save</button>
-        <button id="buttons" onClick={this.cancel}>Cancel</button>
+      return (<div id="main-buttons">
+        <button className="buttons" onClick={this.save}>Save</button>
+        <button className="buttons" onClick={this.cancel}>Cancel</button>
       </div>);
+    }
+  },
+  renderModals: function() {
+    if(this.state.modals.delete) {
+      return <DeleteModal name={this.state.name} noDelete={this.closeModal.bind(null, 'delete')} confirmDelete={this.deleteContact} />;
     }
   },
   renderContactSection: function(contactSection) {
@@ -256,23 +335,30 @@ var AddressBook = React.createClass({
   },
   renderNoContact: function() {
     return (<div id="sidebar">
-      <ContactSidebar contactNames={this.state.contactNames} viewContact={this.setContactID}/>
+      <ContactSidebar contactNames={this.state.contactsList} viewContact={this.setContactID} add={this.addContact} image={this.state.photoUrl}
+        import={this.import} export={this.export}/>
     </div>);
   },
   renderContactDisplay: function() {
     return (<div>
       <div id="sidebar">
-        <ContactSidebar contactNames={this.state.contactNames} viewContact={this.setContactID} currentID={this.state.currentPersonID}/>
+        <ContactSidebar contactNames={this.state.contactsList} viewContact={this.setContactID} selected={this.state.selectedIds} image={this.state.photoUrl}
+          add={this.addContact} import={this.import} export={this.export}/>
       </div>
       <div id="main">
-        <Header personalDetails={this.state.personalSection} onUserInput={this.updatePersonalDetail} editing={this.state.editing} image='images/1.jpg'/>
-        {this.editingDisplay()}
-        {this.state.contactSections.map(this.renderContactSection)}
+        <div id="main-header">
+          <Header personalDetails={this.state.personalSection} onUserInput={this.updatePersonalDetail} onNewImage={this.updateProfileImage} editing={this.state.editing} image={this.state.photoUrl}/>
+          {this.editingDisplay()}
+        </div>
+        <div id="main-contact">
+          {this.renderModals()}
+          {this.state.contactSections.map(this.renderContactSection)}
+        </div>
       </div>
     </div>);
   },
   render: function() {
-    if (this.state.currentPersonID == -1) {
+    if (this.state.selectedIds.length == 0) {
       console.log("NO CONTACT VIEW");
       console.trace();
       return this.renderNoContact();
@@ -284,4 +370,4 @@ var AddressBook = React.createClass({
    }
 });
 
-ReactDOM.render(<AddressBook contactSections = {ContactSections}/>, document.getElementById('addressBook'));
+ReactDOM.render(<AddressBook contactSections = {ContactSections} personalDetails = {PersonalDetails}/>, document.getElementById('addressBook'));
