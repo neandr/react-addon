@@ -39,7 +39,7 @@ var Header = React.createClass({
           <input className="buttons upload" type="file" ref={(ref) => this.imageFile = ref} name="profile-picture" accept="image/*" onChange={(evt) => this.saveImage(evt)}/>
         </div>
         <div id="header-text">
-          <table id="field">
+          <table id="header-field">
             <tr>
               <td><input type="text" ref="name" defaultValue={this.props.personalDetails.name.content} placeholder="Name" className="form-control" onChange={this.saveContent.bind(null, "name")}></input>
               </td>

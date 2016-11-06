@@ -10,7 +10,7 @@ LIB = $(SRC:react/%.jsx=modules/react/%.js)
 all: npm react delxpi xpi
 
 modules/react:
-	mkdir -p $(@D)
+	mkdir -p $@
 
 modules/react/%.js: react/%.jsx
 ifeq (, $(shell which node ))
@@ -33,10 +33,10 @@ npm: package.json
 
 clean:
 	rm -f $(LIB)
-	rm -f $(NAME_XPI)  # will do nothing with timestamping
+	rm -f $(NAME_XPI)
 
 delxpi:
-	rm -f $(NAME_XPI)  # will do nothing with timestamping
+	rm -f $(NAME_XPI)
 
 rebuild: clean all
 
