@@ -13,6 +13,8 @@ First steps of realization is to build a Thunderbird add-on which is working loc
 ## How to use
 
 ### TB vContacts Extension 
+The most current XPI can be downloaded from [here](https://dl.dropboxusercontent.com/u/35444930/vContacts/vContacts.xpi)
+
 Install the XPI into Thunderbird as usaual. 
 You may add the "vContacts" toolbar button to the TB menu bar with the "Customize" feature on the main toolbar.
 
