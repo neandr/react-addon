@@ -2,12 +2,12 @@ NAME:=$(CURDIR)
 #  NAME:=$(notdir $(CURDIR))
 NAME_XPI:=$(NAME)$(shell date +'_%Y-%m-%d_%H%M').xpi
 #  XPI_SRC:=$(wildcard content/*) $(wildcard modules/*) $(wildcard defaults/*) $(wildcard react/*.jsx)
-XPI_SRC:=$(shell find content -type f) $(shell find modules -type f) $(shell find defaults -type f)
+XPI_SRC:=$(shell find content -type f) $(shell find modules -type f) $(shell find defaults -type f) $(shell find react -type f)
 
 SRC = $(wildcard react/*.jsx)
 LIB = $(SRC:react/%.jsx=modules/react/%.js)
 
-all: npm react delxpi xpi
+all: npm react xpi
 
 modules/react:
 	mkdir -p $@
@@ -25,7 +25,7 @@ react: npm modules/react $(LIB)
 xpi: $(NAME_XPI)
 	@echo " ___ XPI ___ generated: "  $(NAME_XPI)
 
-$(NAME_XPI): $(XPI_SRC) $(LIB) chrome.manifest  install.rdf package.json stamp.log makefile makefile_2 LICENSE README.md
+$(NAME_XPI): $(XPI_SRC) $(LIB) chrome.manifest install.rdf package.json stamp.log makefile makefile_2 LICENSE README.md
 	zip -r $@ $^
 
 npm: package.json
@@ -33,9 +33,6 @@ npm: package.json
 
 clean:
 	rm -f $(LIB)
-	rm -f $(NAME_XPI)
-
-delxpi:
 	rm -f $(NAME_XPI)
 
 rebuild: clean all

@@ -1,6 +1,6 @@
 NAME:=react-test
 NAME_XPI:=$(NAME).xpi
-XPI_SRC:=$(shell find content -type f) $(shell find modules -type f) $(shell find defaults -type f)
+XPI_SRC:=$(shell find content -type f) $(shell find modules -type f) $(shell find defaults -type f)  $(wildcard react/*.jsx)
 SRC = $(wildcard react/*.jsx)
 LIB = $(SRC:react/%.jsx=modules/react/%.js)
 
