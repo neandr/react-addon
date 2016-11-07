@@ -1,13 +1,22 @@
+	#  Building a XPI for Thunderbird vContact - Addressbook)
+	#  gWahl  2016-11-07
+
+CONTACTS:='vContacts'
+
+# full directory name
 NAME:=$(CURDIR)
+# name of file only
 #  NAME:=$(notdir $(CURDIR))
+
+#  build xpi name with date+time stamping
 NAME_XPI:=$(NAME)$(shell date +'_%Y-%m-%d_%H%M').xpi
-#  XPI_SRC:=$(wildcard content/*) $(wildcard modules/*) $(wildcard defaults/*) $(wildcard react/*.jsx)
+
 XPI_SRC:=$(shell find content -type f) $(shell find modules -type f) $(shell find defaults -type f) $(shell find react -type f)
+#  alternatively
+#  XPI_SRC:=$(wildcard content/*) $(wildcard modules/*) $(wildcard defaults/*) $(wildcard react/*.jsx)
 
 SRC = $(wildcard react/*.jsx)
 LIB = $(SRC:react/%.jsx=modules/react/%.js)
-
-all: npm react xpi
 
 modules/react:
 	mkdir -p $@
@@ -19,21 +28,38 @@ else
 	node node_modules/.bin/babel $< -o $@ --presets react
 endif
 
-react: npm modules/react $(LIB)
+
+react: npm modules/react $(LIB)       # 
 	@echo $(NAME_XPI) > stamp.log
 
+
 xpi: $(NAME_XPI)
-	@echo " ___ XPI ___ generated: "  $(NAME_XPI)
+	#
+	# copy the xpi to download directory 
+	#
+	$(shell cp $(NAME_XPI) download/$(CONTACTS).xpi)
+	# ___ XPI ___ generated: "  $(NAME_XPI)
+
 
 $(NAME_XPI): $(XPI_SRC) $(LIB) chrome.manifest install.rdf package.json stamp.log makefile makefile_2 LICENSE README.md
+	#
+	# Build XPI and include div files
+	#
 	zip -r $@ $^
 
+
 npm: package.json
+	#
+	# Make sure npm ist installed
+	#
 	npm install
 
-clean:
+clean: 
+	#
+	# clean LIB and XPI
+	#
 	rm -f $(LIB)
 	rm -f $(NAME_XPI)
 
-rebuild: clean all
+rebuild: clean npm react xpi
 
