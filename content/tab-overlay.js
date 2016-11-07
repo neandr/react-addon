@@ -4,22 +4,33 @@ reactTabType = {
   lastTabID: 0,
   modes: {
     reactTab: {
-      type: "reactTab",
+      type: this.name,
     },
   },
   open: function() {
-    document.getElementById('tabmail')
+    // Check if tab already open, if so switch to it
+    let tabs = document.getElementById('tabmail');
+
+    for (var tab in tabs.tabInfo) {
+      if (tabs.tabInfo[tab].mode.name == this.name) {
+  //      console.log("reactTab already open, go for it:" + tab);
+        tabs.tabContainer.selectedIndex= tab;
+        return;
+      }
+    }
+
+    tabs
       .openTab(
-        'reactTab', 
+        this.name, 
         { contentPage: 'chrome://react/content/reactTab.xhtml' });
   },
   openTab: function(aTab, aArgs) {
     // First clone the page and set up the basics.
-    let clone = document.getElementById("reactTab")
+    let clone = document.getElementById(this.name)
                         .firstChild
                         .cloneNode(true);
 
-    clone.setAttribute("id", "reactTab" + this.lastBrowserId);
+    clone.setAttribute("id", this.name + this.lastBrowserId);
     clone.setAttribute("collapsed", false);
 
     let toolbox = clone.firstChild;

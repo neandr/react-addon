@@ -6,7 +6,6 @@
 <overlay id="sample" 
     xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
 
-    <script type="application/javascript" src="chrome://react/content/overlay.js"/>
     <script type="application/javascript" src="chrome://react/content/tab-overlay.js"/>
 
     <toolbarpalette id="MailToolbarPalette">
