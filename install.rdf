@@ -2,21 +2,21 @@
 
   <Description about="urn:mozilla:install-manifest">
     <!-- shortnameofaddon@firstname.lastname -->
-    <em:id>react@david.nz</em:id>
+    <em:id>tbvcontacts@gneandr.de</em:id>
     <!-- full name of addon, is displayed  -->     
     <em:name>Thunderbird vContacts</em:name>
     <!-- version number of addon -->
-    <em:version>1.0</em:version>
+    <em:version>0.1</em:version>
     <!-- author's name -->
-    <em:creator>vuw project team</em:creator>
+    <em:creator>gNeandr (vuw project team)</em:creator>
     <em:targetApplication>
       <Description>
-        <!-- Id to which mozilla application addon targets, curerntly Thunderbird -->
+        <!-- Id to which mozilla application addon targets, currently Thunderbird -->
         <em:id>{3550f703-e582-4d05-9a08-453d09bdfdc6}</em:id>
         <!-- minimium version that the add-on supports -->
         <em:minVersion>35</em:minVersion>
         <!-- maximum version add-on supports, cannot be higher than current TB -->
-        <em:maxVersion>49.0</em:maxVersion>
+        <em:maxVersion>52.0</em:maxVersion>
       </Description>
     </em:targetApplication>
    
@@ -30,5 +30,5 @@
 
   <em:developer/>
   
-  <em:contributor>Philipp Kewisch</em:contributor><em:contributor>Guenter Wahl</em:contributor></Description>
+  <em:contributor>Philipp Kewisch</em:contributor><em:contributor>Guenter Wahl</em:contributor><em:homepageURL/><em:optionsURL/><em:aboutURL/><em:iconURL/><em:updateURL/><em:updateKey/><em:hidden/><em:description/></Description>
 </RDF>

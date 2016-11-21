@@ -4,3 +4,7 @@
 #AddressBookTab-button {
   list-style-image: url("chrome://messenger/skin/icons/mail-toolbar.svg#address-flat");
 }
+
+#cvPhoto{
+  list-style-image: url("chrome://messenger/skin/addressbook/icons/contact-generic.png");
+}

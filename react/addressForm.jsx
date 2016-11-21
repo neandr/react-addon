@@ -32,7 +32,7 @@ var AddressForm = React.createClass({
   },
   render: function() {
     return (
-        <table id="field">
+        <table id="fieldXPOI">
             <tr>
                 <td><select onChange={this.saveOption} value={this.props.currentOption}>
                     {this.props.options.map(this.props.renderOption)}

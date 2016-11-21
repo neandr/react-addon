@@ -6,12 +6,21 @@
 * @desc Provides a scrollable sidebar of all contacts as well as a locked header
 * to support actions on contacts
 */
-var ContactSidebar = (props) => (
-  <div>
+
+var inLinestyles = inLinestyles || {}
+
+  inLinestyles.contactsSidebar = {'display':'flex', 'flex-direction': 'column',
+    'height':'100%'}
+
+  inLinestyles.contactsList = {'flex':'1 1 auto', 'overflow-y':'auto', 'margin-left': '5%',
+     'border-top': '1px solid #A5A8A4'}
+
+
+  var ContactSidebar = (props) => (
+  <div id="contacts-sidebar" style={inLinestyles.contactsSidebar}>
     <SidebarHeader add={props.add} export={props.export} import={props.import}/>
-    <br />
-    <div id="contacts-list">
-      <ul>
+
+    <div id="contacts-list" style={inLinestyles.contactsList}>
         {props.contactNames.map(function(contact) {
           return <ContactButton
             contact={contact}
@@ -21,7 +30,6 @@ var ContactSidebar = (props) => (
             />
           })
         }
-      </ul>
     </div>
   </div>
 );

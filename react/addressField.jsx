@@ -6,17 +6,24 @@
 * @desc Provides display of an address
 */
 var AddressField = (props) => {
-  var addressFields = props.fieldContent;
+  let addressFields = props.fieldContent;
+  let count =0;
+  let items = {};
+
   return (
-    <div id = "field">
-     <p>{props.currentOption} : {addressFields.map(function(addressLine) {
-       return (
-         <div id="field">
-           <p>{addressLine}</p>
-         </div>);
-       })
-      }
-    </p>
+    <div style={inLinestyles.attributeContact}>
+       <button className="buttons label"> {props.currentOption} </button>
+       <div> {addressFields.map(function(addressLine) {
+          items[count] = addressLine;
+          count++;
+          if (count == 5) {
+            return (
+              <div>{items[0]}<br/>{items[2]} {items[1]}<br/>{items[3]} / {items[4]}
+              </div>);
+          } 
+        }
+      )}
+    </div>
    </div>
  );
 }

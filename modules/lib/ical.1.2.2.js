@@ -1074,9 +1074,9 @@ ICAL.design = (function() {
     "nickname": DEFAULT_TYPE_TEXT_MULTI,
     "note": DEFAULT_TYPE_TEXT,
     "org": { defaultType: "text", structuredValue: ";" },
-    "photo": DEFAULT_TYPE_URI,
+    "photo": { defaultType: "binary", allowedTypes: ["binary", "uri"] },             //XXXgW
     "related": DEFAULT_TYPE_URI,
-    "rev": { defaultType: "timestamp" },
+    "rev": { defaultType: "timestamp", allowedTypes: ["text"] },                     //XXXgW
     "role": DEFAULT_TYPE_TEXT,
     "sound": DEFAULT_TYPE_URI,
     "source": DEFAULT_TYPE_URI,
@@ -1135,7 +1135,16 @@ ICAL.design = (function() {
     fn: DEFAULT_TYPE_TEXT,
     n: { defaultType: "text", structuredValue: ";", multiValue: "," },
     nickname: DEFAULT_TYPE_TEXT_MULTI,
-    photo: { defaultType: "binary", allowedTypes: ["binary", "uri"] },
+ //   photo: { defaultType: "binary", allowedTypes: ["binary", "uri"] },
+ //   detect binary or http(s) link 
+    photo: { 
+      defaultType: "binary", 
+      allowedTypes: ["binary", "uri"],
+      detectType: function(string) {
+         return ((string.indexOf('https://') === 0) || (string.indexOf('http://') === 0) ? 'uri' : 'binary');
+      }
+    },
+
     bday: {
       defaultType: "date-time",
       allowedTypes: ["date-time", "date"],

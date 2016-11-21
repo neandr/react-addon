@@ -20,8 +20,15 @@ Images.handleURLRevoke = function(photo) {
 * @param {Blob} photo The image to get a URL for
 **/
 Images.getPhotoURL = function(photo) {
-  if (photo) {
-      return URL.createObjectURL(photo)
+  // if (photo) {
+  if (photo && (photo.valueOf().toString() == "[object Blob]")) {
+     return URL.createObjectURL(photo)
   }
-  return "images/1.jpg";
+  if (photo && ((photo.indexOf('https://') === 0) || (photo.indexOf('http://') === 0))) {
+     let ext = photo.substr((~-photo.lastIndexOf(".") >>> 0) + 2);
+     if ((ext === 'png') || (ext === 'jpg')) {
+       return photo;
+     }
+  }
+  return "images/xContact.png";
 }
