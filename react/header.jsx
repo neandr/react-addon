@@ -68,7 +68,7 @@ var Header = React.createClass({
 
   renderForm() {
     var click = this.clickedImage.bind(this);
-    return (          //XXXgW    birthday  -> bday
+    return (
       <div id="header">
         <div id="profile-img">
           <ProfileImage imageClick={click} type="header" id="profile-img" className="profile-img editing" 

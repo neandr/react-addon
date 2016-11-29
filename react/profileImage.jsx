@@ -3,9 +3,15 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 /**
-* @desc Provides a rounded image using the provided image url
+* Provides a rounded image using the provided image url
 **/
 var ProfileImage = (props) => (
   <img className={props.className} onClick={props.imageClick} onload={Images.handleURLRevoke.bind(null, props.image)}
+    src={props.image}/>
+);
+
+
+var mainImage = (props) => (
+  <img className={props.className} onload={Images.handleURLRevoke.bind(null, props.image)}
     src={props.image}/>
 );

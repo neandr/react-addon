@@ -3,11 +3,13 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 /**
-* @desc Provides display of an address
+* Provides display of an address
 */
 var AddressField = (props) => {
   let addressFields = props.fieldContent;
-  let count =0;
+  if (addressFields.join('') == '') return (<div>{''}</div>)
+
+  let count = 0;
   let items = {};
 
   return (
@@ -24,6 +26,26 @@ var AddressField = (props) => {
         }
       )}
     </div>
+   </div>
+ );
+}
+
+/**
+* Provides display of Notes with line break
+*/
+var NotesSection = (props) => {
+  let notes = props.fieldContent;
+  let noteLines = notes.split("\n");
+
+  return (
+    <div style={inLinestyles.attributeNotes}>
+       <div> {noteLines.map(function(nLine) {
+            return (
+              <div style={inLinestyles.textNotes}>{nLine}</div>);
+            }
+           )}
+       </div>
+       <div>{' '}</div>
    </div>
  );
 }

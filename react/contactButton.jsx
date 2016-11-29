@@ -3,7 +3,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 /**
-* @desc Provides a sidebar button for a contact.
+* Provides a sidebar button for a contact.
 * It displays their profile image, name and displays their contact when clicked
 **/
 var ContactButton = (props) => {

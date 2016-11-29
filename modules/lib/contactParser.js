@@ -85,6 +85,8 @@ ContactParser._parseProperty = function(property, permanentProperty, temporaryPr
       this._addFieldProperty(3, type, content, permanentSection, jCardIndex, permanentProperty);
       this._addFieldProperty(3, type, content, temporarySection, jCardIndex, temporaryProperty);
       break;
+
+
     case "fn":
       this._addPersonalDetail(pField, tpField, "name", jCardIndex, permanentProperty, temporaryProperty, content);
       break;
@@ -109,6 +111,10 @@ ContactParser._parseProperty = function(property, permanentProperty, temporaryPr
 
     case "rev":
       this._addPersonalDetail(pField, tpField, "rev", jCardIndex, permanentProperty, temporaryProperty, content.toString());
+      break;
+
+    case "note":
+      this._addPersonalDetail(pField, tpField, "note", jCardIndex, permanentProperty, temporaryProperty, content.toString());
       break;
 
     default:

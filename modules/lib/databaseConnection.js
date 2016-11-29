@@ -66,17 +66,13 @@ DatabaseConnection.updateContact = function(contact, ab) {
   var id = ab.state.selectedIds[0];
 
  ContactParser.saveContactPersonalDetails(ab.state.tempPersonalSection, personalSection,
-    ab.state.tempContact, ab.state.contactsList, name, id);         //XXXgW
+    ab.state.tempContact, ab.state.contactsList, name, id);
 
   var contact = new Contact(ab.state.tempContact.toJSON());
   ContactParser.saveContactSections(ab.state.tempContactSections, contactSection, contact);
-//  ContactParser.saveContactSections(ab.state.tempPersonalSection, personalSection, contact);
-
 
   var revDate = ICAL.Time.now().toString()      // "2016-11-19T14:26:18"
-  contact.jcards[0].updatePropertyWithValue("rev", revDate)
-
-
+  contact.jcards[0].updatePropertyWithValue("rev", revDate);
 
   ContactParser.saveContactPhotoToContactsList(contactsList, ab.state.tempContact, id);
 

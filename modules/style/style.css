@@ -42,18 +42,17 @@ h4 {
   cursor: pointer;
 }
 
-#search-bar {
-  margin: 5%;
-  width: 90%;
+.search-bar {
+  margin-bottom: 8px;
   border-radius: 4px;
   border: 1px solid #ccc;
   color: #333;
-  padding-top: 5px;
-  padding-bottom: 5px;
+  padding-top: 3px;
+  padding-bottom: 3px;
   font-size: 0.9em;
 }
 
-#search-bar:focus {
+.search-bar:focus {
   border-color: #ddd;
   box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102, 175, 233, 0.6);
 }
@@ -136,15 +135,24 @@ h4 {
   width: 80px;
 }
 
-/* disable button with image loading */
-.buttons.nobutton{
-  display: none;
+.buttons:hover, .buttons.work:hover{
+  background-color: #bfbdbd;   /*#e5e5e5;  */
+  cursor:pointer;
+}
+
+/* work button     --> will be slider */
+.buttons.work{
+  width: auto;
+  background-color: #e9e3e3;
+  font-size: large;
+  height: 28px;
+  margin-right: 5px;
 }
 
 
-.buttons:hover{
-  background-color: #e5e5e5;
-  cursor:pointer;
+/* Personal Picture: disable button with image loading */
+.buttons.nobutton{
+  display: none;
 }
 
 

@@ -110,7 +110,8 @@ Addressbook.prototype = {
         ["geo", { "type": "work" }, "uri", "geo:46.772673,-71.282945"],
         ["key", { "type": "work" }, "uri", "http://www.viagenie.ca/simon.perreault/simon.asc" ],
         ["tz", {}, "utc-offset", "-05:00"],
-        ["url", { "type": "home" }, "uri", "http://nomis80.org"]
+        ["url", { "type": "home" }, "uri", "http://nomis80.org"],
+        ["note", {}, "text", "This is a Note text - one liner"]
       ]]
     ]});
 
@@ -134,7 +135,9 @@ Addressbook.prototype = {
         ["key", { "type": "work" }, "uri", "http://www.viagenie.ca/bob.perreault/bob.asc" ],
         ["tz", {}, "utc-offset", "-05:00"],
         ["url", { "type": "home" }, "uri", "http://nomis80.org"],
-        ["rev", {}, "text", "2000-12-31"]
+        ["rev", {}, "text", "2000-12-31"],
+        ["note", {}, "text", "This is a Note text - line1 \n **** line2"]
+        
       ]]
     ]});
   },
@@ -212,7 +215,7 @@ Addressbook.prototype = {
   **/
   getNameAndId: function() {
     return this._contactNameCursor(function(cursor) {
-      return { uuid: cursor.primaryKey, name: cursor.key };
+      return { uid: cursor.primaryKey, name: cursor.key };               //XXXgW  ???????????  uuid  or uid
     });
   },
 
@@ -225,7 +228,7 @@ Addressbook.prototype = {
     return this._contactNameCursor(function(cursor) {
       // all lower case so case does not matter in search
       if (cursor.key.toLowerCase().indexOf(search.toLowerCase()) !== -1) {
-        return { uuid: cursor.primaryKey, name: cursor.key };
+        return { uid: cursor.primaryKey, name: cursor.key };              //XXXgW  ???????????  uuid  or uid
       }
     });
   },

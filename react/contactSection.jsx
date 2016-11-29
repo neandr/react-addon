@@ -5,7 +5,6 @@
 /** -------------- CONTACT SECTION -------------------------*/
 var ContactSection = React.createClass({
     add: function() {  // add a new Tel, Email etc
-  //  console.log("ContactSection    add")				//XXXgW
        this.props.add(this.props.index);
     },
     removeField: function(fieldID) {
@@ -19,15 +18,14 @@ var ContactSection = React.createClass({
     },
 
     renderNoContact: function() {
-       return (
-       	<div> xxxxxxxxxx </div>            //XXXgW ?????????????
-       )
+       return 
     },
 
     renderDisplay: function(field, i) {
        return (
           <ContactField key={field.id} index={i} 
-             fieldContent={field.content} currentOption={field.currentOption} 
+             fieldContent={field.content} 
+             currentOption={field.currentOption} 
              options={this.props.options} 
              type={this.props.type} 
              editing={false} 

@@ -5,6 +5,7 @@
 
 var inLinestyles = inLinestyles || {}
     inLinestyles.attributeContact= {'display':'flex', 'margin-top':'2px', 'font-size': '0.9em'}
+    inLinestyles.attributeNotes= { 'margin-left':'15px','margin-bottom':'10px', 'font-size': '0.9em'}
 
 /** -------------- CONTACT FIELDS -------------------------*/
 

@@ -18,7 +18,7 @@ var inLinestyles = inLinestyles || {}
 
   var ContactSidebar = (props) => (
   <div id="contacts-sidebar" style={inLinestyles.contactsSidebar}>
-    <SidebarHeader add={props.add} export={props.export} import={props.import}/>
+    <SidebarHeader stateModal={props.stateModal} work={props.work} add={props.add} export={props.export} import={props.import}/>
 
     <div id="contacts-list" style={inLinestyles.contactsList}>
         {props.contactNames.map(function(contact) {
