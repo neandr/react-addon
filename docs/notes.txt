@@ -44,4 +44,3 @@ Bugs _______________________________________
     'X'  means solved
 
 X   #1  2017-04-22  Export card --> umlaute error
-
