@@ -1,1 +1,158 @@
-Hello
+<!DOCTYPE HTML>
+<html>
+ <head>
+  <meta charset="utf-8"/>
+  <title>
+  vContact Overview
+  </title>
+  <link href="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.1/styles/github.min.css" rel="stylesheet"/>
+  <style type="text/css">
+   body,table tr{background-color:#fff}table tr td,table tr th{border:1px solid #ccc;text-align:left;padding:6px 13px;margin:0}pre code,table,table tr{padding:0}hr,pre code{background:0 0}body{font:16px Helvetica,Arial,sans-serif;line-height:1.4;color:#333;word-wrap:break-word;padding:10px 15px}strong,table tr th{font-weight:700}h1{font-size:2em;margin:.67em 0;text-align:center}h2{font-size:1.75em}h3{font-size:1.5em}h4{font-size:1.25em}h1,h2,h3,h4,h5,h6{font-weight:700;position:relative;margin-top:15px;margin-bottom:15px;line-height:1.1}h1,h2{border-bottom:1px solid #eee}hr{height:0;margin:15px 0;overflow:hidden;border:0;border-bottom:1px solid #ddd}a{color:#4183C4}a.absent{color:#c00}ol,ul{padding-left:15px;margin-left:5px}ol{list-style-type:lower-roman}table tr{border-top:1px solid #ccc;margin:0}table tr:nth-child(2n){background-color:#aaa}table tr td :first-child,table tr th :first-child{margin-top:0}table tr td:last-child,table tr th :last-child{margin-bottom:0}img{max-width:100%}blockquote{padding:0 15px;border-left:4px solid #ccc}code,tt{margin:0 2px;padding:0 5px;white-space:nowrap;border:1px solid #eaeaea;background-color:#f8f8f8;border-radius:3px}pre code{margin:0;white-space:pre;border:none}.highlight pre,pre{background-color:#f8f8f8;border:1px solid #ccc;font-size:13px;line-height:19px;overflow:auto;padding:6px 10px;border-radius:3px}
+  </style>
+ </head>
+ <body>
+  <h2 id="thunderbird-vcontacts-ndash-move-to-a-modern-addressbook">
+   Thunderbird vContacts –
+   <small>
+    <em>
+     Move to a modern Addressbook
+    </em>
+   </small>
+  </h2>
+  <p>
+   This Thunderbird add-on was started in 2016 as a project of SCHOOL OF ENGINEERING AND COMPUTER SCIENCE/Victoria University of Wellington, New Zealand.
+   <br/>
+   Please find initial details here:
+   <br/>
+   <a href="https://ecs.victoria.ac.nz/Courses/ENGR301_2016T1/Project11">
+    https://ecs.victoria.ac.nz/Courses/ENGR301_2016T1/Project11
+   </a>
+  </p>
+  <p>
+   The project was aimed to build a modern addressbook based on industry standards, using modern technologies and to replace the current data store (mork).
+  </p>
+  <h4 id="technical-concepts">
+   Technical concepts
+  </h4>
+  <p>
+   First steps of the VUW realization was to build a Thunderbird add-on which is working locally (can be used in TB offline mode) with an underlying database, some interfacing to local files for importing/exporting of contacts and collections.
+   <br/>
+   The VUW project details can be found
+   <a href="https://github.com/Thunderbird301/react-addon/wiki">
+    here
+   </a>
+  </p>
+  <p>
+   <strong>
+    TB vContacts
+   </strong>
+   is a refactor of the VUW project,
+   <a href="https://github.com/neandr/vContacts">
+    see here
+   </a>
+   . See below about ‘Prove of Concept’ and
+   <a href="https://github.com/neandr/vContacts/blob/master/STATUS.md">
+    here for the actual status
+   </a>
+   with more details.
+  </p>
+  <hr/>
+  <h3 id="how-to-use">
+   How to use
+  </h3>
+  <p>
+   <strong>
+    TB vContacts Extension
+   </strong>
+   <br/>
+   The most current XPI can be downloaded from
+   <a href="https://github.com/neandr/vContacts/releases">
+    here
+   </a>
+  </p>
+  <p>
+   Install the XPI into Thunderbird as usual.
+   <br/>
+   You may add the “vContacts” toolbar button to the TB menu bar with the “Customize” feature on the main toolbar.
+  </p>
+  <p>
+   <strong>
+    vContacts
+   </strong>
+   starts with two default contacts, feel free to modify/delete.
+  </p>
+  <p>
+   <strong>
+    New Contacts
+   </strong>
+   can be added with the buttons on the sidebar header or when the contact section is closed: [ + ] to add a new contact.
+  </p>
+  <p>
+   <strong>
+    Import Contacts
+   </strong>
+   The import currently reads
+   <strong>
+    vCard
+   </strong>
+   files. A next update will be expanded to read
+   <strong>
+    LDIF
+   </strong>
+   contact files also. That way
+   <strong>
+    TB/Addressbook
+   </strong>
+   data which has been exported before with the LDIF format (and extension *.ldif) can be added.
+  </p>
+  <p>
+   <strong>
+    Export vCard
+   </strong>
+   Selected contact(s) can be exported to vCard files.
+  </p>
+  <p>
+   <strong>
+    Mailto/Links
+   </strong>
+   showing a contacts detail the mailto links are active, so clicking on it will directly open a TB Compose window. URL link open the web browser.
+  </p>
+  <hr/>
+  <h3 id="vcontact-status-prove-of-concept">
+   vContact Status -
+   <small>
+    Prove of Concept
+   </small>
+  </h3>
+  <p>
+   vContact is in very early development state, not debugged, not tuned for performance, not fully tested and missing a lot of functionality (e.g. using tags/categories, search function not working, rendering of addresses only partly, editing of personal and contact items incomplete).
+  </p>
+  <p>
+   <i>
+    <strong>
+     Use it on your own risk
+    </strong>
+    – which should be low risk, no writing back to any TB environment.
+   </i>
+  </p>
+  <p>
+   <strong>
+    HELP NEEDED
+   </strong>
+   <br/>
+   For further development feedback is very much welcomed, for the functionality, for the UI, for the coding, for documentation, for testing functions …
+   <br/>
+   Please use the [GIT issues]
+  </p>
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.1/highlight.min.js">
+  </script>
+  <script>
+   hljs.initHighlightingOnLoad();
+  </script>
+  <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript">
+  </script>
+  <script type="text/javascript">
+   MathJax.Hub.Config({"showProcessingMessages" : false,"messageStyle" : "none","tex2jax": { inlineMath: [ [ "$", "$" ] ] }});
+  </script>
+ </body>
+</html>
