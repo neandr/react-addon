@@ -1058,6 +1058,7 @@ ICAL.design = (function() {
     "bday": DEFAULT_TYPE_DATE_ANDOR_TIME,
     "caladruri": DEFAULT_TYPE_URI,
     "caluri": DEFAULT_TYPE_URI,
+    "categories": { defaultType: "text", multiValue: "," },                            //XXXgW
     "clientpidmap": DEFAULT_TYPE_TEXT_STRUCTURED,
     "email": DEFAULT_TYPE_TEXT,
     "fburl": DEFAULT_TYPE_URI,
@@ -1678,9 +1679,10 @@ ICAL.parse = (function() {
     var root = state.component = [];
 
     state.stack = [root];
-
+    var nLine = 0;      //gW
     parser._eachLine(input, function(err, line) {
       parser._handleContentLine(line, state);
+      nLine++     //gW
     });
 
 
@@ -1689,7 +1691,7 @@ ICAL.parse = (function() {
     // correctly in that case.
     if (state.stack.length > 1) {
       throw new ParserError(
-        'invalid ical body. component began but did not end'
+        'invalid ical body. component began but did not end; line#' + nLine    //gW
       );
     }
 
@@ -3425,7 +3427,23 @@ ICAL.Binary = (function() {
 
       dec = tmp_arr.join('');
 
-      return dec;
+
+      // expand for codes > 128 
+      tmp_arr = []; cntrl = 0;
+      i =0, ac=0; 
+      do {
+        h1 = dec.charCodeAt(i++)
+
+        if (h1 >= 195 && h1 <= 203){
+           cntrl = (h1 - 194)*64
+        } else {
+           h1 += cntrl;
+           tmp_arr[ac++] = String.fromCharCode(h1);
+           cntrl = 0;
+        }
+      } while (i < dec.length);
+
+      return tmp_arr.join('');
     },
 
     /**

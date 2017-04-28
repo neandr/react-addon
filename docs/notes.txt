@@ -1,0 +1,47 @@
+vContacts  Project        Notes/Status                 2017-04-28
+
+
+New/Added _________________________________
+
+    Hamburger Menu acting as vContacts Main Menu for
+        add new contact
+        Import (VCF/LDIF) / Export (VCF) contacts
+        Delete contact 
+        Reset Database (remove all contacts)   #5 KnownProblem\
+        Open documentation pages (calls browser/FX)
+    Lookup for Contacts with "{firstName}{space}{lastName}"
+       Looks up while typing; entering a {space} will direct next entry for {lastName}
+    Lookup for Contacts with "Category"
+       A list of "Categories" is build from contacts of db
+    Display source notation of selected contact (Shift Alt cursor)
+
+
+Missing Points _____________________________
+
+    #1  Contact Header in edit mode incomplete, current focus was on layout
+    #2  Tags on Contact Header not editable (buttons + and - not active)
+    #3  Status/error display on first line should work differently / at other place
+    #4  Mailto only with one contact (just uses selected mail adr)
+         --> should support multiple contact selection with first mail adr of contact
+    #5  Delete contacts needs multiple selection
+    #6  Tag contacts with multiple selection 
+    #7  Set 'preferred' attribute for email, tel(?), ..
+    #8  Adding a new contact should directly open as a contact
+    #9 
+
+
+Known Problems _____________________________
+   #1  On sidebar only max. 100 contacts shown (needs scrolling)
+   #2  Chat not parsed -- which vCard element (RFC: IMPP ?)
+   #3  Export without category generates vCard with empty category
+   #4  Notes are not shown completely with multiple lines
+   #5  Status/error display on first line not updated correctly
+       see https://medium.com/@mweststrate/3-reasons-why-i-stopped-using-react-setstate-ab73fc67a42e
+   #6 
+
+
+Bugs _______________________________________
+    'X'  means solved
+
+X   #1  2017-04-22  Export card --> umlaute error
+

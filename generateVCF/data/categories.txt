@@ -1,0 +1,10 @@
+Anniversary
+Birthday
+Business
+Customer
+FollowUp
+Holiday
+Miscellaneous
+Personal
+Projects
+Vacation
