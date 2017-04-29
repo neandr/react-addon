@@ -1,0 +1,10 @@
+
+@namespace url("http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul");
+
+#vContactsTab-button {
+  list-style-image: url("chrome://react/content/images/glyphicons_264_vcard.png");
+}
+
+#cvPhoto{
+  list-style-image: url("chrome://react/content/images/glyphicons_264_vcard.png");
+}

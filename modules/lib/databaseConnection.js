@@ -11,16 +11,16 @@ function DatabaseConnection() { };
 /**
  *  Gets a contact from the database by id and provides details to the UI
  * @param {Integer} id The id of the contact to retrieve
- * @param {AddressBook} ab The addressbook UI component
+ * @param {AddressBook} abUI The addressbook UI component
  */
-DatabaseConnection.getContactDetails = function(id, ab) {
+DatabaseConnection.getContactDetails = function(id, abUI) {
   // if edit mode on, leave 
-  if (ab.state.editing == true) return;
+  if (abUI.state.editing == true) return;
 
-  var contactSections = ContactParser.createEmptyContactSections(ab.props.contactSections);
-  var tempContactSections = ContactParser.createEmptyContactSections(ab.props.contactSections);
-  var personalSection = ContactParser.createEmptyPersonalSection(ab.props.personalDetails);
-  var tempPersonalSection = ContactParser.createEmptyPersonalSection(ab.props.personalDetails);
+  var contactSections = ContactParser.createEmptyContactSections(abUI.props.contactSections);
+  var tempContactSections = ContactParser.createEmptyContactSections(abUI.props.contactSections);
+  var personalSection = ContactParser.createEmptyPersonalSection(abUI.props.personalDetails);
+  var tempPersonalSection = ContactParser.createEmptyPersonalSection(abUI.props.personalDetails);
 
   Addressbook.open(indexedDB)
      .then(function(addrbook) {
@@ -40,7 +40,7 @@ DatabaseConnection.getContactDetails = function(id, ab) {
       // Gets contact profile image
       var photoUrl = Images.getPhotoURL(contact.photo);
       // Stores contact information in UI
-      ab.setState({
+      abUI.setState({
         contact: con,
         tempContact: tempContact,
         contactSections: contactSections,
@@ -51,34 +51,32 @@ DatabaseConnection.getContactDetails = function(id, ab) {
       });
     });
   });
-};
+}
 
 /**
  *  Updates a contact in the database with changed information and updates the UI
  * @param {Contact} contact The contact to update
- * @param {AddressBook} ab The addressbook UI component
+ * @param {AddressBook} abUI The addressbook UI component
  */
-DatabaseConnection.updateContact = function(contact, ab) {
-  var personalSection = ContactParser.createEmptyPersonalSection(ab.props.personalDetails);
+DatabaseConnection.updateContact = function(contact, abUI) {
+  var personalSection = ContactParser.createEmptyPersonalSection(abUI.props.personalDetails);
   var contactSection = [];
-  var contactsList = ab.state.contactsList;
-  var name = ab.state.name;
-  var id = ab.state.selectedIds[0];
+  var contactsList = abUI.state.contactsList;
+  var name = abUI.state.name;
+  var id = abUI.state.selectedIds[0];
 
- ContactParser.saveContactPersonalDetails(ab.state.tempPersonalSection, personalSection,
-    ab.state.tempContact, ab.state.contactsList, name, id);
+  ContactParser.saveContactPersonalDetails(abUI.state.tempPersonalSection, personalSection,
+    abUI.state.tempContact, abUI.state.contactsList, name, id);
 
-  var contact = new Contact(ab.state.tempContact.toJSON());
-  ContactParser.saveContactSections(ab.state.tempContactSections, contactSection, contact);
+  var contact = new Contact(abUI.state.tempContact.toJSON());
+  ContactParser.saveContactSections(abUI.state.tempContactSections, contactSection, contact);
 
   var revDate = ICAL.Time.now().toString()      // "2016-11-19T14:26:18"
   contact.jcards[0].updatePropertyWithValue("rev", revDate);
 
-  ContactParser.saveContactPhotoToContactsList(contactsList, ab.state.tempContact, id);
+  ContactParser.saveContactPhotoToContactsList(contactsList, abUI.state.tempContact, id);
 
-
-
-  ab.setState({
+  abUI.setState({
     name: name,
     contactsList: contactsList,
     contact: contact,
@@ -92,29 +90,133 @@ DatabaseConnection.updateContact = function(contact, ab) {
     addrbook.update(contact)
     .then(function(id) {
       // Updates image in the UI
-      ab.setState({photoUrl: Images.getPhotoURL(contact.photo)});
+      abUI.setState({photoUrl: Images.getPhotoURL(contact.photo)});
     }); // maybe check success here?
   });
-}
+};
+
 
 /**
  *  Loads in the name, id and photo of all contacts in the database and
  * provides this to the UI
- * @param {AddressBook} ab The addressbook UI component
+ * A "Search" string can be passed with 'abUI.state.searchItem' to filter the 
+ * whole contacts; a space in the "Search" string splits for two filter 
+ * items (givenName and familyName)
+ * 
+ * TODO   Filter with "Tags/Categories"
+ * TODO      A "Tags" string can be passed with 'abUI.state.tagItems' for filterfiltering 
+ * TODO   Currently Tags are entered into a textbox, change with dropdown menu with known tag items
+ * 
+ * TODO   For performance reasons the search is limited to 100 items found
+ * TODO     needs a method to scroll with all selected contacts
+ *
+ *  @param {AddressBook} abUI The addressbook UI component
  */
-DatabaseConnection.loadInContacts = function(ab) {
+DatabaseConnection.loadInContacts = function(abUI) {
+  var filter = abUI.state.searchItem != '' ? abUI.state.searchItem : "";
+  var filter2 = filter.split(" ")[1] || "";
+  var filter1 = filter.split(" ")[0] || "";
+
+  var tagItem = abUI.state.tagItem != '' ? abUI.state.tagItem : "";
+
+  CategoryCollection = []
+
+  //performance messures
+  // for disabling set 'enablePerf' to false
+  var enablePerf = true
+  var perf = [];
+  function getPerfNow (){
+     if (enablePerf) {perf.push(performance.now())}
+  }
+
+
+getPerfNow();
+
   Addressbook.open(indexedDB).then(function(addrbook) {
+getPerfNow();
     addrbook.getAllNameIdAndPhoto().then((contacts) => {
+getPerfNow(); 
+
+      console.log (" CategoryCollection: " + CategoryCollection.toString())
       var contactsList = [];
+
+      var totalContacts = contacts.length;
+
+      // Gets name, id and photo per contact
       for(var i = 0; i < contacts.length; i++) {
-        // Gets name, id and photo per contact
-        contactsList.push({name: contacts[i].name, id: contacts[i].id, photo: contacts[i].photo});
+        contactsList.push({name: contacts[i].name, categories: contacts[i].categories, id: contacts[i].id, photo: contacts[i].photo});
       }
-      // Sorts contacts alphabetically
+
+getPerfNow(); 
+      // Sort alphabetically with 'name' of contacts
       contactsList.sort((a,b) => a.name.toLowerCase() > b.name.toLowerCase());
-      ab.setState({contactsList: contactsList});
+getPerfNow(); 
+
+      // filter contactsList using "Search" string 
+      var contactsList1 = [];
+      var n = 0;
+      for(var i = 0; i < contactsList.length; i++) {
+        var getThis = false;
+
+        // Gets name, id and photo per contact, use filter items
+        if (filter1 != "") {
+          if ((contactsList[i].name).substr(0,filter1.length) == filter1) {
+            getThis = true;
+            if (filter2 != "") 
+              if (!(!!filter2 && ((contactsList[i].name).split(" ")[1].substr(0,filter2.length) == filter2))) {
+                getThis = false;
+            }
+          }
+        } else {
+            getThis = true;
+            if (filter2 != "") 
+              if (!(!!filter2 && ((contactsList[i].name).split(" ")[1].substr(0,filter2.length) == filter2))) {
+                getThis = false;
+            }
+        }
+
+        if (getThis === true) {
+
+            //lookup for one categories item **ONLY**       //gWTODO   allow multiple items?!
+            if (tagItem != "") {
+              var cats = contactsList[i].categories.split(',');
+              var mCats = cats.length;
+              for (var m = 0; m < mCats; m++){
+                if (cats[m] == tagItem){
+                  contactsList1.push({name: contactsList[i].name, id: contactsList[i].id, photo: contactsList[i].photo});
+                  n++;
+                }
+              }
+            } else {
+              contactsList1.push({name: contactsList[i].name, id: contactsList[i].id, photo: contactsList[i].photo});
+              n++;
+            }
+            if (n === 101) break;
+        }
+      }
+
+getPerfNow();
+      abUI.setState({contactsList: contactsList1});
+getPerfNow();
+
+
+      abUI.setState({abStatus: ('Contacts ' + n + ' of ' + totalContacts)});
+/*-----------
+// https://medium.com/@mweststrate/3-reasons-why-i-stopped-using-react-setstate-ab73fc67a42e
+-------------*/
+
+    if (enablePerf) {console.log("DatabaseConnection.loadInContacts   perf:: \n", 
+       "\n  open db                   ", perf[1] - perf[0],
+       "\n  getAllNameIdAndPhoto      ", perf[2] - perf[1],
+       "\n  start with # of contacts  ", contacts.length,
+       "\n  get contactsList          ", perf[3] - perf[2],
+       "\n  sort contactsList         ", perf[4] - perf[3],
+       "\n  filter contactsList       ", perf[5] - perf[4], " filter name:" +filter1,filter2, " categories:" + tagItem,
+       "\n  display up to 100 contacts", perf[6] - perf[5], n);
+    }
+
     });
-  });
+  })
 }
 
 /**
@@ -134,14 +236,14 @@ DatabaseConnection.export = function(selectedIds) {
 /**
  *  Deletes a contact from the database and the UI
  * @param {Integer[]} selectedIds The ids of the contacts to be exported
- * @param {AddressBook} ab The addressbook UI component
+ * @param {AddressBook} abUI The addressbook UI component
  */
-DatabaseConnection.deleteContact = function(contact, ab) {
+DatabaseConnection.deleteContact = function(contact, abUI) {
   Addressbook.open(indexedDB).then(function(addrbook) {
     addrbook.deleteById(contact).then(() => {
       // deletes from sidebar
-      var contactsList = ContactParser.deleteContact(ab.state.contactsList, contact);
-      ab.setState({
+      var contactsList = ContactParser.deleteContact(abUI.state.contactsList, contact);
+      abUI.setState({
         selectedIds: [], // unselects any selected contacts
         contactsList: contactsList
       });
@@ -151,13 +253,13 @@ DatabaseConnection.deleteContact = function(contact, ab) {
 
 /**
  *  Close the Contact UI
- * @param {AddressBook} ab The addressbook UI component
+ * @param {AddressBook} abUI The addressbook UI component
  */
-DatabaseConnection.closeContact = function(ab) {
+DatabaseConnection.closeContact = function(abUI) {
   Addressbook.open(indexedDB).then(function(addrbook) {
-      ab.setState({
+      abUI.setState({
         selectedIds: [], // unselects any selected contacts
-        contactsList: ab.state.contactsList
+        contactsList: abUI.state.contactsList
       });
   });
 }

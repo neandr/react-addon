@@ -1,9 +1,9 @@
-reactTabType = {
-  name: "reactTab",
+vContactsAB = {
+  name: "vContactsTab",
   perTabPanel: "vbox",
   lastTabID: 0,
   modes: {
-    reactTab: {
+    vContactsTab: {
       type: this.name,
     },
   },
@@ -11,20 +11,37 @@ reactTabType = {
     // Check if tab already open, if so switch to it
     let tabs = document.getElementById('tabmail');
 
+/*----------
+  //  let tabs = document.getElementById('tabbrowser-tabs');
+
+    var nTabs = gBrowser.visibleTabs.length
+    for (var n = 0; n < nTabs; n++) {
+      _tab = gBrowser.visibleTabs[n]
+      console.log ("   gBrowser tab name: ", _tab.label)
+    }
+--------*/
+
     for (var tab in tabs.tabInfo) {
+      console.log(" list all tabs:", tabs.tabInfo[tab].mode.name)
       if (tabs.tabInfo[tab].mode.name == this.name) {
-  //      console.log("reactTab already open, go for it:" + tab);
+  //      console.log("vContactsTab already open, go for it:" + tab);
         tabs.tabContainer.selectedIndex= tab;
         return;
       }
     }
 
+  //  console.log("  tabs.openTab this.name   A ", this.name)
+
+
     tabs
       .openTab(
         this.name, 
-        { contentPage: 'chrome://react/content/reactTab.xhtml' });
+        { contentPage: 'chrome://react/content/vContactsTab.xhtml' });
   },
   openTab: function(aTab, aArgs) {
+
+  //  console.log("  tabs.openTab this.name   B ", this.name)
+
     // First clone the page and set up the basics.
     let clone = document.getElementById(this.name)
                         .firstChild
@@ -35,10 +52,10 @@ reactTabType = {
 
     let toolbox = clone.firstChild;
     toolbox.setAttribute("id",
-                         "reactTabToolbox" + this.lastBrowserId);
+                         "vContacts_box" + this.lastBrowserId);
     toolbox.firstChild
            .setAttribute("id",
-                         "reactTabToolbar" + this.lastBrowserId);
+                         "vContacts_bar" + this.lastBrowserId);
 
     aTab.panel.appendChild(clone);
     aTab.root = clone;
@@ -46,7 +63,7 @@ reactTabType = {
     // Start setting up the browser.
     aTab.browser = aTab.panel.getElementsByTagName("browser")[0];
     aTab.toolbar = aTab.panel
-                       .getElementsByClassName("reactTabToolbar")[0];
+                       .getElementsByClassName("vContacts_bar")[0];
 
     // As we're opening this tab, showTab may not get called, so set
     // the type according to if we're opening in background or not.
@@ -54,17 +71,17 @@ reactTabType = {
     aTab.browser.setAttribute("type", background ? "content-targetable" :
                                                    "content-primary");
 
-    aTab.browser.setAttribute("id", "reactTabBrowser" + this.lastBrowserId);
+    aTab.browser.setAttribute("id", "vContactsBrowser" + this.lastBrowserId);
     if ("onLoad" in aArgs) {
-      aTab.browser.addEventListener("load", function _reactTab_onLoad (event) {
+      aTab.browser.addEventListener("load", function _vContacts_onLoad (event) {
         aArgs.onLoad(event, aTab.browser);
-        aTab.browser.removeEventListener("load", _reactTab_onLoad, true);
+        aTab.browser.removeEventListener("load", _vContacts_onLoad, true);
       }, true);
     }
 
     // TODO: l10n
-    aTab.title = "vContacts(n)";
-    aTab.browser.loadURI("chrome://react/content/reactTab.xhtml");
+    aTab.title = "vContacts";
+    aTab.browser.loadURI("chrome://react/content/vContactsTab.xhtml");
 
     this.lastBrowserId++;
   },
@@ -91,8 +108,8 @@ reactTabType = {
 };
 
 window.addEventListener("load", function(e) {
-  // dump("\n\nRegistering react tab.\n\n");
+  // dump("\n\nRegistering vContacts tab.\n\n");
   let tabmail = document.getElementById("tabmail");
-  tabmail.registerTabType(reactTabType);
+  tabmail.registerTabType(vContactsAB);
   // dump("\n\nAll done!\n\n");
 }, false);

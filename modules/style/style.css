@@ -80,49 +80,20 @@ h4 {
    text-align: center;
 }
 
-#contact-name{
+.contact-name{
   display: flex;
   padding: 8px;
   margin: auto;
 }
 
-#contact-name.true{
+.contact-name.true{
   background-color: rgba(196, 221, 196, 0.8);
 }
 
-#contact-name:hover{
+.contact-name:hover{
   background-color: white !important;
   cursor: pointer;
 }
-
-
-
-#ab-main-tagSection {
-    display: flex;
-}
-
-#ab-main-tagEdit{
-    display: flex;
-    flex-direction: column;
-    margin-top: 20px;
-    height: 120px;
-    display:block;
-}
-
-.tag{
-	color: black;
-	background-color: RGBA(180, 189, 183, 0.9);
-	border-radius: 4px;
-	border: 1px solid #9da49e;
-	height: 1.8em;
-	width: 80px;
-	text-align: center;
-	overflow: hidden;
-	text-overflow: ellipsis;
-	white-space: nowrap;
-}
-
-
 
 
 /* ---- Buttons Styling  ----------- */
@@ -135,19 +106,63 @@ h4 {
   width: 80px;
 }
 
-.buttons:hover, .buttons.work:hover{
+.buttons.flextext{
+  width: auto;
+}
+
+.buttons:hover, .hamburger:hover {
   background-color: #bfbdbd;   /*#e5e5e5;  */
   cursor:pointer;
 }
 
-/* work button     --> will be slider */
-.buttons.work{
+
+/* Hamburger Menu ------------------- */
+.hamburger{
   width: auto;
   background-color: #e9e3e3;
   font-size: large;
-  height: 28px;
-  margin-right: 5px;
+  height: 26px;
+  margin: 3px;
+
+  border-radius: 2px;
+  border: 1px solid #ccc;
+  padding: 1px;
 }
+
+
+.hambgMenu {
+   width: 50vw;
+   height: 100vh;
+   background-color: rgba(248, 248, 248,.95);
+   position: fixed;
+   top: 0;
+   left: 0;
+
+   transform: translate3d(-50vw, 0, 0);
+   transition: transform .8s cubic-bezier(.9, .16, .27, .96);  /*(0, .52, 0, 1)*/   /* (.9, .16, .27, .96) */
+   /* transition: transform .8s ease-in-out;  */
+
+   z-index: 1000;
+}
+
+.hambgMenu.show {
+   transform: translate3d(0vw, 0, 0);
+}
+
+.hambgLink {
+   width:auto;
+   margin-top:5px;
+   margin-left:20px;
+   cursor:pointer;
+   font-size: 0.8em;
+}
+
+.hambgLink:hover{
+   text-decoration: underline;
+   color:blue;
+}
+
+/* Hamburger Menu ------------------- */
 
 
 /* Personal Picture: disable button with image loading */
@@ -185,6 +200,12 @@ h4 {
 
 
 /* ------- Image Styling ----------- */
+.glyphicons {
+   /*position: relative; */
+   width: 14px;
+}
+
+
 
 .profile-img {
     border-radius: 50%;
@@ -207,11 +228,11 @@ h4 {
   display: flex;
 }
 
-#header-text {
+#headerText {
   position: relative;
   margin-top: auto;
   margin-bottom: auto;
-	width: auto;
+  width: auto;
   height: 100%;
 }
 
@@ -265,4 +286,47 @@ description.headerstyle {
   text-align:center;
   color: RGBA(165, 44, 44,1);
   padding:20px;
+}
+
+::-moz-placeholder { /* Firefox 19+ */
+   /*color: red;*/
+   font-size: 12px; 
+}
+
+
+/* Flexbox 
+**************************************************************************/
+.flexbox { display: flex; }
+.flexbox .stretch { flex: 1; }
+.flexbox .normal { flex: 0; margin: 0 0 0 1rem; }
+.flexbox div input { padding: .5em 1em; width: 100%; }
+.flexbox div button { padding: .5em 1em; white-space: nowrap; }
+
+
+
+/*-------- matures -----------------*/
+.XXXtag{
+	color: black;
+	background-color: RGBA(180, 189, 183, 0.9);
+	border-radius: 4px;
+	border: 1px solid #9da49e;
+	height: 1.8em;
+	width: 80px;
+	text-align: center;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+#XXXXab-main-tagEdit{
+    display: flex;
+    flex-direction: column;
+    margin-top: 20px;
+    height: 120px;
+    display:block;
+}
+
+
+#XXXab-main-tagSection {
+    display: flex;
 }

@@ -8,7 +8,7 @@
 function Images() { };
 
 /**
-* @desc Revokes a URL given for an image
+* Revokes a URL given for an image
 * @param {Blob} photo The image to revoke a URL for
 **/
 Images.handleURLRevoke = function(photo) {
@@ -16,19 +16,23 @@ Images.handleURLRevoke = function(photo) {
 };
 
 /**
-* @desc Gets a URL to a photo if it exists, or provides a default contact image
+* Gets a URL to a photo if it exists, or provides a default contact image
 * @param {Blob} photo The image to get a URL for
 **/
 Images.getPhotoURL = function(photo) {
   // if (photo) {
-  if (photo && (photo.valueOf().toString() == "[object Blob]")) {
-     return URL.createObjectURL(photo)
+  if (photo && 
+     ((photo.valueOf().toString() == "[object File]") 
+     || (photo.valueOf().toString() == "[object Blob]"))) {
+        return URL.createObjectURL(photo)
   }
-  if (photo && ((photo.indexOf('https://') === 0) || (photo.indexOf('http://') === 0))) {
-     let ext = photo.substr((~-photo.lastIndexOf(".") >>> 0) + 2);
-     if ((ext === 'png') || (ext === 'jpg')) {
-       return photo;
-     }
+  if (photo && (typeof photo == 'string')) { 
+    if ((photo.indexOf('https://') === 0) || (photo.indexOf('http://') === 0)) {
+      let ext = photo.substr((~-photo.lastIndexOf(".") >>> 0) + 2);
+      if ((ext === 'png') || (ext === 'jpg')) {
+        return photo;
+      }
+    }
   }
   return "images/xContact.png";
 }

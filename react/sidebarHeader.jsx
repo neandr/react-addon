@@ -7,30 +7,81 @@
 * of contacts as well as creating new ones. It also provides a search bar for filtering contacts
 **/
 
-  var sidebarheaderStyle={'margin-bottom':'5px'}
-  var widthAuto={'width':'auto', 'margin': '5%'}
-  var displayFlex={'display':'flex', 'margin-top': '10px'}
+  var iStyles = iStyles || {}
 
-   //       <button className="buttons work" onClick={props.work}>{'\u2630'}</button>
-   //  <button className="buttons work" onClick={this.Addressbook.openModal.bind(null, 'work')}>{'\u2630'}</button>
-   //        <button className="buttons work" onClick={props.stateModal.openModal.bind(null, 'work')}>{'\u2630'}</button>
+  iStyles.sidebarheader={'marginBottom':'5px'}
+  iStyles.displayFlex={'display':'flex'}
 
-var SidebarHeader = (props) => (
-  <div id="sidebar-header" style={sidebarheaderStyle}>
-	<div style={displayFlex}>
-		<div style={widthAuto}>
-	      <input className="search-bar" type="text" name ="search" placeholder="Search"></input>
-	      <input className="search-bar" type="text" name ="searchtag" placeholder="Tags"></input>
-	    </div>
-       <button className="buttons work" onClick={props.stateModal.bind(null, 'work')}>{'\u2630'}</button>
+  iStyles.inputIcon={ 'position': 'relative', 
+     'left': '14px', 'top': '10px', 'width': '14px', 'height': '14px'}
+
+  iStyles.inputIconR={ 'position': 'relative',   'display': 'none',         //  gWTODO  dispaly disabled - doesn't clear the box!!
+     'left': '-24px', 'top': '10px', 'width': '14px', 'height': '14px'}
 
 
+  iStyles.searchNamesBox={'flex':'1', 
+      'marginLeft':'-5px', 'marginRight':'10px', 'marginTop':'5px', 
+      'paddingLeft':'24px', 'paddingRight':'24px'};
+
+  iStyles.searchTagsSelect={'flex':'1', 
+      'marginLeft':'-5px', 'marginRight':'10px', 'marginTop':'5px', 
+      'paddingLeft':'20px', 'paddingRight':'24px'};
+
+  iStyles.abStatus={'float':'right','fontSize': '0.6em', 'margin':'2px'};      //gWStatus
+
+
+// Hamburger MenuButton defined with  {'\u2630'} defined in
+//   <button class="hamburger">☰</button>
+
+
+var AB_header = (props) => (
+    <div>
+      <button className="hamburger" onClick={props.show_HH}>{'\u2630'}</button>
+
+      <div style={iStyles.abStatus}>
+        <text id="AB_Status" >{props.abStatus}</text>
+
+      </div>
     </div>
-
-    <span id="sidebar-buttons">
-      <button className="buttons" onClick={props.export}>Export</button>
-      <button className="buttons" onClick={props.import}>Import</button>
-      <button className="buttons" onClick={props.add}>+</button>
-    </span>
-  </div>
 );
+
+var SidebarHeader = React.createClass({
+
+  renderTag1: function(){
+    return (<option value={'%none%'}>{' -- '}</option>)
+  },
+
+  renderTags: function(tag){
+    return (<option value={tag}>{tag}</option>)
+  },
+
+  render: function() {
+    return (
+      <div id="sidebar-header" style={iStyles.sidebarheader}>
+
+        <div style={iStyles.displayFlex}>
+          <img className="side-profile-img" style={iStyles.inputIcon} src="images/glyphicons_027_search.png"/>
+          <input id="searchNames" className="search-bar" style={iStyles.searchNamesBox} type="text" 
+            name ="searchname" placeholder="Search given- familyName "
+            onChange={this.props.searchNames} value={this.props.searchNamesValue}>
+          </input>
+          <img id="clearNames" className="side-profile-img"  onClick={this.props.clearNames}  style={iStyles.inputIconR} 
+             src="images/glyphicons_207_remove_2.png"/>
+        </div>
+
+
+        <div style={iStyles.displayFlex}>
+          <img className="side-profile-img" style={iStyles.inputIcon} src="images/glyphicons_065_tag.png"/>
+
+            <select onChange={this.props.searchTags} style={iStyles.searchTagsSelect}>
+              {this.renderTag1(this.props.currentOption)}
+              {this.props.tagCollection.map(this.renderTags)}
+            </select>
+
+        </div>
+
+      </div>
+    );
+  }
+
+});

@@ -6,30 +6,42 @@
 * @desc Provides a scrollable sidebar of all contacts as well as a locked header
 * to support actions on contacts
 */
+var iStyles = iStyles || {}
 
-var inLinestyles = inLinestyles || {}
-
-  inLinestyles.contactsSidebar = {'display':'flex', 'flex-direction': 'column',
+  iStyles.contactsSidebar = {'display':'flex', 'flexDirection': 'column',
     'height':'100%'}
 
-  inLinestyles.contactsList = {'flex':'1 1 auto', 'overflow-y':'auto', 'margin-left': '5%',
-     'border-top': '1px solid #A5A8A4'}
+  iStyles.contactsList = {'flex':'1 1 auto', 'overflowY':'auto', 'marginLeft': '5%',
+     'borderTop': '1px solid #A5A8A4'}
+
+  iStyles.abHeader={'height': '24px'}
 
 
   var ContactSidebar = (props) => (
-  <div id="contacts-sidebar" style={inLinestyles.contactsSidebar}>
-    <SidebarHeader stateModal={props.stateModal} work={props.work} add={props.add} export={props.export} import={props.import}/>
+    <div id="contacts-sidebar" style={iStyles.contactsSidebar}>
+      <SidebarHeader 
+        stateModal={props.stateModal} 
+        work={props.work} 
+        add={props.add} 
+        export={props.export} 
+        import={props.import}
+        searchNames={props.searchNames}
+        clearNames={props.clearNames}
+        searchTags={props.searchTags}
 
-    <div id="contacts-list" style={inLinestyles.contactsList}>
-        {props.contactNames.map(function(contact) {
-          return <ContactButton
-            contact={contact}
-            image={contact.photo}
-            viewContact={props.viewContact}
-            selected={props.selected && props.selected.indexOf(contact.id) > -1}
-            />
-          })
-        }
+        tagCollection={props.tagCollection}
+      />
+
+    <div id="contacts-list" style={iStyles.contactsList}>
+      {props.contactNames.map(function(contact) {
+        return <ContactButton
+          contact={contact}
+          image={contact.photo}
+          viewContact={props.viewContact}
+          selected={props.selected && props.selected.indexOf(contact.id) > -1}
+
+        />})
+      }
     </div>
   </div>
 );

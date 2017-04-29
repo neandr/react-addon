@@ -181,9 +181,25 @@ Addressbook.prototype = {
         })
     .then(function(rawContacts) {
       return rawContacts.map(function(rawContact) {
-        return {name: rawContact.name, id: rawContact.uuid, photo: Images.getPhotoURL(rawContact.photo)};
+        var tags = Contact.prototype._findProperty('categories', rawContact.jcards)
+        var allTags = tags.split(',');
+        var nTags = allTags.length;
+        for (var i = 0; i < nTags; i++) {
+          if ((allTags[i] != "") && CategoryCollection.indexOf(allTags[i]) == -1) 
+            CategoryCollection.push(allTags[i]); 
+        }
+  //  console.log(rawContact.name, tags )      //gWLog
+        return {name: rawContact.name, categories: tags, id: rawContact.uuid, photo: Images.getPhotoURL(rawContact.photo)};
       });
     });
+  },
+
+  collectTags: function(tags) {
+    var allTags = tags.split(',');
+    var nTags = allTags;
+    for (var i = 0; i < nTags; i++) {
+       if (CategoryCollection.indexOf(allTags[i]) == -1) CategoryCollection.push(allTags[i]); 
+    }
   },
 
   /**
@@ -215,7 +231,7 @@ Addressbook.prototype = {
   **/
   getNameAndId: function() {
     return this._contactNameCursor(function(cursor) {
-      return { uid: cursor.primaryKey, name: cursor.key };               //XXXgW  ???????????  uuid  or uid
+      return { uid: cursor.primaryKey, name: cursor.key };
     });
   },
 
@@ -228,7 +244,7 @@ Addressbook.prototype = {
     return this._contactNameCursor(function(cursor) {
       // all lower case so case does not matter in search
       if (cursor.key.toLowerCase().indexOf(search.toLowerCase()) !== -1) {
-        return { uid: cursor.primaryKey, name: cursor.key };              //XXXgW  ???????????  uuid  or uid
+        return { uid: cursor.primaryKey, name: cursor.key };
       }
     });
   },
@@ -366,6 +382,30 @@ Contact.prototype = {
       photo: this.photo,
       jcards: this._convertToRawJCard()
     };
+  },
+
+   /*
+    * Get all details of a contact property 
+    * 
+    * @return string  collection of details
+    */
+  _findProperty : function(property, jcards) {
+    for(var j = 0; j < jcards.length; j++) {
+      var details = jcards[j][1]
+
+      var propStr=""
+      for (var i = 0; i < details.length; i++) {
+        if (details[i][0] == property) {
+          for (var j = 3; j < details[i].length; j++){
+            // build the return value as a string with comma separation
+            if (j > 3) propStr += ','
+            propStr += details[i][j];
+          }
+          return propStr;
+        }
+      }
+      return "";
+    }
   }
 };
 

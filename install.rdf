@@ -4,23 +4,26 @@
     <!-- shortnameofaddon@firstname.lastname -->
     <em:id>tbvcontacts@gneandr.de</em:id>
     <!-- full name of addon, is displayed  -->     
-    <em:name>Thunderbird vContacts</em:name>
+    <em:name>vContacts</em:name>
     <!-- version number of addon -->
-    <em:version>0.1</em:version>
+    <em:version>0.1.2</em:version>
     <!-- author's name -->
-    <em:creator>gNeandr (vuw project team)</em:creator>
+    <em:creator>gNeandr/VUW Project Team</em:creator>
+
+    <!-- Thunderbird -->
     <em:targetApplication>
       <Description>
-        <!-- Id to which mozilla application addon targets, currently Thunderbird -->
+        <!-- Id to which mozilla application addon targets -->
         <em:id>{3550f703-e582-4d05-9a08-453d09bdfdc6}</em:id>
         <!-- minimium version that the add-on supports -->
         <em:minVersion>35</em:minVersion>
         <!-- maximum version add-on supports, cannot be higher than current TB -->
-        <em:maxVersion>52.0</em:maxVersion>
+        <em:maxVersion>55.0</em:maxVersion>
       </Description>
     </em:targetApplication>
-   
 
+
+  <em:developer>Guenter Wahl</em:developer>
   <em:developer>Hannah Craighead</em:developer>
   <em:developer>Ellie Coyle</em:developer>
   <em:developer>Miguel Orevillo</em:developer>
@@ -29,6 +32,6 @@
   <em:developer>Joely Huang</em:developer>
 
   <em:developer/>
-  
-  <em:contributor>Philipp Kewisch</em:contributor><em:contributor>Guenter Wahl</em:contributor><em:homepageURL/><em:optionsURL/><em:aboutURL/><em:iconURL/><em:updateURL/><em:updateKey/><em:hidden/><em:description/></Description>
+
+  <em:contributor>Philipp Kewisch</em:contributor><em:homepageURL/><em:optionsURL/><em:aboutURL/><em:iconURL/><em:updateURL/><em:updateKey/><em:hidden/><em:description/></Description>
 </RDF>

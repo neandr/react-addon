@@ -1,0 +1,399 @@
+<!DOCTYPE HTML>
+<html>
+ <head>
+  <meta charset="utf-8"/>
+  <title>
+   Refactoring VUW Project
+  </title>
+  <link href="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.1/styles/github.min.css" rel="stylesheet"/>
+  <style type="text/css">
+   body,table tr{background-color:#fff}table tr td,table tr th{border:1px solid #ccc;text-align:left;padding:6px 13px;margin:0}pre code,table,table tr{padding:0}hr,pre code{background:0 0}body{font:16px Helvetica,Arial,sans-serif;line-height:1.4;color:#333;word-wrap:break-word;padding:10px 15px}strong,table tr th{font-weight:700}h1{font-size:2em;margin:.67em 0;text-align:center}h2{font-size:1.75em}h3{font-size:1.5em}h4{font-size:1.25em}h1,h2,h3,h4,h5,h6{font-weight:700;position:relative;margin-top:15px;margin-bottom:15px;line-height:1.1}h1,h2{border-bottom:1px solid #eee}hr{height:0;margin:15px 0;overflow:hidden;border:0;border-bottom:1px solid #ddd}a{color:#4183C4}a.absent{color:#c00}ol,ul{padding-left:15px;margin-left:5px}ol{list-style-type:lower-roman}table tr{border-top:1px solid #ccc;margin:0}table tr:nth-child(2n){background-color:#aaa}table tr td :first-child,table tr th :first-child{margin-top:0}table tr td:last-child,table tr th :last-child{margin-bottom:0}img{max-width:100%}blockquote{padding:0 15px;border-left:4px solid #ccc}code,tt{margin:0 2px;padding:0 5px;white-space:nowrap;border:1px solid #eaeaea;background-color:#f8f8f8;border-radius:3px}pre code{margin:0;white-space:pre;border:none}.highlight pre,pre{background-color:#f8f8f8;border:1px solid #ccc;font-size:13px;line-height:19px;overflow:auto;padding:6px 10px;border-radius:3px}
+  </style>
+ </head>
+ <body>
+  <h3 id="vcontacts-ndash-refactoring-from-vuw-project-30111">
+   vContacts –
+   <small>
+    <em>
+     Refactoring from VUW Project 301/11
+    </em>
+   </small>
+  </h3>
+  <hr/>
+  <h4 id="status-2017-04-15">
+   <br/>
+   Status 2017-04-15
+  </h4>
+  <hr/>
+  <p>
+   <strong>
+    Fix/Improvements
+   </strong>
+  </p>
+  <ul>
+   <li>
+    <p>
+     Search for Name/First Name
+     <br/>
+     Searchbox “Search” takes string for selecting contacts.
+     <br/>
+     Search starts with the firstName, string part after space character sets the search for familyName, a leading space directly searches for familyName
+    </p>
+    <p>
+     <em>
+      Note
+     </em>
+     <strong>
+      TODO
+     </strong>
+     <br/>
+     Display of large contacts lists are limited to 100 matches due to performance issue. This has to be changed for scrolling the contact sidebar.
+    </p>
+   </li>
+  </ul>
+  <p>
+   <strong>
+    Random vCard Generator
+   </strong>
+  </p>
+  <ul>
+   <li>
+    generateVCards
+    <br/>
+    Phyton program to generate random vCards with details like name, categories, location, zip, random tel-no, bday, anniversary, gender, mail, url …
+    <br/>
+    <em>
+     <em>
+      see zip file for details
+     </em>
+    </em>
+   </li>
+  </ul>
+  <h4 id="open-points">
+   <br/>
+   Open points
+  </h4>
+  <hr/>
+  <p>
+   <em>
+    =&gt; indicates possible solution
+   </em>
+  </p>
+  <p>
+   <strong>
+    Functionality
+   </strong>
+  </p>
+  <ul>
+   <li>
+    Adding a new contact should open the Edit Contact directly
+   </li>
+   <li>
+    Search for contact (name and/or category)
+   </li>
+   <li>
+    Tagging/Categories (the contact displayed tags are dummy entries)
+   </li>
+   <li>
+    Importing same contact will make duplicate
+    <br/>
+    =&gt; check REV and UID to decide how to handle
+   </li>
+   <li>
+    LDIF import (also  for importing from TB/Addressbook) to be completed
+   </li>
+   <li>
+    mailto with multiple contacts selected
+   </li>
+   <li>
+    delete with multiple contacts selected
+   </li>
+   <li>
+    contact editing on personal details incomplete
+   </li>
+   <li>
+    hide empty sections with contact display  ??
+   </li>
+  </ul>
+  <p>
+   <strong>
+    Technical
+   </strong>
+  </p>
+  <ul>
+   <li>
+    use the ‘hamburger’ on the sidebar header to open a slider with menu items for Import, Export, New Contact, Reset DB, etc
+   </li>
+   <li>
+    Remove the DB should close the vContacts tab
+   </li>
+   <li>
+    Performance tests and code optimization
+   </li>
+   <li>
+    test facility
+   </li>
+   <li>
+    UI optimization (layout/colors/etc)
+   </li>
+   <li>
+    Importing a file with multiple LDIF contacts will fail if one of the ldif contact can’t parse with iCAL.js
+    <br/>
+    =&gt; change to parse each LDIF contact separately
+   </li>
+  </ul>
+  <h4 id="status-2016-11-29">
+   <br/>
+   Status 2016-11-29
+  </h4>
+  <hr/>
+  <p>
+   <strong>
+    UTF8 Support
+   </strong>
+   <br/>
+   Now supports full UTF8 decoding of imported contacts (like with *.ldif)
+  </p>
+  <p>
+   <strong>
+    Notes
+   </strong>
+   <br/>
+   The vCard ‘NOTE’ has been added and is shown on the Contact Section ‘Notes’. The text can contain multiple lines. Importing from LDIF ‘description’ is converted to ‘Notes’.
+  </p>
+  <p>
+   <strong>
+    Removing DB
+   </strong>
+  </p>
+  <p>
+   vContacts works with a indexedDB which is part of the TB profile the extension is stored to. Any testing would leave the db, also after de-installing the extension. See also issue
+   <em>
+    #34  Investigate removing DB when uninstalling
+   </em>
+   .
+   <br/>
+   On the Sidebar header vContacts offers a button to delete the indexdeDB. The user has to close the tab before reusing vContact =&gt; TODO.
+  </p>
+  <p>
+   <strong>
+    Added Personal Details
+   </strong>
+  </p>
+  <ul>
+   <li>
+    Gender
+   </li>
+   <li>
+    Anniversary
+   </li>
+   <li>
+    Rev:  [Save] of an edited contact will add/update ‘REV’, example: REV;VALUE=DATE-TIME:20161119T152140
+   </li>
+  </ul>
+  <p>
+   <strong>
+    New Contact
+   </strong>
+  </p>
+  <ul>
+   <li>
+    [ + ] button on Contacts sidebar and Contact section generates a new contact with the name “New Contact”, it sets/updates UID/REV
+    <br/>
+    =&gt;TODO -  should directly open Edit Mode with that new contact
+   </li>
+  </ul>
+  <p>
+   <strong>
+    Photo support for remote picture ?
+   </strong>
+  </p>
+  <ul>
+   <li>
+    Photo could support binary(png/jpg) and Link (http:// and https://)
+    <br/>
+    – degrades performance ??  =&gt; needs analysis!
+    <br/>
+    – not supported with fruux! (Security reasons?)
+   </li>
+   <li>
+    iCal.js (vcard3Properties.photo) need modification to allow ‘uri’ type
+    <blockquote>
+     <p>
+      see iCal.js issue #
+      <br/>
+      <a href="https://github.com/neandr/ical.js/commit/c8bc7d274bc711765e7ffb335d7adbc89d3a5887">
+       https://github.com/neandr/ical.js/commit/c8bc7d274bc711765e7ffb335d7adbc89d3a5887
+      </a>
+     </p>
+    </blockquote>
+   </li>
+  </ul>
+  <p>
+   <strong>
+    Close Contact UI
+   </strong>
+  </p>
+  <ul>
+   <li>
+    [Close] on the Contact Section now closes the current displayed contact and on the Contacts Sidebar all contacts are un-selected
+   </li>
+  </ul>
+  <p>
+   <strong>
+    UI Layout
+   </strong>
+   see issue #52
+  </p>
+  <ul>
+   <li>
+    Contacts Sidebar and Contact Main has been redesigned to not overlap sections
+   </li>
+   <li>
+    rearranged
+    <br/>
+    – Contact Header for more space for tags (uses scroliing)
+    <br/>
+    – buttons to right
+    <br/>
+    – Home/Work Address changed to combine some lines
+   </li>
+  </ul>
+  <p>
+   <strong>
+    ProdId
+   </strong>
+   see issue #56
+  </p>
+  <ul>
+   <li>
+    AddressbookUtil.prodid will be added at export
+   </li>
+   <li>
+    If an imported card had a PRODID, it will be held in indexedDB but with export it will be replaced with vContacts string.
+   </li>
+  </ul>
+  <p>
+   <strong>
+    Email / URL Link
+   </strong>
+   see issue #43
+  </p>
+  <ul>
+   <li>
+    Contact fields with mailto or url are active and will open default apps (eg. TB or FX)
+   </li>
+   <li>
+    mailto should also work with multiple contacts (using the first mailto entry)  =&gt; new bug to be opened
+   </li>
+  </ul>
+  <hr/>
+  <h4 id="vuw-project-issues-resolved-on-vcontacts">
+   VUW project issues resolved on vContacts
+  </h4>
+  <p>
+   See issue list at
+   <strong>
+    <a href="https://github.com/Thunderbird301/react-addon/issues">
+     https://github.com/Thunderbird301/react-addon/issues
+    </a>
+   </strong>
+  </p>
+  <p>
+   <strong>
+    2016-11-15
+   </strong>
+   - Status
+  </p>
+  <p>
+   <del>
+    # 56  vCard Exporting needs ‘own’ PRODID; (neandr)
+   </del>
+   <br/>
+   # 53  Importing vCard elements should always have a TYPE=; (neandr)
+   <br/>
+   <del>
+    # 52  Contact detail section draws over header in edit mode; (neandr)
+   </del>
+   <br/>
+   <del>
+    # 51  Editing Contact header not saved; (neandr)
+   </del>
+   <br/>
+   # 49  Reorder on name change; (hc09141)
+   <br/>
+   # 45  Migrate from Mork; (hc09141)
+   <br/>
+   <del>
+    # 44   Saving images to vCard; (hc09141)
+   </del>
+   <br/>
+   <del>
+    # 43  Send to selected contacts; (hc09141)
+   </del>
+   <br/>
+   <del>
+    # 42  Introduce confirmation modals; (hc09141)
+   </del>
+   <br/>
+   # 41  Search for contact; (hc09141)
+   <br/>
+   # 40  Implement Tagging; (rnnrn)
+   <br/>
+   # 39  Provide calendar entry or drop downs for birthdays enhancement; (hc09141)
+   <br/>
+   <del>
+    # 38  Add a new contact; (hc09141)
+   </del>
+   <br/>
+   <del>
+    # 37  Hide empty contact fields; (rnnrn)
+   </del>
+   <br/>
+   # 36  Notifications for database changes; (rnnrn)
+   <br/>
+   # 35  Handle vCard importing/exporting errors; (rnnrn)
+   <br/>
+   # 34  Investigate removing DB when uninstalling future; (rnnrn)
+   <br/>
+   <del>
+    # 33  Editing Contacts bug; (rnnrn)
+   </del>
+   <br/>
+   <del>
+    # 32  Importing Images enhancement; (rnnrn)
+   </del>
+   <br/>
+   # 31  Rejig name of extention enhancement; (rnnrn)
+   <br/>
+   <del>
+    # 29  UTF-8 support for importing contacts; (phrus)
+   </del>
+   <br/>
+   <del>
+    # 06  Disable switching between contacts while editing; ()
+   </del>
+  </p>
+  <h4 id="notes-further-readings">
+   Notes / further Readings
+  </h4>
+  <ul>
+   <li>
+    Matching vCard Instances
+    <a href="https://tools.ietf.org/html/rfc6350#section-7.1.1">
+     https://tools.ietf.org/html/rfc6350#section-7.1.1
+    </a>
+   </li>
+  </ul>
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.1/highlight.min.js">
+  </script>
+  <script>
+   hljs.initHighlightingOnLoad();
+  </script>
+  <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript">
+  </script>
+  <script type="text/javascript">
+   MathJax.Hub.Config({"showProcessingMessages" : false,"messageStyle" : "none","tex2jax": { inlineMath: [ [ "$", "$" ] ] }});
+  </script>
+ </body>
+</html>

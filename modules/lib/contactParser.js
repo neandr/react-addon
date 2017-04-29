@@ -98,11 +98,11 @@ ContactParser._parseProperty = function(property, permanentProperty, temporaryPr
       break;
 
     case "bday": 
-      this._addPersonalDetail(pField, tpField, "bday", jCardIndex, permanentProperty, temporaryProperty, content.toString());
+      this._addPersonalDetail(pField, tpField, "bday", jCardIndex, permanentProperty, temporaryProperty, content.toString().substring(0,10));
       break;
 
     case "anniversary": 
-      this._addPersonalDetail(pField, tpField, "anniversary", jCardIndex, permanentProperty, temporaryProperty, content.toString());
+      this._addPersonalDetail(pField, tpField, "anniversary", jCardIndex, permanentProperty, temporaryProperty, content.toString().substring(0,10));
       break;
 
     case "gender": 
@@ -111,6 +111,10 @@ ContactParser._parseProperty = function(property, permanentProperty, temporaryPr
 
     case "rev":
       this._addPersonalDetail(pField, tpField, "rev", jCardIndex, permanentProperty, temporaryProperty, content.toString());
+      break;
+
+    case "categories":
+      this._addPersonalDetail(pField, tpField, "categories", jCardIndex, permanentProperty, temporaryProperty, content.toString());
       break;
 
     case "note":
@@ -168,21 +172,21 @@ ContactParser._addFieldProperty = function(index, currentOption, content, sectio
 
 /**
  *  Updates the value of an existing property that is from a contact section
- * @param {AddressBook}  ab       The addressbook UI component
+ * @param {AddressBook}  abUI     The addressbook UI component
  * @param {Integer}      index    The index of the temporary contact section to update
  * @param {Integer}      fieldID  The index of the field in the temporary contact section to update
  * @param {string}       content  The content to update the property with
  */
-ContactParser.updateContent = function(ab, index, fieldID, content) {
-  var tSection = ab.state.tempContactSections[index];
+ContactParser.updateContent = function(abUI, index, fieldID, content) {
+  var tSection = abUI.state.tempContactSections[index];
   var field = tSection.fields[fieldID];
   field.content = content;
-  var temporarySection = ab.state.tempContactSections;
+  var temporarySection = abUI.state.tempContactSections;
   temporarySection[index] = tSection;
-  var tempContact = ab.state.tempContact;
+  var tempContact = abUI.state.tempContact;
 
   field.property.setValue(content);
-  ab.setState({
+  abUI.setState({
     tempContactSections: temporarySection,
     tempContact: tempContact
   });
@@ -190,16 +194,16 @@ ContactParser.updateContent = function(ab, index, fieldID, content) {
 
 /**
  *  Updates the value of an existing property that is a personal detail
- * @param {AddressBook}  ab       The addressbook UI component
+ * @param {AddressBook}  abUI     The addressbook UI component
  * @param {string}       detail   The detail to update
  * @param {string}       content  The content to update the property with
  */
-ContactParser.updatePersonalDetail = function(ab, detail, content) {
-  var tDetails = ab.state.tempPersonalSection;
+ContactParser.updatePersonalDetail = function(abUI, detail, content) {
+  var tDetails = abUI.state.tempPersonalSection;
   tDetails[detail].content = content;
-  var tempContact = ab.state.tempContact;
+  var tempContact = abUI.state.tempContact;
   tDetails[detail].content = content;
-  ab.setState({
+  abUI.setState({
     tempPersonalSection: tDetails,
     tempContact: tempContact
   });
@@ -207,20 +211,20 @@ ContactParser.updatePersonalDetail = function(ab, detail, content) {
 
 /**
  *  Updates the option associated with a property
- * @param {AddressBook} ab       The addressbook UI component
+ * @param {AddressBook} abUI     The addressbook UI component
  * @param {string}      option   The option to update to
  * @param {Integer}     index    The index of the temporary contact section to update
  * @param {Integer}     fieldID  The index of the field in the temporary contact section to update
  */
-ContactParser.updateOption = function(ab, option, index, fieldID) {
-    var tSection = ab.state.tempContactSections[index];
+ContactParser.updateOption = function(abUI, option, index, fieldID) {
+    var tSection = abUI.state.tempContactSections[index];
     var field = tSection.fields[fieldID];
     field.currentOption = option;
-    var temporarySection = ab.state.tempContactSections;
-    var tempContact = ab.state.tempContact;
+    var temporarySection = abUI.state.tempContactSections;
+    var tempContact = abUI.state.tempContact;
     temporarySection[index] = tSection;
     field.property.setParameter("type", option);
-    ab.setState({
+    abUI.setState({
       tempContactSections: temporarySection,
       tempContact: tempContact
     });
@@ -228,15 +232,15 @@ ContactParser.updateOption = function(ab, option, index, fieldID) {
 
 /**
  *  Updates the profile image of a contact
- * @param {AddressBook}  ab     The addressbook UI component
+ * @param {AddressBook}  abUI   The addressbook UI component
  * @param {Blob}         image  The new image for the contact
  */
-ContactParser.updateProfileImage = function(ab, image) {
+ContactParser.updateProfileImage = function(abUI, image) {
   var imageFile = image.files[0];
-  var tempContact = ab.state.tempContact;
+  var tempContact = abUI.state.tempContact;
   tempContact.photo = imageFile;
-  var contactsList = ab.state.contactsList;
-  ab.setState({
+  var contactsList = abUI.state.contactsList;
+  abUI.setState({
     tempContact: tempContact,
     contactsList: contactsList
   });
@@ -248,9 +252,9 @@ ContactParser.updateProfileImage = function(ab, image) {
  * @param {Integer}      tempSectionIndex   The index of the temporary section of a contact to add to
  * @param {Array}        tempSections       All sections of the contact
  * @param {Integer}      propertyID         The id of the property to be removed
- * @param {AddressBook}  ab                 The addressbook UI component
+ * @param {AddressBook}  abUI               The addressbook UI component
  */
-ContactParser.removeContactDetail = function(tempContact, tempSectionIndex, tempSections, propertyID, ab) {
+ContactParser.removeContactDetail = function(tempContact, tempSectionIndex, tempSections, propertyID, abUI) {
   // Removes property from UI
   var tempSection = tempSections[tempSectionIndex];
   var field = tempSection.fields.splice(propertyID, 1)[0];
@@ -259,7 +263,7 @@ ContactParser.removeContactDetail = function(tempContact, tempSectionIndex, temp
   // Removes property from contact
   tempContact.jcards[field.jCardIndex].removeProperty(field.property);
 
-  ab.setState({
+  abUI.setState({
     tempContactSections: tempSections,
     tempContact: tempContact
   });
@@ -270,15 +274,15 @@ ContactParser.removeContactDetail = function(tempContact, tempSectionIndex, temp
  * @param {Contact}      tempContact       The temporary contact (for editing purposes) to be modified
  * @param {Integer}      tempSectionIndex  The index of the temporary section of a contact to add to
  * @param {Array}        tempSections      All sections of the contact
- * @param {AddressBook}  ab                The addressbook UI component
+ * @param {AddressBook}  abUI              The addressbook UI component
  */
-ContactParser.addContactDetail = function(tempContact, tempSectionIndex, tempSections, ab) {
+ContactParser.addContactDetail = function(tempContact, tempSectionIndex, tempSections, abUI) {
   // Sets content
   var tempSection = tempSections[tempSectionIndex];
   var content = "";
   if(tempSection.name == "Address"){
     content = [];
-    for(var i = 0; i < 5; i++) {
+    for(var i = 0; i < 7; i++) {
         content.push("");
     }
   }
@@ -300,7 +304,7 @@ ContactParser.addContactDetail = function(tempContact, tempSectionIndex, tempSec
   });
   tempSections[tempSectionIndex] = tempSection;
 
-  ab.setState({
+  abUI.setState({
     tempContactSections: tempSections,
     tempContact: tempContact
   });
@@ -359,7 +363,7 @@ ContactParser.deleteContact = function(contactsList, id) {
 
      tempContact.jcards[0].updatePropertyWithValue(key, tpSection[key].content)
 
-console.log(" saveContactPersonalDetails ", key, tpSection[key])
+ //  console.log(" saveContactPersonalDetails ", key,  JSON.stringify(tpSection[key]));     //gWLog
    }
  };
 
@@ -384,16 +388,25 @@ console.log(" saveContactPersonalDetails ", key, tpSection[key])
  */
  ContactParser.saveContactSections = function(temporarySection, permanentSection, contact) {
    for (var i = 0; i < temporarySection.length; i++) {
+
+     var currentName = temporarySection[i].name;
+
      var fields = [];
-     for (var j = 0; j < temporarySection[i].fields.length; j++) {
-       fields.push({
-         currentOption: temporarySection[i].fields[j].currentOption,
-         content: temporarySection[i].fields[j].content,
-         fieldID: temporarySection[i].fields[j].fieldID,
-         jCardIndex: temporarySection[i].fields[j].jCardIndex,
-         property: this.findCloneProperty(temporarySection[i].fields[j].property, contact)
-       });
-     }
+       for (var j = 0; j < temporarySection[i].fields.length; j++) {
+
+         var pushContent = temporarySection[i].fields[j].content;
+         var pushProperty = this.findCloneProperty(temporarySection[i].fields[j].property, contact);
+         var findProperty = temporarySection[i].fields[j].property
+
+         fields.push({
+           currentOption: temporarySection[i].fields[j].currentOption,
+           fieldID: temporarySection[i].fields[j].fieldID,
+           jCardIndex: temporarySection[i].fields[j].jCardIndex,
+           content: pushContent,
+           property: pushProperty
+           });
+       }
+
      permanentSection.push({
        name: temporarySection[i].name,
        options: temporarySection[i].options,
@@ -408,19 +421,19 @@ console.log(" saveContactPersonalDetails ", key, tpSection[key])
 /**
  *  Cancels the editing of a contact and resets the temporary fields to
  * the original set of fields.
- * @param {AddressBook} ab The addressbook UI component
+ * @param {AddressBook} abUI The addressbook UI component
  */
- ContactParser.cancelContactEdit = function(ab) {
+ ContactParser.cancelContactEdit = function(abUI) {
    var temporarySection = [];
-   var permanentSection = ab.state.contactSections;
-   var tpSection = this.createEmptyPersonalSection(ab.props.personalDetails);
-   var pSection = ab.state.personalSection;
-   var contact = ab.state.contact;
+   var permanentSection = abUI.state.contactSections;
+   var tpSection = this.createEmptyPersonalSection(abUI.props.personalDetails);
+   var pSection = abUI.state.personalSection;
+   var contact = abUI.state.contact;
    var tempContact = new Contact(contact.toJSON());
    this.saveContactSections(permanentSection, temporarySection, tempContact);
-   this.saveContactPersonalDetails(pSection, tpSection, contact, ab.state.contactsList, ab.state.name, ab.state.selectedIds[0]);
+   this.saveContactPersonalDetails(pSection, tpSection, contact, abUI.state.contactsList, abUI.state.name, abUI.state.selectedIds[0]);
 
-   ab.setState({
+   abUI.setState({
      tempContactSections: temporarySection,
      tempPersonalSection: tpSection,
      editing: false,

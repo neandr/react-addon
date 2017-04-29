@@ -2,7 +2,7 @@
   <script type="application/x-javascript" src="tab-overlay.js" />
 
   <tabpanels id="tabpanelcontainer">
-    <vbox id="reactTab" collapsed="true">
+    <vbox id="vContactsTab" collapsed="true">
       <vbox flex="1" class="chromeTabInstance">
         <toolbox id="dummycontactstoolbox" class="contentTabToolbox">
           <toolbar id="dummycontactstoolbar" class="contentTabToolbar" />
