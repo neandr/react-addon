@@ -1,6 +1,9 @@
+**_Note Current project status isn't reflected with this doc, needs updating for Spring'17_**
+
 
 ### vContacts -- <small>*Refactoring from VUW Project 301/11*</small>
 ---
+
 
 #### <br/> Open points
 ----
