@@ -1,5 +1,7 @@
 ## Thunderbird vContacts -- <small>*Move to a modern Addressbook*</small>
 
+**_Note  This description will be updated for Spring'2017_**
+
 This Thunderbird add-on was started in 2016 as a project of SCHOOL OF ENGINEERING AND COMPUTER SCIENCE/Victoria University of Wellington, New Zealand.
 Please find initial details here:
 https://ecs.victoria.ac.nz/Courses/ENGR301_2016T1/Project11
