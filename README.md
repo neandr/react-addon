@@ -17,7 +17,8 @@ The VUW project details can be found [here](https://github.com/Thunderbird301/re
 
 ### How to use
 
-**TB vContacts Extension **
+**TB vContacts Extension**
+
 The most current XPI can be downloaded from [here](https://github.com/neandr/vContacts/releases)
 
 Install the XPI into Thunderbird as usual.
