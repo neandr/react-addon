@@ -1,18 +1,18 @@
-vContacts  Project        Notes/Status                 2017-04-28
+vContacts  Project        Notes/Status                 2017-04-30
 
 
 New/Added _________________________________
 
     Hamburger Menu acting as vContacts Main Menu for
-        add new contact
-        Import (VCF/LDIF) / Export (VCF) contacts
-        Delete contact 
-        Reset Database (remove all contacts)   #5 KnownProblem\
+      #1  add new contact
+      #2  Import (VCF/LDIF) / Export (VCF) contacts
+      #3  Delete contact 
+      #4  Reset Database (remove all contacts)   #5 KnownProblem\
         Open documentation pages (calls browser/FX)
     Lookup for Contacts with "{firstName}{space}{lastName}"
-       Looks up while typing; entering a {space} will direct next entry for {lastName}
+          Looks up while typing; entering a {space} will direct next entry for {lastName}
     Lookup for Contacts with "Category"
-       A list of "Categories" is build from contacts of db
+          A list of "Categories" is build from contacts of db
     Display source notation of selected contact (Shift Alt cursor)
 
 
@@ -35,7 +35,7 @@ Known Problems _____________________________
    #2  Chat not parsed -- which vCard element (RFC: IMPP ?)
    #3  Export without category generates vCard with empty category
    #4  Notes are not shown completely with multiple lines
-   #5  Status/error display on first line not updated correctly
+   #5  Status/error display on first line not updated always correctly
        see https://medium.com/@mweststrate/3-reasons-why-i-stopped-using-react-setstate-ab73fc67a42e
    #6 
 
