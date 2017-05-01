@@ -30,7 +30,7 @@ You may add the "vContacts" toolbar button to the TB menu bar with the "Customiz
 
 **Import Contacts** The import currently reads **vCard** files. A next update will be expanded to read **LDIF** contact files also. That way **TB/Addressbook** data which has been exported before with the LDIF format (and extension *.ldif) can be added.
 
-For tesing purpose a VCF Generator is provided as part of the , [see here](https://github.com/neandr/vContacts/tree/master/generateVCF). It generates VCF addresses for test purpose and writes to an output file, it uses German based names, locations, generates tel/communication and mail entries, gender, birthday/anniversary dates. Each vCard has also a rev code and an UUID.
+For tesing purpose a VCF Generator is provided as part of the project, [see here](https://github.com/neandr/vContacts/tree/master/generateVCF). It generates VCF addresses for test purpose and writes to an output file, it uses German based names, locations, generates tel/communication and mail entries, gender, birthday/anniversary dates. Each vCard has also a rev code and an UUID.
 
 **Export vCard** Selected contact(s) can be exported to vCard files.
 
