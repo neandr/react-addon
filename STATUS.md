@@ -1,6 +1,6 @@
-**_Note Current project status isn't reflected with this doc, needs updating for Spring'17_**
-
-
+**_Note Current project status isn't reflected with this doc, please move over to [Current status](https://neandr.github.io/vContacts/notes.txt)_**
+   
+   
 ### vContacts -- <small>*Refactoring from VUW Project 301/11*</small>
 ---
 
