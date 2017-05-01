@@ -4,8 +4,6 @@
 
 
 This Thunderbird add-on was started in 2016 as a project of SCHOOL OF ENGINEERING AND COMPUTER SCIENCE/Victoria University of Wellington, New Zealand.
-Please find initial details here:
-https://ecs.victoria.ac.nz/Courses/ENGR301_2016T1/Project11
 
 The project was aimed to build a modern addressbook based on industry standards, using modern technologies and to replace the current data store (mork).
 
@@ -14,7 +12,7 @@ The project was aimed to build a modern addressbook based on industry standards,
 First steps of the VUW realization was to build a Thunderbird add-on which is working locally (can be used in TB offline mode) with an underlying database, some interfacing to local files for importing/exporting of contacts and collections.
 The VUW project details can be found [here](https://github.com/Thunderbird301/react-addon/wiki)
 
-**TB vContacts** is a refactor of the VUW project, [see here](https://github.com/neandr/vContacts). See below about 'Prove of Concept' and [here for the actual status](https://github.com/neandr/vContacts/blob/master/STATUS.md) with more details.
+**TB vContacts** is a refactor of the VUW project, [see here](https://github.com/neandr/vContacts). See below about 'Prove of Concept' and [here for the actual status](https://neandr.github.io/vContacts/notes.txt) with more details.
 
 ----
 ### How to use
