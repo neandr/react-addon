@@ -9,142 +9,136 @@
  */
 function ContactParser() { };
 
-// CLEARING OF A CONTACT
 
+// CLEARING OF A CONTACT
 /**
  * Clears all information about a contact held in the main panel
  * @param {Array}  contactSections  Infomation to clear
  */
 ContactParser.createEmptyContactSections = function(contactSections) {
-  var sections = [];
-  for (var i = 0; i < contactSections.length; i++) {
-     sections.push({
-        name: contactSections[i].name,
-        options: contactSections[i].options,
-        fields: [],
-        index: i,
-        key: contactSections[i].key
-     });
-  }
-  return sections;
+   var sections = [];
+   for (var i = 0; i < contactSections.length; i++) {
+      sections.push({
+         name: contactSections[i].name,
+         options: contactSections[i].options,
+         fields: [],
+         index: i,
+         key: contactSections[i].key
+      });
+   }
+   return sections;
 };
+
 
 /**
  *  Clears all information about a contact held in the header
  * @param {Array}  details   Infomation to clear
  */
-ContactParser.createEmptyPersonalSection = function(details) {
-  var pDetails = {};
-  for(var i = 0; i < details.length; i++) {
-     pDetails[details[i]] = {content: "", property: null, jCardIndex: null};
-  }
-  return pDetails;
+ContactParser.createEmptyPersonalSections = function(details) {
+   var pDetails = {};
+   for(var i = 0; i < details.length; i++) {
+      pDetails[details[i]] = {content: "", property: null, jCardIndex: null};
+   }
+   return pDetails;
 };
+
 
 // PARSING VCARD FOR THE UI
-
 /**
- *  Parses a single property of a contact vCard for the UI
+ *  Parses a single property of a contact vCard for the UI (Main section with Header and Details)
  * @param {Property} property           The property to parse
  * @param {Array}    permanentProperty  Contact property in UI
- * @param {Array}    temporaryProperty  Temporary contact property in UI (for editing purposes)
  * @param {Array}    permanentSection   Contact sections in UI
- * @param {Array}    temporarySection   Temporary contact sections in UI (for editing purposes)
  * @param {Array}    pField Personal    details of contact fields in UI header
- * @param {Array}    tpField Temporary  personal details of contact fields in UI header (for editing purposes)
  * @param {Integer}  jCardIndex         Index of the jCard which the property belongs to
  */
-ContactParser._parseProperty = function(property, permanentProperty, temporaryProperty, permanentSection, temporarySection, pField, tpField, jCardIndex) {
-  var name = property.name;
-  var type = property.getParameter("type");
-  var content = property.getFirstValue();
+ContactParser._parseProperty = function(property, permanentProperty, permanentSection, pField, jCardIndex) {
 
-  // Gets type of property (used for option display)
-  if (Array.isArray(type)) {
-    type = type[0];
-  }
-  if (type) {
-    type = type.charAt(0).toUpperCase() + type.slice(1);
-  }
+   var pname = property.name;
+   var type = property.getParameter("type");
+   var content = property.getFirstValue();
 
-  // Parses property
-  switch (name) {
-    case "email":
-      this._addFieldProperty(0, type, content, permanentSection, jCardIndex, permanentProperty);
-      this._addFieldProperty(0, type, content, temporarySection, jCardIndex, temporaryProperty);
-      break;
-    case "tel":
-      this._addFieldProperty(1, type, content, permanentSection, jCardIndex, permanentProperty);
-      this._addFieldProperty(1, type, content, temporarySection, jCardIndex, temporaryProperty);
-      break;
-    case "adr":
-      this._addFieldProperty(2, type, content, permanentSection, jCardIndex, permanentProperty);
-      this._addFieldProperty(2, type, content, temporarySection, jCardIndex, temporaryProperty);
-      break;
-    case "url":
-      this._addFieldProperty(3, type, content, permanentSection, jCardIndex, permanentProperty);
-      this._addFieldProperty(3, type, content, temporarySection, jCardIndex, temporaryProperty);
-      break;
+   // Gets type of property (used for option display)
+   if (Array.isArray(type)) {
+      type = type[0];
+   }
+   if (type) {
+      type = type.charAt(0).toUpperCase() + type.slice(1);
+   }
+
+   // Parses property
+   switch (pname) {
+      case "email":
+         this._addFieldProperty(0, type, content, permanentSection, jCardIndex, permanentProperty);
+         break;
+      case "tel":
+         this._addFieldProperty(1, type, content, permanentSection, jCardIndex, permanentProperty);
+         break;
+      case "adr":
+         this._addFieldProperty(2, type, content, permanentSection, jCardIndex, permanentProperty);
+         break;
+      case "url":
+         this._addFieldProperty(3, type, content, permanentSection, jCardIndex, permanentProperty);
+         break;
 
 
-    case "fn":
-      this._addPersonalDetail(pField, tpField, "name", jCardIndex, permanentProperty, temporaryProperty, content);
-      break;
-    case "nickname":
-      this._addPersonalDetail(pField, tpField, "nickname", jCardIndex, permanentProperty, temporaryProperty, content);
-      break;
-    case "n":
-      this._addPersonalDetail(pField, tpField, "n", jCardIndex, permanentProperty, temporaryProperty, content);
-      break;
+      case "fn":
+         this._addPersonalDetail(pField, "name", jCardIndex, permanentProperty, content);
+         break;
+      case "nickname":
+         this._addPersonalDetail(pField, "nickname", jCardIndex, permanentProperty, content);
+         break;
+      case "n":
+         this._addPersonalDetail(pField, "n", jCardIndex, permanentProperty, content);
+         break;
 
-    case "bday": 
-      this._addPersonalDetail(pField, tpField, "bday", jCardIndex, permanentProperty, temporaryProperty, content.toString().substring(0,10));
-      break;
+      case "bday": 
+         this._addPersonalDetail(pField, "bday", jCardIndex, permanentProperty, content.toString().substring(0,10));
+         break;
 
-    case "anniversary": 
-      this._addPersonalDetail(pField, tpField, "anniversary", jCardIndex, permanentProperty, temporaryProperty, content.toString().substring(0,10));
-      break;
+      case "anniversary": 
+         this._addPersonalDetail(pField, "anniversary", jCardIndex, permanentProperty, content.toString().substring(0,10));
+         break;
 
-    case "gender": 
-      this._addPersonalDetail(pField, tpField, "gender", jCardIndex, permanentProperty, temporaryProperty, content.toString());
-      break;
+      case "gender": 
+         this._addPersonalDetail(pField, "gender", jCardIndex, permanentProperty, content);
+         break;
 
-    case "rev":
-      this._addPersonalDetail(pField, tpField, "rev", jCardIndex, permanentProperty, temporaryProperty, content.toString());
-      break;
+      case "rev":
+         this._addPersonalDetail(pField, "rev", jCardIndex, permanentProperty, content);
+         break;
 
-    case "categories":
-      this._addPersonalDetail(pField, tpField, "categories", jCardIndex, permanentProperty, temporaryProperty, content.toString());
-      break;
+      case "categories":
+         this._addPersonalDetail(pField, "categories", jCardIndex, permanentProperty, content);
+         break;
 
-    case "note":
-      this._addPersonalDetail(pField, tpField, "note", jCardIndex, permanentProperty, temporaryProperty, content.toString());
-      break;
+      case "note":
+         this._addPersonalDetail(pField, "note", jCardIndex, permanentProperty, content);
+         break;
 
-    default:
-      break;
-  }
+      default:
+         break;
+   }
 };
+
 
 /**
  *  Adds a personal property to the personal and temporary contact fields for
  * the UI header of a contact
  * @param {Array}    pField             Personal details of contact fields in UI header
- * @param {Array}    tpField            Temporary personal details of contact fields in UI header (for editing purposes)
  * @param {string}   type               The type of personal detail
  * @param {Intger}   jCardIndex         Index of the jCard which the detail belongs to
  * @param {Property} permanentProperty  Contact property in UI header
- * @param {Property} temporaryProperty  Temporary contact property in UI header (for editing purposes)
  * @param {string}   content            The content of the property
  */
-ContactParser._addPersonalDetail = function(pField, tpField, type, jCardIndex, permanentProperty, temporaryProperty, content) {
-  pField[type].content = content;
-  pField[type].property = permanentProperty;
-  pField[type].jCardIndex = jCardIndex;
-  tpField[type].content = content;
-  tpField[type].property = temporaryProperty;
-  tpField[type].jCardIndex = jCardIndex;
+ContactParser._addPersonalDetail = function(pField, type, jCardIndex, permanentProperty, content) {
+   if (!!content && !!pField[type]) {
+      pField[type].content = content.toString();
+      pField[type].property = permanentProperty;
+      pField[type].jCardIndex = jCardIndex;
+   }
 }
+
 
 /**
  *  Adds a property to the appropriate contact section for
@@ -157,19 +151,18 @@ ContactParser._addPersonalDetail = function(pField, tpField, type, jCardIndex, p
  * @param {Property}  property       Property to add
  */
 ContactParser._addFieldProperty = function(index, currentOption, content, sections, jCardIndex, property) {
-  var fieldID = sections[index].fields.length;
-  sections[index].fields.push({
-    currentOption: currentOption,
-    content: content,
-    fieldID: fieldID,
-    property: property,
-    jCardIndex: jCardIndex,
-    property: property
-  });
+   var fieldID = sections[index].fields.length;
+   sections[index].fields.push({
+      currentOption: currentOption,
+      content: content,
+      fieldID: fieldID,
+      property: property,
+      jCardIndex: jCardIndex
+   });
 };
 
-// MODYFING A CONTACT
 
+// MODYFING A CONTACT
 /**
  *  Updates the value of an existing property that is from a contact section
  * @param {AddressBook}  abUI     The addressbook UI component
@@ -178,19 +171,23 @@ ContactParser._addFieldProperty = function(index, currentOption, content, sectio
  * @param {string}       content  The content to update the property with
  */
 ContactParser.updateContent = function(abUI, index, fieldID, content) {
-  var tSection = abUI.state.tempContactSections[index];
-  var field = tSection.fields[fieldID];
-  field.content = content;
-  var temporarySection = abUI.state.tempContactSections;
-  temporarySection[index] = tSection;
-  var tempContact = abUI.state.tempContact;
+   var tSection = abUI.state.contactSections[index];
 
-  field.property.setValue(content);
-  abUI.setState({
-    tempContactSections: temporarySection,
-    tempContact: tempContact
-  });
+   var contactSections = abUI.state.contactSections;
+   contactSections[index] = tSection;
+
+   var _Contact = abUI.state.contact;
+
+   var field = tSection.fields[fieldID];
+   field.content = content;
+   field.property.setValue(content);
+
+   abUI.setState({
+      contactSections: contactSections,
+      contact: _Contact
+   });
 };
+
 
 /**
  *  Updates the value of an existing property that is a personal detail
@@ -199,15 +196,15 @@ ContactParser.updateContent = function(abUI, index, fieldID, content) {
  * @param {string}       content  The content to update the property with
  */
 ContactParser.updatePersonalDetail = function(abUI, detail, content) {
-  var tDetails = abUI.state.tempPersonalSection;
-  tDetails[detail].content = content;
-  var tempContact = abUI.state.tempContact;
-  tDetails[detail].content = content;
-  abUI.setState({
-    tempPersonalSection: tDetails,
-    tempContact: tempContact
-  });
+//console.log("ContactParser.updatePersonalDetail   detail: ", detail.toString());        //TEST
+   var tDetails = abUI.state.personalSections;
+   tDetails[detail].content = content;
+
+   abUI.setState({
+      personalSections: tDetails,
+   });
 };
+
 
 /**
  *  Updates the option associated with a property
@@ -217,18 +214,19 @@ ContactParser.updatePersonalDetail = function(abUI, detail, content) {
  * @param {Integer}     fieldID  The index of the field in the temporary contact section to update
  */
 ContactParser.updateOption = function(abUI, option, index, fieldID) {
-    var tSection = abUI.state.tempContactSections[index];
-    var field = tSection.fields[fieldID];
-    field.currentOption = option;
-    var temporarySection = abUI.state.tempContactSections;
-    var tempContact = abUI.state.tempContact;
-    temporarySection[index] = tSection;
-    field.property.setParameter("type", option);
-    abUI.setState({
-      tempContactSections: temporarySection,
-      tempContact: tempContact
-    });
+   var tSection = abUI.state.contactSections[index];
+   var field = tSection.fields[fieldID];
+   field.currentOption = option;
+   field.property.setParameter("type", option);
+
+   var _contactSections = abUI.state.contactSections;
+   _contactSections[index] = tSection;
+
+   abUI.setState({
+      contactSections: _contactSections,
+   });
 };
+
 
 /**
  *  Updates the profile image of a contact
@@ -236,186 +234,221 @@ ContactParser.updateOption = function(abUI, option, index, fieldID) {
  * @param {Blob}         image  The new image for the contact
  */
 ContactParser.updateProfileImage = function(abUI, image) {
-  var imageFile = image.files[0];
-  var tempContact = abUI.state.tempContact;
-  tempContact.photo = imageFile;
-  var contactsList = abUI.state.contactsList;
-  abUI.setState({
-    tempContact: tempContact,
-    contactsList: contactsList
-  });
+   var _contact = abUI.state.contact;
+   _contact.photo = image.files[0];
+
+   var photoUrl = Images.getPhotoURL(image.files[0]);
+   abUI.setState({
+      contact: _contact,
+      photoUrl: photoUrl
+   });
 };
+
 
 /**
  *  Removes a property from a contact
- * @param {Contact}      tempContact        The temporary contact (for editing purposes) to be modified
+ * @param {AddressBook}  abUI               The addressbook UI component
  * @param {Integer}      tempSectionIndex   The index of the temporary section of a contact to add to
  * @param {Array}        tempSections       All sections of the contact
  * @param {Integer}      propertyID         The id of the property to be removed
- * @param {AddressBook}  abUI               The addressbook UI component
  */
-ContactParser.removeContactDetail = function(tempContact, tempSectionIndex, tempSections, propertyID, abUI) {
-  // Removes property from UI
-  var tempSection = tempSections[tempSectionIndex];
-  var field = tempSection.fields.splice(propertyID, 1)[0];
-  tempSections[tempSectionIndex] = tempSection;
+ContactParser.removeContactDetail = function(abUI, tempSectionIndex, propertyID) {
+   // Removes property from UI
 
-  // Removes property from contact
-  tempContact.jcards[field.jCardIndex].removeProperty(field.property);
+   var tempSections = abUI.state.contactSections
+   var _Contact = abUI.state.contact
 
-  abUI.setState({
-    tempContactSections: tempSections,
-    tempContact: tempContact
-  });
+   var tempSection = tempSections[tempSectionIndex];
+   var field = tempSection.fields.splice(propertyID, 1)[0];
+   tempSections[tempSectionIndex] = tempSection;
+
+console.log ("removeContactDetail   tempSectionIndex", tempSectionIndex, "  propertyID",propertyID )
+
+
+
+   // Removes property from contact
+   var removed = _Contact.jcards[field.jCardIndex].removeProperty(field.property);
+ console.log ("removeContactDetail", removed, tempSection);             //TEST
+
+   abUI.setState({
+      contactSections: tempSections,
+      contact: _Contact
+   });
 };
 
+// 
 /**
  *  Adds a new property to a contact
- * @param {Contact}      tempContact       The temporary contact (for editing purposes) to be modified
- * @param {Integer}      tempSectionIndex  The index of the temporary section of a contact to add to
- * @param {Array}        tempSections      All sections of the contact
  * @param {AddressBook}  abUI              The addressbook UI component
+ * @param {Integer}      tempSectionIndex  The index of the temporary section of a contact to add to
  */
-ContactParser.addContactDetail = function(tempContact, tempSectionIndex, tempSections, abUI) {
-  // Sets content
-  var tempSection = tempSections[tempSectionIndex];
-  var content = "";
-  if(tempSection.name == "Address"){
-    content = [];
-    for(var i = 0; i < 7; i++) {
-        content.push("");
-    }
-  }
+ContactParser.addContactDetail = function(abUI, tempSectionIndex) {
+   // Sets content
+   var tempSections = abUI.state.contactSections;
+   var tempSection = tempSections[tempSectionIndex];
+   var content = "";
+   if(tempSection.name == "Address"){
+      content = [];
+      for(var i = 0; i < 7; i++) {
+         content.push("");
+      }
+   }
 
-  // Adds property to contact
-  var name = tempSection.key;
-  var type = tempSection.options[0];
-  var property = tempContact.jcards[0].addPropertyWithValue(name, content);
-  property.setParameter("type", type);
+   // Adds property to contact
+   var _Contact = abUI.state.contact;
+   var name = tempSection.key;
+   var type = tempSection.options[0];
+   var property = _Contact.jcards[0].addPropertyWithValue(name, content);
+   property.setParameter("type", type);
 
-  // Adds property to contact in UI
-  var fieldID = tempSection.fields.length;
-  tempSection.fields.push({
+   // Adds property to contact in UI
+   var fieldID = tempSection.fields.length;
+   tempSection.fields.push({
       currentOption: type,
       content: content,
       fieldID: fieldID,
       jCardIndex: 0,
       property: property
-  });
-  tempSections[tempSectionIndex] = tempSection;
+   });
+   tempSections[tempSectionIndex] = tempSection;
 
-  abUI.setState({
-    tempContactSections: tempSections,
-    tempContact: tempContact
-  });
+   abUI.setState({
+      contactSections: tempSections,
+      contact: _Contact
+   });
 };
 
-// UPDATING UI TO REFLECT CHANGE
 
+// UPDATING UI TO REFLECT CHANGE  (Rename and Delete)
 /**
  *  Renames a contact on the sidebar
  * @param {Integer} id The id of the contact to be renamed
  * @param {string}  name The new name of the contact
  * @param {Array}   contactsList The list of contacts displayed on the sidebar
  */
-ContactParser.rename = function(id, name, contactsList) {
-  for (var i = 0; i < contactsList.length; i++) {
-    if (contactsList[i].id == id) {
-      contactsList[i].name = name;
-      return;
-    }
-  }
+ContactParser.rename = function(contactsList, id, name) {
+   for (var i = 0; i < contactsList.length; i++) {
+      if (contactsList[i].id == id) {
+         contactsList[i].name = name;
+         return;
+      }
+   }
 };
 
 /**
- *  Deletes a contact from the sidebar
+ *  Deletes a contact from the sidebar/contactsList
  * @param {Array}     contactsList The list of contacts displayed on the sidebar
  * @param {Integer}   id The id of the contact to be deleted
  * @returns {Array}   contactsList The list of contacts with the desired contact removed
  */
 ContactParser.deleteContact = function(contactsList, id) {
-  var index = contactsList.findIndex(function(contact) {
-    return contact.id == id;
-  });
-  contactsList.splice(index, 1);
-  return contactsList;
+   var index = contactsList.findIndex(function(contact) {
+      return contact.id == id;
+   });
+   contactsList.splice(index, 1);
+   return contactsList;
 };
+
 
 // METHODS FOR HELPING WITH SAVING A CONTACT
 
 /**
  *  Saves the contact details from the temporary details for the UI
- * @param {Array}    tpSection The temporary details to save
- * @param {Array}    pSection The permanent details to save to
- * @param {Contact}  tempContact The temporary contact to save
+ * @param {Array}    uiPersonalSection The permanent details to save to
+ * @param {Contact}  contact The contact to save
  * @param {Array}    contactsList The list of all contacts
  * @param {string}   name The name of the contact before editing
  * @param {Integer}  id The id of the contact being saved
  */
- ContactParser.saveContactPersonalDetails = function(tpSection, pSection, tempContact, contactsList, name, id) {
-   for (var key in tpSection) {
-     if(key == "name" && (name != tpSection[key].content)) {
-       name = tpSection[key].content;
-       tempContact.name = name;
-       this.rename(id, name, contactsList);
-     }
-     pSection[key] = tpSection[key];
+ContactParser.saveContactPersonalDetails = function(uiPersonalSection, contact, contactsList, name, id) {
 
-     tempContact.jcards[0].updatePropertyWithValue(key, tpSection[key].content)
+   uiPersonalSection['note'].content = document.getElementById('currentNotes').value
 
- //  console.log(" saveContactPersonalDetails ", key,  JSON.stringify(tpSection[key]));     //gWLog
+   for (var key in uiPersonalSection) {
+
+      var currentContent = uiPersonalSection[key].content
+  console.log("\n saveContactPersonalDetails    ", key, currentContent);     //TEST
+
+      switch (key) {
+      case 'name' :
+            var cN = uiPersonalSection['n'].property.jCal[3]
+            var cName = cN[1] + " " + cN[0];
+            this.rename(contactsList, id, cName);
+            uiPersonalSection['fn'].content = cName;
+            uiPersonalSection['name'].content = cName;
+            uiPersonalSection['name'].property.jCal[3] = cName;
+            contact.name = cName;
+         break;
+ 
+      case 'n' :
+         break;
+
+      case 'categories' :
+         break;
+
+      default:
+         contact.jcards[0].updatePropertyWithValue(key, uiPersonalSection[key].content)
+      }
+  console.log(" saveContactPersonalDetails    ", key, currentContent);     //TEST
    }
- };
+};
 
- /**
+
+/**
  *  Saves the image of a contact to the sidebar/contacts list
  * @param {Array}     contactsList The list of all contacts
- * @param {Contact}   tempContact The temporary contact to save
+ * @param {Contact}   contact The contact to save
  * @param {Integer}   id The id of the contact being saved
  */
- ContactParser.saveContactPhotoToContactsList = function(contactsList, tempContact, id) {
-   var contact = contactsList.find(function(contact) {
-     return contact.id == id;
+ContactParser.saveContactPhotoToContactsList = function(contactsList, id, contact) {
+   var _Contact = contactsList.find(function(contact) {
+      return contact.id == id;
    });
-   contact.photo = Images.getPhotoURL(tempContact.photo);
- };
+   _Contact.photo = Images.getPhotoURL(contact.photo);
+};
+
 
 /**
  *  Saves the contact sections from the temporary sections for the UI
- * @param {Array} temporarySection The temporary sections of the contact to save
+ * @param {Array} uiContactSection The temporary sections of the contact to save
  * @param {Array} permanentSection The permanent sections of the contact to save to
  * @param {Array} contact The contact to save
  */
- ContactParser.saveContactSections = function(temporarySection, permanentSection, contact) {
-   for (var i = 0; i < temporarySection.length; i++) {
+ContactParser.saveContactSections = function(uiContactSection, permanentSection, contact) {
 
-     var currentName = temporarySection[i].name;
+   for (var i in uiContactSection) {
+      var currentName = uiContactSection[i].name;
 
-     var fields = [];
-       for (var j = 0; j < temporarySection[i].fields.length; j++) {
+console.log("\n saveContactSections     currentName", currentName)
 
-         var pushContent = temporarySection[i].fields[j].content;
-         var pushProperty = this.findCloneProperty(temporarySection[i].fields[j].property, contact);
-         var findProperty = temporarySection[i].fields[j].property
+      var fields = [];
+      for (var j = 0; j < uiContactSection[i].fields.length; j++) {
+
+         var pushProperty = this.findCloneProperty(contact, uiContactSection[i].fields[j].property);
+         var pushContent = uiContactSection[i].fields[j].content;
+
+console.log("\n                 -------->          ", currentName, "  i/j: ", i,j,
+          "\n   pushProperty:", pushProperty, 
+          "\n   pushContent: ",pushContent)    //TEST
 
          fields.push({
-           currentOption: temporarySection[i].fields[j].currentOption,
-           fieldID: temporarySection[i].fields[j].fieldID,
-           jCardIndex: temporarySection[i].fields[j].jCardIndex,
-           content: pushContent,
-           property: pushProperty
-           });
-       }
+            currentOption: uiContactSection[i].fields[j].currentOption,
+            fieldID: uiContactSection[i].fields[j].fieldID,
+            jCardIndex: uiContactSection[i].fields[j].jCardIndex,
+            content: pushContent,
+            property: pushProperty
+         });
+      }
 
-     permanentSection.push({
-       name: temporarySection[i].name,
-       options: temporarySection[i].options,
-       fields: fields,
-       index: i,
-       key: temporarySection[i].key
-     });
+      permanentSection.push({
+         name: uiContactSection[i].name,
+         options: uiContactSection[i].options,
+         fields: fields,
+         index: i,
+         key: uiContactSection[i].key
+      });
    }
- };
+};
 
 
 /**
@@ -423,23 +456,23 @@ ContactParser.deleteContact = function(contactsList, id) {
  * the original set of fields.
  * @param {AddressBook} abUI The addressbook UI component
  */
- ContactParser.cancelContactEdit = function(abUI) {
-   var temporarySection = [];
-   var permanentSection = abUI.state.contactSections;
-   var tpSection = this.createEmptyPersonalSection(abUI.props.personalDetails);
-   var pSection = abUI.state.personalSection;
+ContactParser.cancelContactEdit = function(abUI) {
    var contact = abUI.state.contact;
-   var tempContact = new Contact(contact.toJSON());
-   this.saveContactSections(permanentSection, temporarySection, tempContact);
-   this.saveContactPersonalDetails(pSection, tpSection, contact, abUI.state.contactsList, abUI.state.name, abUI.state.selectedIds[0]);
 
+   // Gets contact profile image
+   var photoUrl = Images.getPhotoURL(contact.photo);
+   // Stores contact information in UI
    abUI.setState({
-     tempContactSections: temporarySection,
-     tempPersonalSection: tpSection,
-     editing: false,
-     tempContact: tempContact
+      contact: contact,
+      photoUrl: photoUrl,
+      editing: false
    });
- }
+   setTimeout(function(){
+     DatabaseConnection.getContactDetails (abUI.state.contact.uuid, abUI),1000
+   });
+
+}
+
 
 /**
  *  Finds a property within a contact
@@ -447,16 +480,17 @@ ContactParser.deleteContact = function(contactsList, id) {
  * @param {Contact} contact The contact to search through
  * @returns {Property} property - the identical found property
  */
-ContactParser.findCloneProperty = function(property, contact) {
-  for(var j = 0; j < contact.jcards.length; j++) {
-    var details = contact.jcards[j].getAllProperties(property.name);
-    for (var i = 0; i < details.length; i++) {
-      if (details[i].getValues().every(this.equals, property.getValues())) {
-        return details[i];
+ContactParser.findCloneProperty = function(contact, property) {
+   for(var j = 0; j < contact.jcards.length; j++) {
+      var details = contact.jcards[j].getAllProperties(property.name);
+      for (var i = 0; i < details.length; i++) {
+         if (details[i].getValues().every(this.equals, property.getValues())) {
+            return details[i];
+         }
       }
-    }
-  }
+   }
 };
+
 
 /**
  *  Checks if two properties are identical
@@ -465,8 +499,8 @@ ContactParser.findCloneProperty = function(property, contact) {
  * @param {Integer} index The index of the other property
  */
 ContactParser.equals = function(element, index) {
-  if(Array.isArray(element)) {
-    return element.every(ContactParser.equals, this[index]);
-  }
-  return element == this[index];
+   if(Array.isArray(element)) {
+      return element.every(ContactParser.equals, this[index]);
+   }
+   return element == this[index];
 }

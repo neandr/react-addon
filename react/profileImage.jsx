@@ -11,10 +11,3 @@ var ProfileImage = (props) => (
   <img className={props.className} onClick={props.imageClick}  //onload removed   //gW 2016-12-07
     src={props.image}/>
 );
-
-/*-----------------
-var ProfileImage = (props) => (
-  <img className={props.className} onClick={props.imageClick} onload={Images.handleURLRevoke.bind(null, props.image)}  //onload ???????????
-    src={props.image}/>
-);
---------*/

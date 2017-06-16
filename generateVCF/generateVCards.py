@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-version = 'gWahl   17-04-11_17'
-
+version = 'gWahl   17-05-04_13'
+versionNo = '.2'
 
 '''
 VCF  Addressgenerator
@@ -16,6 +16,7 @@ VCF  Addressgenerator
 
    Starting with 
       ./generateVCards [cardCount]
+             eventually need to change mode with:   chmod 755 generateVCards.py
    
    Parameter 
       cardCount  optional, default = 5 (see parameter nVCF), 
@@ -142,7 +143,7 @@ def readFile(sFile):
 
 
 def main ():
-   global nVCF
+   global nVCF, versionNo
 
    if len(sys.argv) == 2:
        nVCF = int(sys.argv[1])
@@ -174,7 +175,7 @@ def main ():
       rev = (str(datetime.utcnow().isoformat())[:19]+"Z")
 
 
-      vcf = ["BEGIN:VCARD\nVERSION:3.0\nPRODID:-//genVCF Version .1//DE" 
+      vcf = ["BEGIN:VCARD\nVERSION:3.0\nPRODID:-//genVCF Version " + versionNo + "//DE" 
       + "\nUID:" + str(uuid.uuid4())
       + "\nREV:" + rev
 

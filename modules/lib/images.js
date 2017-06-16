@@ -12,7 +12,7 @@ function Images() { };
 * @param {Blob} photo The image to revoke a URL for
 **/
 Images.handleURLRevoke = function(photo) {
-  URL.revokeObjectURL(photo);
+   URL.revokeObjectURL(photo);
 };
 
 /**
@@ -20,19 +20,22 @@ Images.handleURLRevoke = function(photo) {
 * @param {Blob} photo The image to get a URL for
 **/
 Images.getPhotoURL = function(photo) {
-  // if (photo) {
-  if (photo && 
-     ((photo.valueOf().toString() == "[object File]") 
-     || (photo.valueOf().toString() == "[object Blob]"))) {
+ if (photo != null)
+ //console.log("   getPhotoURL :", photo.valueOf().toString())
+
+   // if (photo) {
+   if (photo && 
+      ((photo.valueOf().toString() == "[object File]") 
+         || (photo.valueOf().toString() == "[object Blob]"))) {
         return URL.createObjectURL(photo)
-  }
-  if (photo && (typeof photo == 'string')) { 
-    if ((photo.indexOf('https://') === 0) || (photo.indexOf('http://') === 0)) {
-      let ext = photo.substr((~-photo.lastIndexOf(".") >>> 0) + 2);
-      if ((ext === 'png') || (ext === 'jpg')) {
-        return photo;
+   }
+   if (photo && (typeof photo == 'string')) {
+      if ((photo.indexOf('https://') === 0) || (photo.indexOf('http://') === 0)) {
+         let ext = photo.substr((~-photo.lastIndexOf(".") >>> 0) + 2);
+         if ((ext === 'png') || (ext === 'jpg')) {
+           return photo;
+         }
       }
-    }
-  }
-  return "images/xContact.png";
+   }
+   return "images/xContact.png";
 }

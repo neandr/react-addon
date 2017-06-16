@@ -8,40 +8,39 @@
 */
 var iStyles = iStyles || {}
 
-  iStyles.contactsSidebar = {'display':'flex', 'flexDirection': 'column',
-    'height':'100%'}
+   iStyles.contactsSidebar = {'display':'flex', 'flexDirection': 'column',
+      'height':'100%'}
 
-  iStyles.contactsList = {'flex':'1 1 auto', 'overflowY':'auto', 'marginLeft': '5%',
+   iStyles.contactsList = {'flex':'1 1 auto', 'overflowY':'auto', 'marginLeft': '5%',
      'borderTop': '1px solid #A5A8A4'}
 
-  iStyles.abHeader={'height': '24px'}
+   iStyles.abHeader={'height': '24px'}
 
 
-  var ContactSidebar = (props) => (
-    <div id="contacts-sidebar" style={iStyles.contactsSidebar}>
+var ContactSidebar = (props) => (
+   <div id="contacts-sidebar" style={iStyles.contactsSidebar}>
       <SidebarHeader 
-        stateModal={props.stateModal} 
-        work={props.work} 
-        add={props.add} 
-        export={props.export} 
-        import={props.import}
-        searchNames={props.searchNames}
-        clearNames={props.clearNames}
-        searchTags={props.searchTags}
+         stateModal={props.stateModal} 
+         work={props.work} 
+         add={props.add} 
+         export={props.export} 
+         import={props.import}
+         searchNames={props.searchNames}
+         clearNames={props.clearNames}
+         searchTags={props.searchTags}
 
-        tagCollection={props.tagCollection}
+         tagCollection={props.tagCollection}
       />
 
-    <div id="contacts-list" style={iStyles.contactsList}>
-      {props.contactNames.map(function(contact) {
-        return <ContactButton
-          contact={contact}
-          image={contact.photo}
-          viewContact={props.viewContact}
-          selected={props.selected && props.selected.indexOf(contact.id) > -1}
-
-        />})
-      }
-    </div>
-  </div>
+      <div id="contacts-list" style={iStyles.contactsList}>
+         {props.contactNames.map(function(contact) {
+            return <ContactButton
+               contact={contact}
+               image={contact.photo}
+               viewContact={props.viewContact}
+               selected={props.selected && props.selected.indexOf(contact.id) > -1}
+            />})
+         }
+      </div>
+   </div>
 );

@@ -22,7 +22,7 @@ vContactsAB = {
 --------*/
 
     for (var tab in tabs.tabInfo) {
-      console.log(" list all tabs:", tabs.tabInfo[tab].mode.name)
+  //    console.log(" list all tabs:", tabs.tabInfo[tab].mode.name)
       if (tabs.tabInfo[tab].mode.name == this.name) {
   //      console.log("vContactsTab already open, go for it:" + tab);
         tabs.tabContainer.selectedIndex= tab;

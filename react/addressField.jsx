@@ -37,32 +37,40 @@ var AddressField = (props) => {
  );
 }
 
+
 /**
 * Provides display of Notes with line break
 */
-// this.state.personalSection.note.content
-var NotesSection = (props) => {
-  let notes = props.fieldContent.personalSection.note.content;
-  let noteLines = notes.split("\n");
+var NotesSection = React.createClass ({
 
-  if (props.fieldContent.editing == false) {
-    var noteLine=0;
-    return ( // just display
-      <div style={iStyles.attributeNotes}>
-        <div> {noteLines.map(function(nLine) {
-          noteLine++;
-          return (
-            <div id={'nLine'+noteLine} style={iStyles.textNotes}>{nLine}</div>);
-          }
-        )}
-        </div>
-        <div>{' '}</div>
-      </div>)
-  } else { // this is editing
-    var nStyle = {'height': '60px', 'width': '500px'};
-    return ( 
-      <div style={iStyles.attributeNotes}>
-        <textarea className='form-control' style={iStyles.nStyle} type="text" value={notes}/>
-      </div>)
+   render: function () {
+
+      if (this.props.editing == false) {
+         // to show notes/text with space for eg. indenting lines
+         // in 'nLine' replace space with Unicode non-breaking space character
+         let noteLines = this.props.notesContent.split("\n");
+         var noteLine=0;
+         return ( // just display
+         <div style={iStyles.attributeNotes}>
+           <div> {noteLines.map(function(nLine) {
+             noteLine++;
+             return (
+               <div id={'nLine'+noteLine} style={iStyles.textNotes}>{nLine.replace(/\ /g,"\u00a0")}</div>);
+             }
+           )}
+           </div>
+           <div>{' '}</div>
+         </div>)
+      } else { // this is editing
+         var nStyle = {'height': '60px', 'width': '500px'};
+         return ( 
+         <div style={iStyles.attributeNotes}>
+            <textarea id="currentNotes" style={nStyle} 
+               name="notes" 
+               defaultValue={this.props.notesContent} 
+               onChange={this.props.notesChanged}/>
+         </div>)
+      }
    }
-}
+});
+

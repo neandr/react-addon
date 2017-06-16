@@ -1058,7 +1058,7 @@ ICAL.design = (function() {
     "bday": DEFAULT_TYPE_DATE_ANDOR_TIME,
     "caladruri": DEFAULT_TYPE_URI,
     "caluri": DEFAULT_TYPE_URI,
-    "categories": { defaultType: "text", multiValue: "," },                            //XXXgW
+    "categories": { defaultType: "text", structuredValue: ";", multiValue: "," },   //XXXgW
     "clientpidmap": DEFAULT_TYPE_TEXT_STRUCTURED,
     "email": DEFAULT_TYPE_TEXT,
     "fburl": DEFAULT_TYPE_URI,
@@ -1154,6 +1154,7 @@ ICAL.design = (function() {
       }
     },
 
+    categories: { defaultType: "text", structuredValue: ";", multiValue: "," },           //gW
     adr: { defaultType: "text", structuredValue: ";", multiValue: "," },
     label: DEFAULT_TYPE_TEXT,
 
