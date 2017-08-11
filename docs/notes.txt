@@ -1,37 +1,46 @@
+vContacts  Project        Notes/Status                 2017-08-11
+
+Current Status ____________________________
+  Code Cleaning with Atom/ESlint
+
+  Adding tags/categories on the contact edit failed if the conatct had none
+  or only one tag.
+
+
 vContacts  Project        Notes/Status                 2017-06-15
 
 Current Status ____________________________
   vContact now supports the following vCard properties for:
   -- Contact : Email, Phone, Address, Webpage, Chat (see below)
   -- Personal: name (n, fn), nickname, birthday, anniversary, gender, revision,
-               note, categories/tag 
+               note, categories/tag
 
-  Contacts can be defined via forms, file import with vcard (vcf) format or 
+  Contacts can be defined via forms, file import with vcard (vcf) format or
   LDIF (as exported with classic TB/AB).
   Single or selected contacts can be exported with vcf format.
 
   Search for contact with family and/or given name.
 
-  Contact categories/tags are used instead of multiple sub-ab-books (or also 
-  called Lists (as with classic TB/AB). Categories/tags are used to 'group' 
+  Contact categories/tags are used instead of multiple sub-ab-books (or also
+  called Lists (as with classic TB/AB). Categories/tags are used to 'group'
   contacts like this:
     --> Personal, Project, Friend, etc
   Each contact can hold multiple tags so it can belong to different groups.
-  With a filter function all members of a contact group are shown. 
+  With a filter function all members of a contact group are shown.
   Categories/Tags can be added, edited, removed.
 
   Delete a selected contact (see below for multiple delete)
   Add a personal picture (jpg, png or url/link) for a contact
-  
-  A Hamburger/Slider Menu is used for some non frequent tasks like 
-  import/export and supports database reset (which will remove all contacts 
-  for new start). The menu also has some menu items to open documentation 
+
+  A Hamburger/Slider Menu is used for some non frequent tasks like
+  import/export and supports database reset (which will remove all contacts
+  for new start). The menu also has some menu items to open documentation
   about the project
 
 
 Refactoring vContacts _____________________
   The data structure of the initial project was unnecessarily complex, so
-  it was changed / kiss'd. 
+  it was changed / kiss'd.
 
 
 Known problems ____________________________
@@ -42,20 +51,20 @@ Known problems ____________________________
      show a blank 'pic' --> should show the default icon
   -- Export vcards with items (eg. gender, nickname) will write only the detail name
 
-  -- Sidebar only shows max. of 100 contacts (performance issue) 
+  -- Sidebar only shows max. of 100 contacts (performance issue)
       --> change sidebar with solution as Ben proposed
 
   ** Note **
   -- React updates the UI with setState, due to the async character
-     changes at the UI may not show up directly 
+     changes at the UI may not show up directly
      --> see https://medium.com/@mweststrate/3-reasons-why-i-stopped-using-react-setstate-ab73fc67a42e
-     ==> TODO 
+     ==> TODO
 
 
 Next Steps ________________________________
   Sidebar Contact Display
-    Current version is limited to display max of 100 contacts on the sidebar. 
-    This is due to performance constraints. 
+    Current version is limited to display max of 100 contacts on the sidebar.
+    This is due to performance constraints.
     Ben Bucksch has a possible solution for that, worth to test it.
     (http://benbucksch.github.io/trex/fastlist-test.html)
 
@@ -63,7 +72,7 @@ Next Steps ________________________________
 
   vContacts running also outside of TB
 
-  Integration with TB add contact from emails and more ... 
+  Integration with TB add contact from emails and more ...
 
 
 
@@ -72,7 +81,7 @@ generateVCF _______________________________
 
   Generates random VCF addresses for test purpose and writes to an output file.
   Uses German based names, locations, generates tel/communication and mail
-  entries, gender, birthday/anniversary dates. 
+  entries, gender, birthday/anniversary dates.
   Each vCard has also a rev code and UUID
 
   -- some minor problems solved
@@ -89,7 +98,7 @@ New/Added _________________________________
   -- Hamburger Menu acting as vContacts Main Menu for
       #1  add new contact
       #2  Import (VCF/LDIF) / Export (VCF) contacts
-      #3  Delete contact 
+      #3  Delete contact
       #4  Reset Database (remove all contacts)
       #5  Open documentation pages (calls browser/FX)
 
@@ -109,11 +118,11 @@ X    #3  Status/error display on first line should work differently / at other p
     #4  Mailto only with one contact (just uses mail adr of selected contact)
          --> should support multiple contact selection with first mail adr of contact
     #5  Delete contacts needs multiple selection
-    #6  Tag contacts with multiple selection 
+    #6  Tag contacts with multiple selection
     #7  Set 'preferred' attribute for email, tel(?), ..
     #8  Adding a new contact should directly open as a contact
          --> TODO currently opens the previous last contact, not the added
-    #9 
+    #9
 
 
 Known Problems _____________________________
@@ -126,7 +135,7 @@ Known Problems _____________________________
 X   #4  Notes are not shown completely with multiple lines
    #5  Status/error display on first line not updated always correctly
        see https://medium.com/@mweststrate/3-reasons-why-i-stopped-using-react-setstate-ab73fc67a42e
-   #6 
+   #6
 
 
 Bugs _______________________________________
