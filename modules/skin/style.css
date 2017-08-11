@@ -70,14 +70,14 @@ h4 {
 }
 
 .contact-group {
-   background-color: rgba(221, 224, 210, 0.4);
-   color: gray;
-   border-bottom: 1px solid gray;
-   font-family: arial;
-   font-weight: bold;
-   margin-top: 15px;
-   margin-bottom: 2px;
-   text-align: center;
+  background-color: rgba(221, 224, 210, 0.4);
+  color: gray;
+  border-bottom: 1px solid gray;
+  font-family: arial;
+  font-weight: bold;
+  margin-top: 15px;
+  margin-bottom: 2px;
+  text-align: center;
 }
 
 .contact-name{
@@ -106,13 +106,42 @@ h4 {
   width: 80px;
 }
 
-.buttons.flextext{
-  width: auto;
-}
 
-.buttons:hover, .hamburger:hover {
+.buttons:hover {
   background-color: #bfbdbd;   /*#e5e5e5;  */
   cursor:pointer;
+}
+
+/* Personal Picture: disable button with image loading */
+.buttons.nobutton{
+  display: none;
+}
+
+.buttons.add{
+   background-color: RGBA(191, 246, 183, 0.88);
+   width: 2em;
+   margin: 2px;
+   padding: 0;
+   border-radius: 4px;
+}
+
+.buttons.remove{
+   background-color: RGBA(252, 176, 176, 0.8);
+   width: 2em;
+   margin: 2px;
+   padding: 0;
+   border-radius: 4px;
+}
+
+.buttons.label{
+	color: RGBA(23, 35, 21, 0.69);
+	background-color: RGBA(175, 198, 172, 0.35);
+	border-radius: 4px;
+	border: 1px solid #ccc;
+	padding: 1px;
+	margin-left: 5px;
+	margin-right: 5px;
+	height:1.8em;
 }
 
 
@@ -129,6 +158,10 @@ h4 {
   padding: 1px;
 }
 
+.hamburger:hover {
+  background-color: #bfbdbd;   /*#e5e5e5;  */
+  cursor:pointer;
+}
 
 .hambgMenu {
    width: 50vw;
@@ -165,46 +198,12 @@ h4 {
 /* Hamburger Menu ------------------- */
 
 
-/* Personal Picture: disable button with image loading */
-.buttons.nobutton{
-  display: none;
-}
-
-
-.buttons.add{
-   background-color: RGBA(191, 246, 183, 0.88);
-   width: 2em;
-   margin: 2px;
-   padding: 0;
-   border-radius: 4px;
-}
-
-.buttons.remove{
-   background-color: RGBA(252, 176, 176, 0.8);
-   width: 2em;
-   margin: 2px;
-   padding: 0;
-   border-radius: 4px;
-}
-
-.buttons.label{
-	color: RGBA(23, 35, 21, 0.69);
-	background-color: RGBA(175, 198, 172, 0.35);
-	border-radius: 4px;
-	border: 1px solid #ccc;
-	padding: 1px;
-	margin-left: 5px;
-	margin-right: 5px;
-	height:1.8em;
-}
-
 
 /* ------- Image Styling ----------- */
 .glyphicons {
    /*position: relative; */
    width: 14px;
 }
-
 
 
 .profile-img {
@@ -218,59 +217,10 @@ h4 {
   cursor: pointer;
 }
 
-.side-profile-img {
+.profile-img-sidebar {
     border-radius: 50%;
     width: 25px;
     height: 25px;
-}
-
-#header {
-  display: flex;
-}
-
-#headerText {
-  position: relative;
-  margin-top: auto;
-  margin-bottom: auto;
-  width: auto;
-  height: 100%;
-}
-
-description.headerstyle {
-  /* font-size: .8em; */
-  margin-right:2px;
-}
-
-
-/* ----- Main Fields Page Styling ----------------- */
-
-#field {
-  display: flex;
-  flex-direction: row;
-  justify-content: start;
-  align-items: center;
-  height: 1.8em;
-}
-
-#field input[type="text"]{
-  margin: 1em;
-  width: 250px;
-  border-radius: 4px;
-  border: 1px solid #ccc;
-  color: #333;
-  padding: 2px;
-  padding-left: 5px;
-}
-
-#field select{
-  color: #333;
-  border-radius: 4px;
-  border: 1px solid #ccc;
-  padding: 1px;
-}
-
-#field other{
-  margin-top: 2px;
 }
 
 
@@ -293,40 +243,3 @@ description.headerstyle {
    font-size: 12px; 
 }
 
-
-/* Flexbox 
-**************************************************************************/
-.flexbox { display: flex; }
-.flexbox .stretch { flex: 1; }
-.flexbox .normal { flex: 0; margin: 0 0 0 1rem; }
-.flexbox div input { padding: .5em 1em; width: 100%; }
-.flexbox div button { padding: .5em 1em; white-space: nowrap; }
-
-
-
-/*-------- matures -----------------*/
-.XXXtag{
-	color: black;
-	background-color: RGBA(180, 189, 183, 0.9);
-	border-radius: 4px;
-	border: 1px solid #9da49e;
-	height: 1.8em;
-	width: 80px;
-	text-align: center;
-	overflow: hidden;
-	text-overflow: ellipsis;
-	white-space: nowrap;
-}
-
-#XXXXab-main-tagEdit{
-    display: flex;
-    flex-direction: column;
-    margin-top: 20px;
-    height: 120px;
-    display:block;
-}
-
-
-#XXXab-main-tagSection {
-    display: flex;
-}

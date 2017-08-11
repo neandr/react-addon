@@ -1,4 +1,7 @@
-<overlay id="ensemble-tab-overlay" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+<overlay
+  id="ensemble-tab-overlay"
+  xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+>
   <script type="application/x-javascript" src="tab-overlay.js" />
 
   <tabpanels id="tabpanelcontainer">
@@ -8,11 +11,15 @@
           <toolbar id="dummycontactstoolbar" class="contentTabToolbar" />
         </toolbox>
         <notificationbox flex="1">
-          <browser id="dummycontactsbrowser" flex="1"
-                   disablesecurity="true" disablehistory="true"
-                   autocompletepopup="PopupAutoComplete"/>
+          <browser
+            id="dummycontactsbrowser"
+            flex="1"
+            disablesecurity="true"
+            disablehistory="true"
+            autocompletepopup="PopupAutoComplete"
+          />
         </notificationbox>
       </vbox>
     </vbox>
   </tabpanels>
-</overlay>
+</overlay>;

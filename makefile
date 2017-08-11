@@ -7,7 +7,7 @@ NAME_XPI:=$(NAME).xpi
 	#  See at https://github.com/neandr/vContacts/releases for
 	#  current XPI version
 
-XPI_LOCATION:='/media/guenter/DATA/_Mozilla/TB_gW/Profiles/201603.GW/extensions/tbvcontacts@gneandr.de.xpi'
+XPI_LOCATION:=/media/guenter/DATA/_Mozilla/TB_gW/Profiles/201603.GW/extensions/tbvcontacts@gneandr.de.xpi
 
 
 XPI_SRC:=$(shell find content -type f) $(shell find modules -type f) $(shell find defaults -type f)  $(wildcard react/*.jsx)
@@ -32,11 +32,11 @@ xpi: $(NAME_XPI)
    #  e.g  https://github.com/neandr/vContacts/releases
    #
    #
-   $(shell cp $(NAME_XPI) $(MAKE_XPI))
-   $(shell cp $(NAME_XPI) $(XPI_LOCATION))
-   #  ___ XPI ___ generated:   $(NAME_XPI)
-   # @echo $(XPI_NAME) > stamp.log
-   # @echo $(notdir $(CURDIR))$(shell date +'_%Y-%m-%d_%H%M') > stamp.log
+	$(shell cp $(NAME_XPI) $(XPI_LOCATION))
+	@echo ___ XPI ___ generated:   $(NAME_XPI)
+	@echo ___ XPI ___ generated:   $(XPI_LOCATION)
+	@echo $(XPI_NAME) > stamp.log
+	@echo $(notdir $(CURDIR))$(shell date +'_%Y-%m-%d_%H%M') > stamp.log
 
 
 $(NAME_XPI): $(XPI_SRC) $(LIB) chrome.manifest  install.rdf

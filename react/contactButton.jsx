@@ -6,28 +6,30 @@
 * Provides a sidebar button for a contact.
 * It displays their profile image, name and displays their contact when clicked
 **/
-var ContactButton = (props) => {
-  var className;
+let ContactButton = props => {
+  let contactname;
   if (props.selected) {
-    className = "true contact-name";
+    contactname = "true contact-name";
   } else {
-    className = "contact-name";
+    contactname = "contact-name";
   }
 
   //  setABStatus(props.contact.name);
-  var contact = props.contact;
+  let contact = props.contact;
 
   return (
-    <div id="contact-name" className={className} 
-        onClick={(event)=>props.viewContact(event, contact.id, contact.name)}>
-      <ProfileImage 
-        type="sidebar" 
-        className="side-profile-img" 
+    <div
+      id="contact-name"
+      className={contactname}
+      onClick={event => props.viewContact(event, contact.id, contact.name)}
+    >
+      <ProfileImage
+        type="sidebar"
+        className="profile-img-sidebar"
         image={props.image}
       />
-      <li 
-        className="contact-detail" 
-        key={contact.id}>{contact.name}
+      <li className="contact-detail" key={contact.id}>
+        {contact.name}
       </li>
     </div>
   );

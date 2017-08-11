@@ -6,8 +6,9 @@
 * Provides a rounded image using the provided image url
 **/
 
-
-var ProfileImage = (props) => (
-  <img className={props.className} onClick={props.imageClick}  //onload removed   //gW 2016-12-07
-    src={props.image}/>
-);
+var ProfileImage = props =>
+  <img
+    className={props.className}
+    onClick={props.imageClick} //onload removed   //gW 2016-12-07
+    src={props.image}
+  />;

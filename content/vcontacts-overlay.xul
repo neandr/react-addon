@@ -3,23 +3,22 @@
 
 <?xml-stylesheet href="chrome://react/content/vcontacts-overlay.css" type="text/css"?>
 
-<overlay id="sample" 
-    xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+<overlay id="sample"
+  xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
 
-    <script type="application/javascript" src="chrome://react/content/tab-overlay.js"/>
+  <script type="application/javascript" src="chrome://react/content/tab-overlay.js"/>
 
-    <toolbarpalette id="MailToolbarPalette">
-       <toolbarbutton id="vContactsTab-button"/>
-    </toolbarpalette>
+  <toolbarpalette id="MailToolbarPalette">
+     <toolbarbutton id="vContactsTab-button"/>
+  </toolbarpalette>
 
-    <toolbarbutton 
-         class="toolbarbutton-1 chromeclass-toolbar-additional"
-         id="vContactsTab-button"
-         label="vContacts"
-         tooltiptext="vContacts AB / VUWproject"
-         oncommand="vContactsAB.open();"
-         removable="true"
-    />
-
+  <toolbarbutton
+    class="toolbarbutton-1 chromeclass-toolbar-additional"
+    id="vContactsTab-button"
+    label="vContacts"
+    tooltiptext="vContacts AB / VUWproject"
+    oncommand="vContactsAB.open();"
+    removable="true"
+  />
 
 </overlay>

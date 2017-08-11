@@ -1,4 +1,9 @@
 *.xpi
 .DS_Store
+.settings
+backups
 modules/react
 node_modules
+scratch
+.eslint*.js
+howto_build_xpi.txt

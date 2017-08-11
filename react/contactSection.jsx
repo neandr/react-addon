@@ -3,81 +3,87 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 /** -------------- CONTACT SECTION -------------------------*/
-var ContactSection = React.createClass({
+let ContactSection = React.createClass({
+  addContactDetail: function() {
+    // add a new Tel, Email etc
+    this.props.addContactDetail(this.props.index);
+  },
 
-   addContactDetail: function() {  // add a new Tel, Email etc
-      this.props.addContactDetail(this.props.index);
-   },
+  removeContactDetail: function(fieldID) {
+    this.props.removeContactDetail(this.props.index, fieldID);
+  },
 
-   removeContactDetail: function(fieldID) {
-      this.props.removeContactDetail(this.props.index, fieldID);
-   },
+  updateContent: function(newText, i) {
+    this.props.updateContent(newText, this.props.index, i);
+  },
 
-   updateContent: function(newText, i) {
-      this.props.updateContent(newText, this.props.index, i)
-   },
+  updateOption: function(option, i) {
+    this.props.updateOption(option, this.props.index, i);
+  },
 
-   updateOption: function(option, i) {
-      this.props.updateOption(option, this.props.index, i)
-   },
+  renderNoContact: function() {
+    return;
+  },
 
-   renderNoContact: function() {
-      return 
-   },
+  renderDisplayContactSection: function(field, i) {
+    return (
+      <ContactField
+        key={field.fieldID}
+        index={i}
+        fieldContent={field.content}
+        currentOption={field.currentOption}
+        saveOption={this.props.saveOption}
+        options={this.props.options}
+        type={this.props.type}
+        editing={false}
+        ref={"field" + i}
+      />
+    );
+  },
 
-   renderDisplayContactSection: function(field, i) {
+  renderFormContactSection: function(field, i) {
+    return (
+      <ContactField
+        key={field.fieldID}
+        index={i}
+        fieldContent={field.content}
+        currentOption={field.currentOption}
+        options={this.props.options}
+        type={this.props.type}
+        editing={true}
+        updateContent={this.updateContent}
+        updateOption={this.updateOption}
+        removeContactDetail={this.removeContactDetail}
+        ref={"field" + i}
+      />
+    );
+  },
+
+  render: function() {
+    if (this.props.editing) {
       return (
-      <ContactField 
-         key={field.fieldID} 
-         index={i} 
-         fieldContent={field.content} 
-         currentOption={field.currentOption} 
+        //      edit mode
+        <div className="contact-section">
+          <div className="contact-group">
+            {this.props.type}
+          </div>
+          {this.props.fields.map(this.renderFormContactSection)}
 
-         saveOption={this.props.saveOption}
-
-         options={this.props.options} 
-         type={this.props.type} 
-         editing={false} 
-         ref={"field" + i}>
-      </ContactField>
+          <button className="buttons" onClick={this.addContactDetail}>
+            Add
+          </button>
+        </div>
       );
-   },
-
-   renderFormContactSection: function(field, i) {
+    } else {
       return (
-      <ContactField 
-         key={field.fieldID} 
-         index={i} 
-         fieldContent={field.content} 
-         currentOption={field.currentOption} 
-         options={this.props.options} 
-         type={this.props.type} 
-         editing={true} 
-         updateContent={this.updateContent} 
-         updateOption={this.updateOption} 
-         removeContactDetail={this.removeContactDetail} 
-         ref={"field" + i}>
-      </ContactField>
+        //     display mode
+        <div className="contact-section">
+          <div className="contact-group">
+            {this.props.type}
+          </div>
+          {this.props.fields.map(this.renderDisplayContactSection)}
+        </div>
       );
-   },
-
-   render: function() {
-      if (this.props.editing) {
-         return (      // edit mode
-         <div className="contact-section">
-            <div className="contact-group">{this.props.type}</div>
-            {this.props.fields.map(this.renderFormContactSection)}
-
-            <button className="buttons" onClick={this.addContactDetail}>Add</button>
-         </div>
-         )
-      } else {
-         return (      // display mode
-         <div className="contact-section">
-            <div className="contact-group">{this.props.type}</div>
-            {this.props.fields.map(this.renderDisplayContactSection)}
-         </div>
-         )
-      }
-   }
+    }
+  }
 });
