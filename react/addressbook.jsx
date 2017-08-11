@@ -57,7 +57,7 @@ let PersonalSections = [
 let CategoryStandard = ["Privat", "Friends"];
 let CategoryCollection = [];
 
-let abStatus = "Welcome to vContacts x5";
+let abStatus = "Welcome to vContacts x5.1";
 let abTotalContacts = 0;
 let abSelectedContacts = 0;
 
@@ -526,7 +526,11 @@ let AddressBook = React.createClass({
       tDetails.categories.property = newTag;
     } else {
       allTags = tDetails.categories.property.jCal[3];
-      uniTags = allTags.filter(function(e) { //                                 XXX   ERROR with .filter ???
+      if (typeof allTags === "string") {
+        allTags = [allTags];
+      }
+
+      uniTags = allTags.filter(function(e) {
         return e !== newTag;
       });
       uniTags.push(newTag);
@@ -545,7 +549,11 @@ let AddressBook = React.createClass({
     let currentSection = this.state.personalSections;
 
     let allTags = currentSection.categories.property.jCal[3];
-    let uniTags = allTags.filter(function(e) { //                               XXX   ERROR with .filter ???
+    if (typeof allTags === "string") {
+      allTags = [allTags];
+    }
+
+    let uniTags = allTags.filter(function(e) {
       return e !== delTag;
     });
 
