@@ -18,9 +18,12 @@ let ContactHeader = React.createClass({
   },
 
   displayStatus(element) {
+    let displayBlock = { display: "block" };
+    let displayNone = { display: "none" };
+
     return this.props.personalDetails[element].content
-      ? iStyles.displayStatus
-      : { display: "none" };
+      ? displayBlock
+      : displayNone;
   },
 
   personalDetailChanged(detail) {
@@ -66,7 +69,7 @@ let ContactHeader = React.createClass({
     }
 
     return (
-      <div id="ab-main-contact" style={iStyles.flex}>
+      <div id="ab-main-contact" className="displayFlex">
         <img
           type="header"
           id="profile-img"
@@ -79,33 +82,33 @@ let ContactHeader = React.createClass({
             {this.props.personalDetails.name.content}
           </h4>
 
-          <div style={$S.hBox}>
+          <div className="contactBox">
             <div style={this.displayStatus("n")}>
               {this.props.personalDetails.n.content}
             </div>
           </div>
 
-          <div style={$S.hBox}>
+          <div className="contactBox">
             <div style={this.displayStatus("nickname")}>
-              <description style={$S.cursiv}>
+              <description className="cursiv">
                 {" "}{"\u263A "} {this.props.personalDetails.nickname.content}
               </description>
             </div>
           </div>
 
-          <div style={$S.hBox}>
+          <div className="contactBox">
             <div style={this.displayStatus("bday")}>
               {" "}{genderSymbol} {this.props.personalDetails.bday.content}
             </div>
           </div>
 
-          <div style={$S.hBox}>
+          <div className="contactBox">
             <div style={this.displayStatus("anniversary")}>
               {" "}{"\u263C "} {this.props.personalDetails.anniversary.content}
             </div>
           </div>
 
-          <div style={iStyles.textRev}>
+          <div className="textRev">
             Rev {this.props.personalDetails.rev.content}
           </div>
         </div>
@@ -126,7 +129,7 @@ let ContactHeader = React.createClass({
     let names = aNameDetails[1] + " " + aNameDetails[0];
 
     return (
-      <div id="header" style={iStyles.flex}>
+      <div id="header" className="displayFlex">
         <div id="profile-img">
           <img
             id="contactImage"
@@ -145,8 +148,8 @@ let ContactHeader = React.createClass({
         </div>
 
         <div id="ab-main-contact-header">
-          <div style={iStyles.flexRow}>
-            <div style={$S.txt}>
+          <div className="flexRow">
+            <div className="contactLabel">
               {" "}{"Prefix"}
             </div>
             <input
@@ -160,8 +163,8 @@ let ContactHeader = React.createClass({
             />
           </div>
 
-          <div style={iStyles.flexRow}>
-            <div style={$S.txt}>
+          <div className="flexRow">
+            <div className="contactLabel">
               {" "}{"First name"}
             </div>
             <input
@@ -175,8 +178,8 @@ let ContactHeader = React.createClass({
             />
           </div>
 
-          <div style={iStyles.flexRow}>
-            <div style={$S.txt}>
+          <div className="flexRow">
+            <div className="contactLabel">
               {" "}{"Middle name"}
             </div>
             <input
@@ -190,8 +193,8 @@ let ContactHeader = React.createClass({
             />
           </div>
 
-          <div style={iStyles.flexRow}>
-            <div style={$S.txt}>
+          <div className="flexRow">
+            <div className="contactLabel">
               {" "}{"Last name"}
             </div>
             <input
@@ -205,8 +208,8 @@ let ContactHeader = React.createClass({
             />
           </div>
 
-          <div style={iStyles.flexRow}>
-            <div style={$S.txt}>
+          <div className="flexRow">
+            <div className="contactLabel">
               {" "}{"Suffix"}
             </div>
             <input
@@ -220,11 +223,11 @@ let ContactHeader = React.createClass({
             />
           </div>
 
-          <div style={iStyles.flexRow}>
-            <div style={$S.txt}>
+          <div className="flexRow">
+            <div className="contactLabel">
               {" "}{"Nick"}
             </div>
-            <div style={$S.sym}>
+            <div className="sym">
               {" "}{"\u263A"}
             </div>
             <input
@@ -237,11 +240,11 @@ let ContactHeader = React.createClass({
             />
           </div>
 
-          <div style={iStyles.flexRow}>
-            <div style={$S.txt}>
+          <div className="flexRow">
+            <div className="contactLabel">
               {" "}{"Birthday"}
             </div>
-            <div style={$S.sym}>
+            <div className="sym">
               {" "}{"\u2665"}
             </div>
             <input
@@ -254,11 +257,11 @@ let ContactHeader = React.createClass({
             />
           </div>
 
-          <div style={iStyles.flexRow}>
-            <div style={$S.txt}>
+          <div className="flexRow">
+            <div className="contactLabel">
               {" "}{"Anniversay"}
             </div>
-            <div style={$S.sym}>
+            <div className="sym">
               {" "}{"\u263C "}
             </div>
             <input
@@ -271,13 +274,13 @@ let ContactHeader = React.createClass({
             />
           </div>
 
-          <div style={iStyles.flexRow}>
-            <div style={$S.txt1}>
+          <div className="flexRow">
+            <div className="contactLabel">
               {" "}{"Gender"}
             </div>
 
-            <div className="radio" style={iStyles.flex}>
-              <label style={$S.center}>
+            <div className="radio" className="displayFlex">
+              <label className="center">
                 <input
                   type="radio"
                   value=""
@@ -287,7 +290,7 @@ let ContactHeader = React.createClass({
                 {""}
               </label>
 
-              <label style={$S.center}>
+              <label className="center">
                 <input
                   type="radio"
                   value="M"
@@ -297,7 +300,7 @@ let ContactHeader = React.createClass({
                 {"\u2642"} male
               </label>
 
-              <label style={$S.center}>
+              <label className="center">
                 <input
                   type="radio"
                   value="F"

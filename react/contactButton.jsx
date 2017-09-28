@@ -14,14 +14,13 @@ let ContactButton = props => {
     contactname = "contact-name";
   }
 
-  //  setABStatus(props.contact.name);
   let contact = props.contact;
 
   return (
     <div
       id="contact-name"
       className={contactname}
-      onClick={event => props.viewContact(event, contact.id, contact.name)}
+      onClick={event => props.viewContact(event, contact.id, contact.name, contact.uid, contact.listId)}
     >
       <ProfileImage
         type="sidebar"

@@ -1,0 +1,90 @@
+/* --- Sidebar  ------------------- */
+
+/* --- abStatus and abError --- */
+.abStatus {
+  float: right;
+  margin: 2px
+}
+
+#AB_Error {
+  display: block;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.abTopLine {
+  height: 7vh
+}
+
+.abStatusLines {
+  float: right;
+  width: 25vw;
+  margin: 2px;
+
+  white-space: nowrap;
+  font-size: 0.6em;
+}
+
+.errorStatus {
+  background-color: #fc023f1a;
+  margin-top:15px;
+  margin-right: 3px;
+/*   display:none;  */
+}
+
+.errorLink {
+  text-decoration: underline;
+  color: red;
+  margin:3px;
+  cursor:pointer;
+}
+
+.errorLink:hover{
+  text-decoration: underline;
+  color:blue;
+}
+
+/* --- Tag and Search selection --- */
+
+.searchTagMenu {
+  display: flex;
+}
+
+.searchTagsSelect {
+  flex: 1;
+  margin-left: -5px;
+  margin-right: 10px;
+  margin-top: 5px;
+  padding-left: 20px;
+  padding-right: 24px
+}
+
+.searchBar {
+  display: flex;
+  border-bottom: 1px solid #A5A8A4;
+  padding-bottom: 5px;
+}
+
+.searchNames {
+  flex: 1;
+  margin-left: -5px;
+  /*margin-right: 10px; */
+  margin-top: 5px;
+  padding-left: 24px;
+  padding-right: 24px
+}
+
+
+/* --- contactsSidebar --- */
+.contactsSidebar {
+  display: flex;
+  flex-direction: column;
+  height: 93vh;
+  width: 100%
+}
+
+.contactsList {
+  /* flex: 1 1 auto; */
+  overflow-y: auto;
+  margin-left: 5px;
+}

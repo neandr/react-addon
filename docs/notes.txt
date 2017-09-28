@@ -1,10 +1,31 @@
+vContacts  Project        Notes/Status                 2017-09-29
+
+Current Status ____________________________
+
+  * Mailto supported for multiple selected contacts with To, Cc, Bcc. Also
+    copying the collected mail addresses to the clipboard
+
+  * Change order of contact property values (for email, phone, webpage etc) so
+    the first entry can be used as the preferred one. That way the user can
+    select contacts on the sidebar and mailto that collection of contacts
+    with the preferred/first entry.
+
+  * Status/Error msgs displayed in sidebar header, msgs is truncated but
+    linked to show full details
+
+
+  Other changes/updates ________________
+  - Styles changed to use CSS/className definitions
+
+
+
 vContacts  Project        Notes/Status                 2017-08-11
 
 Current Status ____________________________
   Code Cleaning with Atom/ESlint
 
-  Adding tags/categories on the contact edit failed if the conatct had none
-  or only one tag.
+  * Adding tags/categories on the contact edit failed if the contact had none
+    or only one tag.
 
 
 vContacts  Project        Notes/Status                 2017-06-15
@@ -15,32 +36,32 @@ Current Status ____________________________
   -- Personal: name (n, fn), nickname, birthday, anniversary, gender, revision,
                note, categories/tag
 
-  Contacts can be defined via forms, file import with vcard (vcf) format or
-  LDIF (as exported with classic TB/AB).
-  Single or selected contacts can be exported with vcf format.
+  * Contacts can be defined via forms, file import with vcard (vcf) format or
+    LDIF (as exported with classic TB/AB).
+    Single or selected contacts can be exported with vcf format.
 
   Search for contact with family and/or given name.
 
-  Contact categories/tags are used instead of multiple sub-ab-books (or also
-  called Lists (as with classic TB/AB). Categories/tags are used to 'group'
-  contacts like this:
+  * Contact categories/tags are used instead of multiple sub-ab-books (or also
+    called Lists (as with classic TB/AB). Categories/tags are used to 'group'
+    contacts like this:
     --> Personal, Project, Friend, etc
-  Each contact can hold multiple tags so it can belong to different groups.
-  With a filter function all members of a contact group are shown.
-  Categories/Tags can be added, edited, removed.
+  * Each contact can hold multiple tags so it can belong to different groups.
+    With a filter function all members of a contact group are shown.
+    Categories/Tags can be added, edited, removed.
 
-  Delete a selected contact (see below for multiple delete)
-  Add a personal picture (jpg, png or url/link) for a contact
+  * Delete a selected contact (see below for multiple delete)
+  * Add a personal picture (jpg, png or url/link) for a contact
 
-  A Hamburger/Slider Menu is used for some non frequent tasks like
-  import/export and supports database reset (which will remove all contacts
-  for new start). The menu also has some menu items to open documentation
-  about the project
+  * A Hamburger/Slider Menu is used for some non frequent tasks like
+    import/export and supports database reset (which will remove all contacts
+    for new start). The menu also has some menu items to open documentation
+    about the project
 
 
 Refactoring vContacts _____________________
-  The data structure of the initial project was unnecessarily complex, so
-  it was changed / kiss'd.
+  * The data structure of the initial project was unnecessarily complex, so
+    it was changed / kiss'd.
 
 
 Known problems ____________________________

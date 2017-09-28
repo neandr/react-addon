@@ -2,25 +2,6 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-var iStyles = iStyles || {};
-
-iStyles.attributeContact = {
-  display: "flex",
-  marginTop: "2px",
-  fontSize: "0.9em"
-};
-iStyles.attributeNotes = {
-  marginLeft: "15px",
-  marginBottom: "10px",
-  fontSize: "0.9em"
-};
-
-iStyles.plzCity = {
-  fontSize: "0.8em",
-  fontWeight: "bold"
-};
-iStyles.none = { display: "none" };
-
 /** -------------- CONTACT FIELDS -------------------------*/
 
 let ContactField = React.createClass({
@@ -36,9 +17,10 @@ let ContactField = React.createClass({
     this.props.removeContactDetail(this.props.index);
   },
 
-  openUrl: function(url) {
-    AddressbookUtil.openLink(url);
+  makeFirst: function() {
+    this.props.makeFirst(this.props.index);
   },
+
 
   edit: function() {
     AddressBook.edit();
@@ -67,7 +49,7 @@ let ContactField = React.createClass({
 
     if (this.props.type == "Email") {
       return (
-        <div style={iStyles.attributeContact}>
+        <div className="attributeContact">
           <button className="buttons label">
             {" "}{this.props.currentOption}{" "}
           </button>
@@ -81,14 +63,14 @@ let ContactField = React.createClass({
     if (this.props.type == "Webpage") {
       let url = this.props.fieldContent;
       return (
-        <div style={iStyles.attributeContact}>
+        <div className="attributeContact">
           <button className="buttons label">
             {" "}{this.props.currentOption}{" "}
           </button>
           <div
             id="contact-web"
             className="ulink"
-            onClick={() => this.openUrl(url)}
+            onClick={() => AddressbookUtil.openLink(url)}
           >
             {" "}{url}
           </div>
@@ -97,7 +79,7 @@ let ContactField = React.createClass({
     }
 
     return (
-      <div style={iStyles.attributeContact}>
+      <div className="attributeContact">
         <button className="buttons label">
           {" "}{this.props.currentOption}
         </button>
@@ -117,6 +99,7 @@ let ContactField = React.createClass({
           updateContent={this.props.updateContent}
           updateOption={this.props.updateOption}
           removeContactDetail={this.removeContactDetail}
+          makeFirst={this.makeFirst}
           fieldContent={this.props.fieldContent}
           index={this.props.index}
         />
@@ -156,6 +139,14 @@ let ContactField = React.createClass({
                 onClick={this.removeContactDetail}
               >
                 {" "}-{" "}
+              </button>
+            </td>
+            <td>
+              <button
+                className="buttons first"
+                onClick={this.makeFirst}
+              >
+                {" "}⇧{" "}
               </button>
             </td>
           </tr>

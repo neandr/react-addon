@@ -1,0 +1,77 @@
+/* Hamburger Menu ------------------- */
+
+.hamburger{
+  width: auto;
+  background-color: #e9e3e3;
+  font-size: large;
+  height: 26px;
+  margin: 5px 5px 0px 10px;
+
+  border-radius: 2px;
+  border: 1px solid #ccc;
+  padding: 1px;
+}
+
+.hamburger:hover {
+  background-color: #bfbdbd;   /*#e5e5e5;  */
+  cursor:pointer;
+}
+
+.hambgMenu {
+   width: 50vw;
+   height: 100vh;
+   background-color: rgba(248, 248, 248,.95);
+   position: fixed;
+   top: 0;
+   left: 0;
+
+   transform: translate3d(-50vw, 0, 0);
+   transition: transform .8s cubic-bezier(.9, .16, .27, .96);  /*(0, .52, 0, 1)*/   /* (.9, .16, .27, .96) */
+   /* transition: transform .8s ease-in-out;  */
+
+   z-index: 1000;
+}
+
+.hambgMenu.show {
+   transform: translate3d(0vw, 0, 0);
+}
+
+.hambgLink {
+   width:auto;
+   margin-top:5px;
+   margin-left:20px;
+   cursor:pointer;
+   font-size: 0.8em;
+}
+
+.hambgLink:hover{
+   text-decoration: underline;
+   color:blue;
+}
+
+.hambgRev {
+  margin-left: 20px;
+  margin-top: 30px;
+  font-size: .7em;
+  font-style: italic;
+  border-top: 1px solid #A5A8A4
+}
+
+
+.hhStyle {
+  margin-left: 20px;
+  margin-top: 20px;
+}
+
+.hhHeader  {
+  font-size: 0.9em;
+  font-weight: bold;
+}
+
+
+#tagSupport1 {
+  display: none;
+}
+#tagSupport2 {
+  display: block;
+}

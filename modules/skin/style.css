@@ -10,17 +10,186 @@ body {
 }
 
 a, .ulink {
-	cursor: pointer;
-	color: rgba(3, 3, 255, 0.8);
-	text-decoration: underline dotted blue;
-	font-size: 0.9em;
+  cursor: pointer;
+  color: rgba(3, 3, 255, 0.8);
+  text-decoration: underline dotted blue;
+  font-size: 0.9em;
 }
 
 h4 {
-	margin-bottom: 0;
+  margin-bottom: 0;
+}
+
+::-moz-placeholder { /* Firefox 19+ */
+  /*color: red;*/
+  font-size: 12px;
+}
+
+
+.displayNone {
+  display: none;
+}
+
+.displayFlex {
+  display: flex;
+}
+
+.flexx1 {
+  flex: auto;
+}
+
+.flexRow {
+  display: flex;
+  flex-direction: row;
+  font-size: 0.7em;
+}
+
+.textRev {
+  margin-top: 0.5em;
+  font-size: 0.5em;
+}
+
+.center {
+  align-items: center;
+  display: flex;
+}
+
+.centerBlock {
+  display: block;
+  margin: auto;
+}
+
+.centerText {
+  text-align: center
+}
+
+.sym {
+  align-items: center;
+  display: flex;
+  color: grey
+}
+
+.cursiv {
+  font-style: italic
+}
+
+
+/* --- ContactHeader --- */
+.contactBox {
+  margin:3px;
+}
+
+.contactLabel {
+  height: 1em;
+  color: grey;
+  flex: 1 1 0%;
+  margin-top: .5em;
+}
+
+
+.displayStatus  {
+  display: block;
+  font-size: 1.4vw;
+}
+
+
+/* --- Addressbook ---- */
+.abWindow {
+  height: 100vh;
+  overflow-y: hidden
+}
+
+.abMain {
+  display: flex;
+  flex-direction: column;
+  background-color: rgba(246, 246, 226, 0.55);
+  padding-right: 1vw;
+  height: 100vh;
+}
+
+.abMainNoContact {
+  margin-top: 150px
+}
+
+.abMainHeader {
+  display: flex;
+  background-color: rgba(196, 221, 196, 0.8);
+  margin-left: 15px;
+}
+
+.abMainSections {
+  overflow-x: hidden;
+  overflow-y: auto;
+  display: block;
+  background-color: rgba(246, 246, 226, 0.55);
+  margin-left: 15px;
+  border-top: 1px solid #A5A8A4;
+}
+
+.abMainTagSection {
+  width: 150px;
+  margin-top: 15px;
+}
+
+.abMainTags {
+  overflow: auto;
+  height: 130px;
+}
+
+.inputIcon {
+  position: relative;
+  left: 18px;
+  top: 12px;
+  width: 14px;
+  height: 14px;
+}
+
+.inputIconR {
+  position: relative;
+  left: -24px;
+  top: 12px;
+  width: 12px;
+  height: 12px;
+}
+
+
+.verticalButtons {
+  display: flex;
+  flex-direction: column;
+  margin: 10px;
+}
+
+.textTags {
+  font-size: 0.8em;
+  font-style: italic;
+}
+
+.textNotes {
+  font-size: 0.8em;
+}
+
+.tag = {
+  overflow: hidden;
+  color: black;
+  background-color: RGBA(180, 189, 183, 0.9);
+  border-radius: 4px;
+  border: 1px solid #9da49e;
+  height: 1.8em;
+  width: 80px;
+  text-align: center;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 /* ---- Sidebar Styling  ------ */
+
+.abSidebar {
+  overflow: hidden;
+  float: left;
+  background-color: rgb(243, 244, 244);
+  height: 100vh;
+  width: 30vw;
+}
 
 #sidebar-buttons{
   display: flex;
@@ -106,9 +275,8 @@ h4 {
   width: 80px;
 }
 
-
 .buttons:hover {
-  background-color: #bfbdbd;   /*#e5e5e5;  */
+  background-color: #bfbdbd;  /*#e5e5e5;  */
   cursor:pointer;
 }
 
@@ -118,99 +286,53 @@ h4 {
 }
 
 .buttons.add{
-   background-color: RGBA(191, 246, 183, 0.88);
-   width: 2em;
-   margin: 2px;
-   padding: 0;
-   border-radius: 4px;
+  background-color: RGBA(191, 246, 183, 0.88);
+  width: 2em;
+  margin: 2px;
+  padding: 0;
+  border-radius: 4px;
 }
 
 .buttons.remove{
-   background-color: RGBA(252, 176, 176, 0.8);
-   width: 2em;
-   margin: 2px;
-   padding: 0;
-   border-radius: 4px;
+  background-color: RGBA(252, 176, 176, 0.8);
+  width: 2em;
+  margin: 2px;
+  padding: 0;
+  border-radius: 4px;
+}
+
+.buttons.first{
+  background-color: RGBA(170, 237, 235, 0.8);
+  width: 2em;
+  margin: 2px;
+  padding: 0;
+  border-radius: 4px;
 }
 
 .buttons.label{
-	color: RGBA(23, 35, 21, 0.69);
-	background-color: RGBA(175, 198, 172, 0.35);
-	border-radius: 4px;
-	border: 1px solid #ccc;
-	padding: 1px;
-	margin-left: 5px;
-	margin-right: 5px;
-	height:1.8em;
-}
-
-
-/* Hamburger Menu ------------------- */
-.hamburger{
-  width: auto;
-  background-color: #e9e3e3;
-  font-size: large;
-  height: 26px;
-  margin: 5px 5px 0px 10px;
-
-  border-radius: 2px;
+  color: RGBA(23, 35, 21, 0.69);
+  background-color: RGBA(175, 198, 172, 0.35);
+  border-radius: 4px;
   border: 1px solid #ccc;
   padding: 1px;
+  margin-left: 5px;
+  margin-right: 5px;
+  height:1.8em;
 }
-
-.hamburger:hover {
-  background-color: #bfbdbd;   /*#e5e5e5;  */
-  cursor:pointer;
-}
-
-.hambgMenu {
-   width: 50vw;
-   height: 100vh;
-   background-color: rgba(248, 248, 248,.95);
-   position: fixed;
-   top: 0;
-   left: 0;
-
-   transform: translate3d(-50vw, 0, 0);
-   transition: transform .8s cubic-bezier(.9, .16, .27, .96);  /*(0, .52, 0, 1)*/   /* (.9, .16, .27, .96) */
-   /* transition: transform .8s ease-in-out;  */
-
-   z-index: 1000;
-}
-
-.hambgMenu.show {
-   transform: translate3d(0vw, 0, 0);
-}
-
-.hambgLink {
-   width:auto;
-   margin-top:5px;
-   margin-left:20px;
-   cursor:pointer;
-   font-size: 0.8em;
-}
-
-.hambgLink:hover{
-   text-decoration: underline;
-   color:blue;
-}
-
-/* Hamburger Menu ------------------- */
-
 
 
 /* ------- Image Styling ----------- */
 .glyphicons {
-   /*position: relative; */
-   width: 14px;
+  /*position: relative; */
+  width: 14px;
 }
 
 
 .profile-img {
-    border-radius: 50%;
-    height: 140px;
-    width: 140px;
-    margin: 8px;
+  border-radius: 50%;
+  height: 140px;
+  width: 140px;
+  margin: 8px;
 }
 
 .profile-img.editing:hover{
@@ -218,14 +340,47 @@ h4 {
 }
 
 .profile-img-sidebar {
-    border-radius: 50%;
-    width: 25px;
-    height: 25px;
+  border-radius: 50%;
+  width: 25px;
+  height: 25px;
+}
+
+.mainImg {
+  display: block;
+  border-radius: 50%;
+  height: 140px;
+  width: 140px;
+  margin: auto;
+  margin-bottom: 15px
 }
 
 
-/* ---- modal styling ------------- */
-.modal{
+/* --- contactField / addressField ---- */
+.attributeContact {
+  display: flex;
+  margin-top: 2px;
+  font-size: 0.9em
+}
+
+.textboxes  {
+  margin-left: 15px;
+  margin-bottom: 10px;
+  font-size: 0.9em
+}
+
+.plzCity {
+  font-size: 0.8em;
+  font-weight: bold
+}
+
+#currentNotes {
+  height: 60px;
+  width: 500px
+}
+
+
+/* --- Modal:  delete conctat/db  --- */
+.modal-delete{
   max-height: calc(100% - 100px);
   position: fixed;
   top: 50%;
@@ -238,8 +393,20 @@ h4 {
   padding:20px;
 }
 
-::-moz-placeholder { /* Firefox 19+ */
-   /*color: red;*/
-   font-size: 12px; 
+/* --- Modal: mailto --- */
+.mailtoStyle {
+  background-color: #c7d1b8;
+  padding-top: 3px;
+  padding-bottom: 10px;
+  margin: 3%;
 }
 
+.currentMailto {
+  width: 60vw;
+  height: 30vh;
+  margin: 2%;
+}
+
+.inlineFlex {
+  display: inline-flex;
+}

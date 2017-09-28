@@ -1,3 +1,5 @@
+// Tab Handling see: chrome://messenger/content/tabmail.xml
+
 vContactsAB = {
   name: "vContactsTab",
   perTabPanel: "vbox",
@@ -11,18 +13,8 @@ vContactsAB = {
     // Check if tab already open, if so switch to it
     let tabs = document.getElementById("tabmail");
 
-    /*----------
-  //  let tabs = document.getElementById('tabbrowser-tabs');
-
-    var nTabs = gBrowser.visibleTabs.length
-    for (var n = 0; n < nTabs; n++) {
-      _tab = gBrowser.visibleTabs[n]
-      console.log ("   gBrowser tab name: ", _tab.label)
-    }
---------*/
-
     for (var tab in tabs.tabInfo) {
-      //    console.log(" list all tabs:", tabs.tabInfo[tab].mode.name)
+      //    console.log(" list all tabs:", tabs.tabInfo[tab].mode.name, " is? ", this.name)
       if (tabs.tabInfo[tab].mode.name == this.name) {
         //      console.log("vContactsTab already open, go for it:" + tab);
         tabs.tabContainer.selectedIndex = tab;
@@ -30,15 +22,11 @@ vContactsAB = {
       }
     }
 
-    //  console.log("  tabs.openTab this.name   A ", this.name)
-
     tabs.openTab(this.name, {
       contentPage: "chrome://react/content/vContactsTab.xhtml"
     });
   },
   openTab: function(aTab, aArgs) {
-    //  console.log("  tabs.openTab this.name   B ", this.name)
-
     // First clone the page and set up the basics.
     let clone = document.getElementById(this.name).firstChild.cloneNode(true);
 

@@ -18,7 +18,7 @@ let AddressField = props => {
   let items = {};
 
   return (
-    <div style={iStyles.attributeContact}>
+    <div className="attributeContact">
       <button className="buttons label">
         {" "}{props.currentOption}{" "}
       </button>
@@ -29,13 +29,13 @@ let AddressField = props => {
           if (count == 7) {
             return (
               <div>
-                <div style={iStyles.none}>
+                <div className="displayNone">
                   {items[0]}
                 </div>
-                <div style={iStyles.none}>
+                <div className="displayNone">
                   {items[1]}
                 </div>
-                <div style={iStyles.plzCity}>
+                <div className="plzCity">
                   {items[2]}
                 </div>
                 <div>
@@ -57,8 +57,6 @@ let AddressField = props => {
 * Provides display of Notes with line break
 */
 let NotesSection = React.createClass({
-  //         TODO  sizing with line breaks to align height
-
   render: function() {
     if (this.props.editing == false) {
       // to show notes/text with space for eg. indenting lines
@@ -67,12 +65,12 @@ let NotesSection = React.createClass({
       let noteLine = 0;
       return (
         // just display
-        <div style={iStyles.attributeNotes}>
+        <div className="textboxes">
           <div>
             {" "}{noteLines.map(function(nLine) {
               noteLine++;
               return (
-                <div id={"nLine" + noteLine} style={iStyles.textNotes}>
+                <div id={"nLine" + noteLine} className="textNotes">
                   {nLine.replace(/\ /g, "\u00a0")}
                 </div>
               );
@@ -83,12 +81,10 @@ let NotesSection = React.createClass({
       );
     } else {
       // this is editing
-      let nStyle = { height: "60px", width: "500px" };
       return (
-        <div style={iStyles.attributeNotes}>
+        <div className="textboxes">
           <textarea
             id="currentNotes"
-            style={nStyle}
             name="notes"
             defaultValue={this.props.notesContent}
             onChange={this.props.notesChanged}

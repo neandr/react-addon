@@ -2,16 +2,15 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.  */
 
+var abRevision = '170926.15';
+
+
 // Fields options
-let Email = { name: "Email", options: ["Work", "Home"], key: "email" };
-let Phone = {
-  name: "Phone",
-  options: ["Mobile", "Home", "Work", "Fax", "Pager"],
-  key: "tel"
-};
-let Address = { name: "Address", options: ["Home", "Work"], key: "adr" };
-let Webpage = { name: "Webpage", options: ["Home", "Work"], key: "url" };
-let Chat = {
+let abEmail = { key: "email", name: "Email", options: ["Work", "Home"] };
+let abPhone = { key: "tel", name: "Phone", options: ["Mobile", "Home", "Work", "Fax", "Pager"] };
+let abAddress = { key: "adr", name: "Address", options: ["Home", "Work"] };
+let abWebpage = { key: "url", name: "Webpage", options: ["Home", "Work"] };
+let abChat = { key: "chat",
   name: "Chat",
   options: [
     "Google Talk",
@@ -23,11 +22,10 @@ let Chat = {
     "ICQ",
     "Jabber ID",
     "IRC Nick"
-  ],
-  key: "chat"
+  ]
 };
 
-//* eslint-disable no-unused-vars    */
+/* eslint-disable no-unused-vars    */
 
 // The address fields available  (as with RFC)
 let AddressFields = [
@@ -40,7 +38,7 @@ let AddressFields = [
   "Country"
 ];
 
-let ContactSections = [Email, Phone, Address, Webpage, Chat];
+let ContactSections = [abEmail, abPhone, abAddress, abWebpage, abChat];
 let PersonalSections = [
   "name",
   "nickname",
@@ -57,172 +55,8 @@ let PersonalSections = [
 let CategoryStandard = ["Privat", "Friends"];
 let CategoryCollection = [];
 
-let abStatus = "Welcome to vContacts x5.1";
-let abTotalContacts = 0;
-let abSelectedContacts = 0;
-
 /* eslint-disable indent */
-function setABStatus(detail) {
-  //console.log("  setABStatus >>" + detail + "<<")
-  //console.trace()
 
-  if (detail) {
-    abStatus = detail;
-  } else {
-    abStatus =
-      "  *** Contacts Total: " +
-      abTotalContacts +
-      " Selected: " +
-      abSelectedContacts;
-  }
-}
-/* eslint-enable indent */
-
-// --- experimental Styling with react iStyles and cStyles---
-//   let cStyles = { "editButton": "buttons remove nobutton" };
-// --- combine styles like this:
-//        style=Object.assign({'height': '1em'}, iStyles.flexx, iStyles.flex)
-
-//  if (!rtest)     let rtest = {};
-var iStyles = iStyles || {};
-var $S = $S || {};
-var $C = $C || {};
-
-iStyles.displayNone = { display: "none" };
-
-iStyles.displayFlex = { display: "flex" };
-iStyles.flex = { display: "flex" };
-iStyles.flexx = { flex: "1" };
-
-iStyles.centerBlock = { display: "block", margin: "auto" };
-iStyles.centerText = { textAlign: "center" };
-
-$C.abWindow = { height: "100vh", overflowY: "hidden" };
-
-/*----
-  iStyles.abMenu = { 'overflow': 'hidden', 'float': 'left',
-    'backgroundColor': 'rgb(231, 240, 234)',
-    'height': '32px', 'width': '100vw'};
-----*/
-
-$C.abSidebar = {
-  overflow: "hidden",
-  float: "left",
-  backgroundColor: "rgb(243, 244, 244)",
-  height: "100vh",
-  width: "30vw"
-};
-
-iStyles.abMain = {
-  display: "flex",
-  flexDirection: "column",
-  backgroundColor: "rgba(246, 246, 226, 0.55)",
-  paddingRight: "1vw",
-  height: "100vh"
-};
-
-iStyles.abMainNoContact = { marginTop: "150px" };
-
-iStyles.abMainHeader = {
-  display: "flex",
-  backgroundColor: "rgba(196, 221, 196, 0.8)",
-  marginLeft: "15px"
-};
-
-iStyles.abMainSections = {
-  overflowX: "hidden",
-  overflowY: "auto",
-  display: "block",
-  backgroundColor: "rgba(246, 246, 226, 0.55)",
-  marginLeft: "15px",
-  borderTop: "1px solid #A5A8A4"
-};
-
-iStyles.abMainTagSection = {
-  width: "150px",
-  marginTop: "15px"
-};
-
-iStyles.abMainTags = {
-  overflow: "auto",
-  height: "130px"
-};
-
-iStyles.verticalButtons = {
-  display: "flex",
-  flexDirection: "column",
-  margin: "10px",
-  justifyContent: "space-around"
-};
-
-iStyles.textTags = {
-  fontSize: "0.8em",
-  fontStyle: "italic"
-};
-iStyles.textNotes = { fontSize: "0.8em" };
-
-iStyles.tag = {
-  overflow: "hidden",
-  color: "black",
-  backgroundColor: "RGBA(180, 189, 183, 0.9)",
-  borderRadius: "4px",
-  border: "1px solid #9da49e",
-  height: "1.8em",
-  width: "80px",
-  textAlign: "center",
-  textOverflow: "ellipsis",
-  whiteSpace: "nowrap"
-};
-
-iStyles.mainImg = {
-  display: "block",
-  borderRadius: "50%",
-  height: "140px",
-  width: "140px",
-  margin: "auto",
-  marginBottom: "15px"
-};
-
-iStyles.hhStyle = {
-  marginLeft: "20px",
-  marginTop: "20px"
-};
-
-iStyles.hhHeader = {
-  fontSize: "0.9em",
-  fontWeight: "bold"
-};
-
-iStyles.textRev = {
-  marginTop: "0.5em",
-  fontSize: "0.5em"
-};
-iStyles.displayStatus = {
-  display: "block",
-  fontSize: "1.4vw"
-};
-iStyles.flexRow = {
-  display: "flex",
-  flexDirection: "row",
-  fontSize: "0.7em"
-};
-
-$S.center = {
-  alignItems: "center",
-  display: "flex"
-};
-$S.grey = { color: "grey" };
-$S.cursiv = { fontStyle: "italic" };
-$S.hBox = { height: "1.5em" };
-
-$S.txt = Object.assign(
-  { height: "1em", flex: "1 1 0%", marginTop: ".5em" },
-  $S.grey
-);
-$S.txt1 = Object.assign({ height: "1em", width: "8vw" }, $S.grey);
-$S.sym = Object.assign($S.center, $S.grey);
-
-// --- experimental Styling with react iStyles and cStyles---
 
 let AddressBook = React.createClass({
   getInitialState: function() {
@@ -234,7 +68,13 @@ let AddressBook = React.createClass({
     );
 
     return {
+      abRev: "Welcome to vContacts  rev:" + abRevision,
+      abStatus: "",
+      abError: "",
+
       contactsList: [],
+      listId: null,
+      listIdLast: null,
       selectedIds: [],
       contact: null,
       name: null,
@@ -248,14 +88,14 @@ let AddressBook = React.createClass({
       searchItem: "",
       tagItem: "",
 
-      abStatus: abStatus,
-      totalContacts: abTotalContacts,
-      selectedContacts: abSelectedContacts,
-
       tagCollection: { CategoryCollection },
       hhStyle: false,
+      tagSupportStatus: 'display: none',
 
-      modals: { deleteContact: false, deleteDB: false }
+      goModals: { deleteContact: false, deleteDB: false },
+
+      modalIsOpen: false,
+      selectedMailto: ""
     };
   },
 
@@ -271,76 +111,83 @@ let AddressBook = React.createClass({
     DatabaseConnection.loadInContacts(this);
   },
 
-  abSetStatus: function() {
-    setABStatus(this.state.abStatus);
-  },
-
-  deleteDB: function() {
-    indexedDB.deleteDatabase("addrbook");
-
-    document.getElementById("dbdelete").setAttribute("style", "display: none");
-    document.getElementById("closeTag").setAttribute("style", "display: block");
-  },
-
   addContact: function() {
     //         Should directly open the imported contact                        //TODO
     let self = this;
     Addressbook.open(indexedDB)
-      .then(AddressbookUtil.newContact)
+      .then(function() {
+        AddressbookUtil.newContact(self);
+      })
       .then(self.loadInContacts)
-      .then(self.openContact);
+      .then(function() {
+        DatabaseConnection.getContactDetails(
+          DatabaseConnection.lastContactId + 1,
+          self
+        );
+      });
   },
+
 
   searchNames: function(event) {
     let self = this;
-    //  console.log (" ... nameSearch: ", event.target.value);                  //XXX Test
 
     self.setState({ searchItem: event.target.value });
     Addressbook.open(indexedDB)
-      .then(self.loadInContacts)
-      .then(self.abSetStatus);
+      .then(self.loadInContacts);
   },
+
 
   clearSearchNames: function(event) {
     let self = this;
-    //  console.log (" ... nameClear: ", event.target.value);                   //XXX Test
+    document.getElementById('searchNames').value = ""; //XXXX direct access ?? OK?
 
-    self.setState({ searchItem: "" });
-    Addressbook.open(indexedDB).then(self.loadInContacts);
+    self.setState({
+      searchItem: ""
+    });
+    Addressbook.open(indexedDB)
+      .then(self.loadInContacts);
   },
+
 
   searchTags: function(event) {
     let self = this;
-    //  console.log (" ... tagSearch: ", event.target.value);                   //XXX Test
 
     let sTag = event.target.value === "%none%" ? "" : event.target.value;
     self.setState({ tagItem: sTag });
-    Addressbook.open(indexedDB).then(self.loadInContacts);
+    Addressbook.open(indexedDB)
+      .then(self.loadInContacts);
   },
+
 
   import: function(file) {
     let self = this;
     Addressbook.open(indexedDB)
-      .then(AddressbookUtil.importContacts)
+      .then(function() {
+        AddressbookUtil.importContacts(self);
+      })
       .then(self.loadInContacts);
   },
 
   export: function() {
-    DatabaseConnection.export(this.state.selectedIds);
+    let self = this;
+    DatabaseConnection.export(this.state.selectedIds, self);
   },
 
-  tagSupport: function() {
+
+
+  tag_Support: function() {
     // tbd     Called from Hambg --> this will maintain the Tag List            //TODO
+    console.log("tag_Support ... tbd ... ");
+
+    this.setState({
+      tagSupportStatus: 'display: none'
+    });
   },
 
   editContact: function() {
     this.setState({ editing: true });
   },
 
-  deleteContact: function() {
-    this.closeModal("deleteContact");
-    DatabaseConnection.deleteContact(this.state.selectedIds[0], this);
-  },
 
   closeContacts: function() {
     DatabaseConnection.closeContact(this);
@@ -352,6 +199,11 @@ let AddressBook = React.createClass({
 
   removeContactDetail: function(index, fieldID) {
     ContactParser.removeContactDetail(this, index, fieldID);
+  },
+
+  makeFirst: function(index, fieldID) {
+    // console.log(" ab  makeFirst", index, fieldID);
+    ContactParser.makeFirst(this, index, fieldID);
   },
 
   // this reads the UI for the contacts PersonalSection and contactSection
@@ -380,8 +232,10 @@ let AddressBook = React.createClass({
     ContactParser.updateProfileImage(this, image);
   },
 
-  setContactID: function(event, id, name) {
-    let log, selected, index;
+  setContactID: function(event, id, name, uid, listId) {
+    var self = this;
+    let log, selected, index, listIdLast;
+
     // don't change 'contact' if editing is active
     if (this.state.editing === true) {
       return;
@@ -393,91 +247,119 @@ let AddressBook = React.createClass({
     //   On sidebar select the contact,
     //   with  [Shift] [Alt] cursor click show the raw vCard data
     if (event.altKey && event.shiftKey && selected.length === 1) {
-      log =
-        "  Display vCard source :  " +
-        name +
-        "  id:" +
-        id +
-        "\n" +
-        JSON.stringify(this.state.contact).replace(/\],\[/g, "\n");
-      alert(log); //          change to normal dialog not 'alert'               //TODO
-      console.log(log);
-      // *** debugging use ***
-    } else {
-      // mark contacts on sidebar for further action(s)
-      if ((event.ctrlKey || event.metaKey) && selected.length > 0) {
-        index = selected.indexOf(id);
-        if (index === -1) {
-          // selects contact
-          selected.push(id);
-        } else {
-          // deselects contact
-          selected.splice(index, 1);
-        }
-        this.setState({
-          selectedIds: selected
-        });
+      this.showContactRaw(listId);
+    } else
+
+    // mark contacts on sidebar for further action(s)
+    if ((event.ctrlKey || event.metaKey) && selected.length > 0) {
+      index = selected.indexOf(id);
+      if (index === -1) {
+        // selects contact
+        selected.push(id);
+        listIdLast = listId;
       } else {
-        // open the selected contact to display/edit/etc it's details
-        DatabaseConnection.getContactDetails(id, this);
-        this.setState({
-          selectedIds: [id],
-          name: name
-        });
+        // deselects contact
+        selected.splice(index, 1);
       }
+
+      log = ("Contacts selected  " + selected.length + " : " +
+        selected.toString()).trunc(42) + ' ' + listId;
+      //console.log(log); //XXXX
+
+      this.setState({
+        selectedIds: selected,
+        listIdLast: listId,
+        abStatus: (log)
+      });
+    } else
+
+    // build selectedIds from first to last selected contact using shift cursor select
+    if (event.shiftKey) {
+      var nextId, first = self.state.listIdLast, last = listId;
+      if (first > last) {
+        first = listId;
+        last = self.state.listIdLast;
+      }
+      for (var i= first; i < last + 1; i++) {
+        nextId = self.state.contactsList[i].id;
+        if (selected.indexOf(nextId) == -1)
+          selected.push(nextId);
+      }
+
+      log = "Contacts selection of items: " + selected.length;
+      //console.log(log); //XXXX
+
+      this.setState({
+        selectedIds: selected,
+        listId: listId,
+        listIdLast: listId,
+        abStatus: (log)
+      });
+
+    } else {
+      // open the selected contact to display/edit/etc it's details
+      this.setState({
+        selectedIds: [id],
+        name: name,
+        listId: listId,
+        listIdLast: listId
+      });
+      DatabaseConnection.getContactDetails(id, this);
     }
   },
 
-  openContact: function() {
-    this.setState({
-      selectedIds: [DatabaseConnection.lastContactId],
-      name: name
-    });
-
-    DatabaseConnection.getContactDetails(
-      DatabaseConnection.lastContactId,
-      this
-    );
+  showContactRaw: function(listId) {
+    let log =
+      "  Display vCard source :  " +
+      this.state.contact.name +
+      "  uuid:" +
+      this.state.contact.uuid +
+      "  (listId:" +
+      listId +
+      ")\n" +
+      JSON.stringify(this.state.contact).replace(/\],\[/g, "\n");
+    alert(log); //          change to normal dialog not 'alert'               //TODO
+    console.log(log);
   },
+
 
   editingDisplay: function() {
     if (!this.state.editing) {
       return (
-        <div id="main-buttons" style={iStyles.verticalButtons}>
+        <div id="main-buttons" className="verticalButtons">
           <button className="buttons" onClick={this.closeContacts}>
             Close
           </button>
 
-          <div style={iStyles.flexx} />
+          <div className="flexx1"/>
 
           <button className="buttons" onClick={this.editContact}>
             Edit
           </button>
 
-          <div style={iStyles.flexx} />
+          <div className="flexx1"/>
 
           <button
             className="buttons"
-            onClick={this.openModal.bind(null, "deleteContact")}
-          >
+            onClick={this.goModals.bind(null, "deleteContact")}>
             Delete
           </button>
         </div>
       );
     } else {
       return (
-        <div id="main-buttons" style={iStyles.verticalButtons}>
+        <div id="main-buttons" className="verticalButtons">
           <button className="buttons" onClick={this.editSave}>
             Save
           </button>
 
-          <div style={iStyles.flexx} />
+          <div className="flexx1"/>
 
           <button className="buttons" onClick={this.editCancel}>
             Cancel
           </button>
 
-          <div style={iStyles.flexx} />
+          <div className="flexx1"/>
         </div>
       );
     }
@@ -507,23 +389,25 @@ let AddressBook = React.createClass({
           notesChanged={this.notesChanged}
           personalDetails={this.state.personalSections}
         />
+        <div></div>
       </div>
     );
   },
 
   addTag: function(event) {
-    let tDetails, allTags, uniTags;
+    let contact, tDetails, allTags, uniTags;
     let newTag = event.target.value;
     if (newTag === "" || newTag === "%none%") {
       return;
     }
 
     tDetails = this.state.personalSections;
+    contact = this.state.contact;
 
     if (tDetails.categories.property === null) {
+      contact.jcards[0].addPropertyWithValue("categories", newTag);
       tDetails.categories.property = new ICAL.Property("categories");
       tDetails.categories.property.jCal[3] = [newTag];
-      tDetails.categories.property = newTag;
     } else {
       allTags = tDetails.categories.property.jCal[3];
       if (typeof allTags === "string") {
@@ -566,7 +450,7 @@ let AddressBook = React.createClass({
   },
 
   renderContactTags: function() {
-    //CHECK
+
     let self = this;
     let removeButton, addButton, pCategories, jCategories;
     removeButton = "buttons nobutton";
@@ -595,12 +479,14 @@ let AddressBook = React.createClass({
       jCategories = [jCategories];
     }
 
+    let uCategories = AddressbookUtil.unique(jCategories);
+
     return (
       <div>
-        {" "}{jCategories.map(function(nextCat) {
+        {" "}{uCategories.map(function(nextCat) {
           return (
             <div>
-              <button style={iStyles.tag}>
+              <button className="tag">
                 {nextCat}
               </button>
               <button className={removeButton} onClick={self.removeTag}>
@@ -613,41 +499,120 @@ let AddressBook = React.createClass({
     );
   },
 
-  openModal: function(type) {
-    let modals = this.state.modals;
-    modals[type] = true;
-    this.setState({ modals: modals });
+
+  goModals: function(type, mode) { // mode = true for 'open',   = false for 'close'
+    let _Modals = this.state.goModals;
+    _Modals[type] = mode || false;
+    this.setState({ goModals: _Modals });
   },
 
-  closeModal: function(type) {
-    let modals = this.state.modals;
-    modals[type] = false;
-    this.setState({ modals: modals });
+  delete_Contact: function() {
+    this.goModals("deleteContact", true);
   },
 
-  renderModals: function() {
-    if (this.state.modals.deleteContact) {
+  deleteContact: function() {
+    var self = this;
+    self.goModals("deleteContact");
+    DatabaseConnection.deleteContacts(self.state.selectedIds, this);
+    self.setState({
+      selectedIds: [], // unselects any selected contacts
+    });
+    self.loadInContacts();
+  },
+
+
+  delete_DB: function() {
+    this.goModals("deleteDB", true);
+  },
+
+  deleteDB: function() {
+    indexedDB.deleteDatabase("addrbook");
+
+    document.getElementById("dbdelete").setAttribute("style", "display: none");
+    document.getElementById("closeTag").setAttribute("style", "display: block");
+  },
+
+  renderGoModals: function() {
+    if (this.state.goModals.deleteContact) {
       return (
         <ContactDelete
-          name={this.state.name}
-          noDelete={this.closeModal.bind(null, "deleteContact")}
-          confirmDelete={this.deleteContact}
+          selectedIds={this.state.selectedIds}
+          noGo={this.goModals.bind(null, "deleteContact", false)}
+          confirmed={this.deleteContact}
         />
       );
     }
 
-    if (this.state.modals.deleteDB) {
+    if (this.state.goModals.deleteDB) {
       return (
         <DBdelete
-          noDelete={this.closeModal.bind(null, "deleteDB")}
-          confirmDelete={this.deleteDB}
+          noGo={this.goModals.bind(null, "deleteDB", false)}
+          confirmed={this.deleteDB}
         />
       );
     }
+
   },
 
-  openUrl: function(url) {
-    AddressbookUtil.openLink(url);
+
+  openMailto() {
+    var self = this;
+    var mode;
+
+    var selected = self.state.selectedIds;
+    DatabaseConnection.mailtoAdr(selected, self);
+  },
+
+  closeMailto() {
+    this.setState({ modalIsOpen: false });
+  },
+
+  onRequestMailto(mode) {
+    let allMailto = this.state.selectedMailto;
+
+    var cTextarea = document.querySelector('.currentMailto');
+    cTextarea.select();
+    let edited = cTextarea.value;
+
+    if ((mode == 'CC') || (mode == 'BCC')) {
+      location.href = "mailto:?" + mode +"=" + edited;
+    } else if (mode == 'C&P') {
+      var successful = document.execCommand('copy');
+    } else {
+      location.href = "mailto:" + edited;
+    }
+    this.closeMailto();
+  },
+
+
+  renderMailto: function() {
+    return (
+      <MailTo
+        isOpen={this.state.modalIsOpen}
+        onRequestClose={this.closeMailto}
+        onRequestMailto={this.onRequestMailto}
+        selectedIds={this.state.selectedIds}
+        selectedMailto={this.state.selectedMailto}
+      />
+    );
+  },
+
+
+  showHH: function() {
+    document
+      .getElementById("hambgMenu")
+      .setAttribute("class", "hambgMenu show");
+  },
+
+  closeHH: function() {
+    document
+      .getElementById("hambgMenu")
+      .setAttribute("class", "hambgMenu");
+  },
+
+  errorLink: function() {
+    alert("vContact " + this.state.abError); //XXXX    change Alert dialog!
+    document.getElementById("errorStatus").style.display = "none";
   },
 
   renderContactSection: function(contactSection) {
@@ -663,6 +628,7 @@ let AddressBook = React.createClass({
           save={this.editSave}
           addContactDetail={this.addContactDetail}
           removeContactDetail={this.removeContactDetail}
+          makeFirst={this.makeFirst}
           updateOption={this.updateOption}
           updateContent={this.updateContent}
           key={"contact" + contactSection.index}
@@ -687,44 +653,59 @@ let AddressBook = React.createClass({
    * Layout for NOT selected any contact
    */
   renderNoContact: function() {
+    var self = this;
     return (
-      <div id="ab-window" style={$C.abWindow}>
+      <div id="ab-window" className="abWindow">
         <div id="ab-Container">
-          {this.renderModals()}
-          {this.renderHH()}
+          {self.renderGoModals()}
+          {self.renderMailto()}
 
-          <div id="ab-sidebar" style={$C.abSidebar}>
+          <HHmenu
+            closeHH={self.closeHH}
+            addContact={self.addContact}
+            tag_Support={self.tag_Support}
+            import={self.import}
+            export={self.export}
+            delete_Contact={self.delete_Contact}
+            delete_DB={self.delete_DB}
+            abRev={self.state.abRev}
+            openMailto={self.openMailto}
+          />
+
+
+        <div id="ab-sidebar" className="abSidebar">
             <AB_header
-              stateModal={this.openModal}
-              hamburger={this.hamburger}
-              show_HH={this.showHH}
-              abStatus={abStatus}
+              hamburger={self.hamburger}
+              showHH={self.showHH}
+              exportContact={self.export}
+              abStatus={(self.state.abStatus).trunc(42)}
+              abError={(self.state.abError)}
+              errorLink={self.errorLink}
             />
 
             <ContactSidebar
-              contactHeader={this.state.headerList}
-              contactNames={this.state.contactsList}
-              viewContact={this.setContactID}
-              image={this.state.photoUrl}
-              add={this.addContact}
-              searchNames={this.searchNames}
-              clearNames={this.clearSearchNames}
-              searchTags={this.searchTags}
+              contactHeader={self.state.headerList}
+              contactNames={self.state.contactsList}
+              viewContact={self.setContactID}
+              image={self.state.photoUrl}
+              add={self.addContact}
+              searchNames={self.searchNames}
+              clearNames={self.clearSearchNames}
+              searchTags={self.searchTags}
               tagCollection={CategoryCollection}
             />
           </div>
 
-          <div id="ab-main" style={iStyles.abMain}>
-            <div style={iStyles.abMainNoContact}>
-              <img src="images/xContact.png" style={iStyles.mainImg} />
+          <div id="ab-main" className="abMain">
+            <div className="abMainNoContact">
+              <img src="images/xContact.png" className="mainImg" />
               <button
-                style={iStyles.centerBlock}
-                className="buttons"
-                onClick={this.addContact}
+                className="buttons centerBlock"
+                onClick={self.addContact}
               >
                 {"+"}
               </button>
-              <div style={iStyles.centerText}>Add a new Contact</div>
+              <div className="centerText">Add a new Contact</div>
             </div>
           </div>
         </div>
@@ -752,91 +733,109 @@ let AddressBook = React.createClass({
    * Layout for a SELECTED contact
    */
   renderContactDisplay: function() {
-    let self, tags, tagsStatus, removeButton, addButton;
+    let self = this;
+    let tags, tagsStatus, removeButton, addButton;
+
+    let displayFlex = { display: "flex" };
+    let displayNone = { display: "none" };
+
     tags = CategoryCollection;
-    tagsStatus = iStyles.displayNone;
+    tagsStatus = displayNone;
 
     removeButton = "buttons nobutton";
     addButton = "buttons nobutton";
 
-    if (this.state.editing) {
+    if (self.state.editing) {
       removeButton = "buttons remove";
       addButton = "buttons add";
-      tagsStatus = iStyles.flex;
+      tagsStatus = displayFlex;
     }
-
-    self = this;
 
     return (
       <div id="ab-Container">
-        <div id="ab-window" style={$C.abWindow}>
-          {this.renderModals()}
-          {this.renderHH()}
+        <div id="ab-window" className="abWindow">
+          {self.renderGoModals()}
+          {self.renderMailto()}
 
-          <div id="ab-sidebar" style={$C.abSidebar}>
+          <HHmenu
+            closeHH={self.closeHH}
+            addContact={self.addContact}
+            tag_Support={self.tag_Support}
+            import={self.import}
+            export={self.export}
+            showContactRaw={self.showContactRaw}
+            delete_Contact={self.delete_Contact}
+            delete_DB={self.delete_DB}
+            abRev={this.state.abRev}
+            openMailto={self.openMailto}
+          />
+
+
+        <div id="ab-sidebar" className="abSidebar">
             <AB_header
-              stateModal={this.openModal}
-              hamburger={this.hamburger}
-              show_HH={this.showHH}
-              abStatus={abStatus}
+              hamburger={self.hamburger}
+              showHH={self.showHH}
+              abStatus={(this.state.abStatus).trunc(42)}
+              abError={(this.state.abError)}
+              errorLink={this.errorLink}
             />
 
             <ContactSidebar
-              contactHeader={this.state.headerList}
-              contactNames={this.state.contactsList}
-              viewContact={this.setContactID}
-              selected={this.state.selectedIds}
-              image={this.state.photoUrl}
-              searchNames={this.searchNames}
-              clearNames={this.clearSearchNames}
-              searchTags={this.searchTags}
+              contactHeader={self.state.headerList}
+              contactNames={self.state.contactsList}
+              viewContact={self.setContactID}
+              selected={self.state.selectedIds}
+              image={self.state.photoUrl}
+              searchNames={self.searchNames}
+              clearNames={self.clearSearchNames}
+              searchTags={self.searchTags}
               tagCollection={CategoryCollection}
             />
           </div>
 
-          <div id="ab-main" style={iStyles.abMain}>
-            <div id="ab-main-header" style={iStyles.abMainHeader}>
+          <div id="ab-main" className="abMain">
+            <div id="ab-main-header" className="abMainHeader">
               <ContactHeader
-                personalDetails={this.state.personalSections}
-                onUserInput={this.updatePersonalDetail}
-                onNewImage={this.updateProfileImage}
-                editing={this.state.editing}
-                image={this.state.photoUrl}
+                personalDetails={self.state.personalSections}
+                onUserInput={self.updatePersonalDetail}
+                onNewImage={self.updateProfileImage}
+                editing={self.state.editing}
+                image={self.state.photoUrl}
               />
 
-              <div style={iStyles.flexx} />
+              <div className="flexx1"/>
 
-              <div id="ab-main-tagSection" style={iStyles.abMainTagSection}>
+              <div id="ab-main-tagSection" className="abMainTagSection">
                 <div id="ab-main-tagEdit">
                   <img
                     className="glyphicons"
                     src="images/glyphicons_065_tag.png"
                   />
-                  <description style={iStyles.textTags}> Tags </description>
+                <description className="textTags"> Tags </description>
                 </div>
 
                 <div style={tagsStatus}>
                   <select
                     id="tagsSelection"
                     onChange={self.addTag}
-                    style={iStyles.searchTagsSelect}
+                    className="searchTagsSelect"
                   >
-                    {this.renderTagSelector()}
-                    {tags.map(this.renderTags)}
+                    {self.renderTagSelector()}
+                    {tags.map(self.renderTags)}
                   </select>
                 </div>
 
-                <div id="ab-main-tags" style={iStyles.abMainTags}>
-                  {this.renderContactTags()}
+                <div id="ab-main-tags" className="abMainTags">
+                  {self.renderContactTags()}
                 </div>
               </div>
 
-              {this.editingDisplay()}
+              {self.editingDisplay()}
             </div>
 
-            <div id="ab-main-sections" style={iStyles.abMainSections}>
-              {this.state.contactSections.map(this.renderContactSection)}
-              {this.renderNotes()}
+            <div id="ab-main-sections" className="abMainSections">
+              {self.state.contactSections.map(self.renderContactSection)}
+              {self.renderNotes()}
             </div>
           </div>
         </div>
@@ -845,103 +844,16 @@ let AddressBook = React.createClass({
   },
 
   render: function() {
-    if (this.state.selectedIds.length === 0) {
+    let self = this;
+    if (self.state.selectedIds.length === 0) {
       // console.log("NO CONTACT VIEW");
-      return this.renderNoContact();
+      return self.renderNoContact();
     } else {
       // console.log("CONTACT VIEW");
-      return this.renderContactDisplay();
+      return self.renderContactDisplay();
     }
   },
 
-  /*
-  *   Hamburger Setup
-  */
-  showHH: function() {
-    document
-      .getElementById("hambgMenu")
-      .setAttribute("class", "hambgMenu show");
-  },
-
-  closeHH: function() {
-    document.getElementById("hambgMenu").setAttribute("class", "hambgMenu");
-  },
-
-  renderHH: function() {
-    //NOTFALL delete DB run
-    //    indexedDB.deleteDatabase("addrbook")
-    return (
-      <div id="hambgMenu" className="hambgMenu" onClick={this.closeHH}>
-        <div style={iStyles.hhStyle}>
-          <p style={iStyles.hhHeader}>
-            {"vContacts Main Menu"}
-          </p>
-          <p className="hambgLink" onClick={this.addContact}>
-            Add new Contact
-          </p>
-          <hr />
-          <p className="hambgLink" onClick={this.tagSupport}>
-            {"Tag Support **tbd**"}
-          </p>
-          <p className="hambgLink" onClick={this.import}>
-            {"Import Contacts from File (VCF/LDIF)"}
-          </p>
-          <p className="hambgLink" onClick={this.export}>
-            {"Export Contacts to File (VCF)"}
-          </p>
-          <hr />
-          <p
-            className="hambgLink"
-            onClick={this.openModal.bind(null, "deleteContact")}
-          >
-            {"Delete selected Contact(s)"}
-          </p>
-          <p
-            className="hambgLink"
-            onClick={this.openModal.bind(null, "deleteDB")}
-          >
-            {"Reset Database (Remove all Contacts)"}
-          </p>
-          <hr />
-          <p
-            className="hambgLink"
-            onClick={() =>
-              this.openUrl("https://neandr.github.io/vContacts/notes.txt")}
-          >
-            {"Notes/Status"}
-          </p>
-          <p
-            className="hambgLink"
-            onClick={() =>
-              this.openUrl(
-                "https://neandr.github.io/vContacts/References.html"
-              )}
-          >
-            {"References"}
-          </p>
-          <hr />
-          <p
-            className="hambgLink"
-            onClick={() =>
-              this.openUrl(
-                "https://github.com/neandr/vContacts/blob/master/README.md"
-              )}
-          >
-            {"Readme on Git"}
-          </p>
-          <p
-            className="hambgLink"
-            onClick={() =>
-              this.openUrl(
-                "https://github.com/neandr/vContacts/blob/master/STATUS.md"
-              )}
-          >
-            {"Refactor the VUW project - Status as of Nov.29 2016"}
-          </p>
-        </div>
-      </div>
-    );
-  }
 });
 
 ReactDOM.render(

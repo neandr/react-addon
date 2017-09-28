@@ -13,6 +13,10 @@ let ContactSection = React.createClass({
     this.props.removeContactDetail(this.props.index, fieldID);
   },
 
+  makeFirst: function(fieldID) {
+    this.props.makeFirst(this.props.index, fieldID);
+  },
+
   updateContent: function(newText, i) {
     this.props.updateContent(newText, this.props.index, i);
   },
@@ -54,6 +58,7 @@ let ContactSection = React.createClass({
         updateContent={this.updateContent}
         updateOption={this.updateOption}
         removeContactDetail={this.removeContactDetail}
+        makeFirst={this.makeFirst}
         ref={"field" + i}
       />
     );

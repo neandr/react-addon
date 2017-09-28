@@ -6,47 +6,28 @@
 * @desc Provides a scrollable sidebar of all contacts as well as a locked header
 * to support actions on contacts
 */
-var iStyles = iStyles || {};
-
-iStyles.contactsSidebar = {
-  display: "flex",
-  flexDirection: "column",
-  height: "100%"
-};
-
-iStyles.contactsList = {
-  flex: "1 1 auto",
-  overflowY: "auto",
-  marginLeft: "5%",
-  borderTop: "1px solid #A5A8A4"
-};
-
-iStyles.abHeader = {
-  height: "24px"
-};
 
 let ContactSidebar = props =>
-  <div id="contacts-sidebar" style={iStyles.contactsSidebar}>
+  <div id="contacts-sidebar" className="contactsSidebar">
     <SidebarHeader
-      stateModal={props.stateModal}
-      work={props.work}
-      add={props.add}
-      export={props.export}
-      import={props.import}
       searchNames={props.searchNames}
       clearNames={props.clearNames}
       searchTags={props.searchTags}
       tagCollection={props.tagCollection}
     />
 
-    <div id="contacts-list" style={iStyles.contactsList}>
+    <div id="contacts-list" className="contactsList">
       {props.contactNames.map(function(contact) {
+
+        var isSelected = typeof(props.selected) == 'number'
+          ? false : props.selected && props.selected.indexOf(contact.id) > -1;
+
         return (
           <ContactButton
             contact={contact}
             image={contact.photo}
             viewContact={props.viewContact}
-            selected={props.selected && props.selected.indexOf(contact.id) > -1}
+            selected={isSelected}
           />
         );
       })}
