@@ -70,7 +70,7 @@ let NotesSection = React.createClass({
             {" "}{noteLines.map(function(nLine) {
               noteLine++;
               return (
-                <div id={"nLine" + noteLine} className="textNotes">
+                <div id={"nLine" + noteLine} key={"nLine" + noteLine} className="textNotes">
                   {nLine.replace(/\ /g, "\u00a0")}
                 </div>
               );

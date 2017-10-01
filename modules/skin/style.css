@@ -260,7 +260,7 @@ h4 {
 }
 
 .contact-name:hover{
-  background-color: white !important;
+  background-color: rgba(220, 245, 220, 0.8) !important;
   cursor: pointer;
 }
 

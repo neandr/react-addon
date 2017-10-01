@@ -2,8 +2,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.  */
 
-var abRevision = '170926.15';
-
+var abRevision = '171001.22';
 
 // Fields options
 let abEmail = { key: "email", name: "Email", options: ["Work", "Home"] };
@@ -485,7 +484,7 @@ let AddressBook = React.createClass({
       <div>
         {" "}{uCategories.map(function(nextCat) {
           return (
-            <div>
+            <div key={nextCat}>
               <button className="tag">
                 {nextCat}
               </button>
@@ -631,7 +630,7 @@ let AddressBook = React.createClass({
           makeFirst={this.makeFirst}
           updateOption={this.updateOption}
           updateContent={this.updateContent}
-          key={"contact" + contactSection.index}
+          key={contactSection.key}
         />
       );
     } else {
@@ -644,6 +643,7 @@ let AddressBook = React.createClass({
           index={contactSection.index}
           fields={contactSection.fields}
           save={this.editSave}
+          key={contactSection.key}
         />
       );
     }
@@ -715,7 +715,7 @@ let AddressBook = React.createClass({
 
   renderTagSelector: function() {
     return (
-      <option id="tagsSelection0" defaultValue={"%none%"}>
+      <option key="tagsSelection0" defaultValue={"%none%"}>
         {"Add Tag"}
       </option>
     );
@@ -723,7 +723,7 @@ let AddressBook = React.createClass({
 
   renderTags: function(tag) {
     return (
-      <option defaultValue={tag}>
+      <option defaultValue={tag} key={tag}>
         {tag}
       </option>
     );

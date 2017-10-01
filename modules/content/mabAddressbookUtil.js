@@ -19,10 +19,12 @@ Components.utils.import("resource://gre/modules/NetUtil.jsm");
 
 const EXPORTED_SYMBOLS = ['AddressbookUtil'];
 
-var newContactUid = "";
+String.prototype.trunc =
+      function(n){
+          return this.substr(0,n-1) + (this.length > n ? '...' : '');
+      };
 
 var AddressbookUtil = {
-
   /**
    * vCard exporting a contact may include PRODID, see RFC 6350 - 6.7.3. PRODID
    * Purpose: To specify the identifier for the product that created the vCard object.
@@ -59,7 +61,7 @@ var AddressbookUtil = {
    *
    * @param {Contact|Contact[]} the contact(s) to export to the
    */
-  exportContact: function(contacts) {
+  exportContact: function(contacts, abUI) {
 
     var filePickerInterface = Components.interfaces.nsIFilePicker;
     var filePicker = Components.classes["@mozilla.org/filepicker;1"].createInstance(filePickerInterface);
@@ -96,7 +98,7 @@ var AddressbookUtil = {
       var foStream = Components.classes["@mozilla.org/network/file-output-stream;1"]
         .createInstance(Components.interfaces.nsIFileOutputStream);
 
-      // eslint  reports: Invalid number                                       //TODO
+      // eslint  reports: Invalid number  0666                                  //TODO
 /**/  foStream.init(filePicker.file, 0x02 | 0x08 | 0x20, 0666, 0); // write, create, truncate
 
       var converter = Cc["@mozilla.org/intl/scriptableunicodeconverter"]
@@ -108,8 +110,8 @@ var AddressbookUtil = {
       NetUtil.asyncCopy(inStream, foStream, function(aResult) {
         if (!Components.isSuccessCode(aResult)) {
           // an error occurred!
-          console.error("  ICAL ERROR  Export: " + aResult);
-          setABStatus("ICAL ERROR  Export: " + aResult.toString()); //    //gWStatus TODO : write to status destroys layout
+          console.error("vContacts ERROR Export: " + aResult);
+          abUI.setState({ abError:("Export: " + aResult)});
         }
       });
 
@@ -118,12 +120,13 @@ var AddressbookUtil = {
 
 
   /**
-   * Ask the user to point to a vCard vcf.file and import the contacts into the database
+   * Ask the user to point to a vCard 'vcf' or 'ldif' file and import
+   * the contacts into the database
    *
-   * @param {Addressbook} Addressbook to add the imported contacts to
+   * @param {addressbook} Addressbook to add the imported contacts to
    * @returns {Promise[]} Array of promises for adding the new contacts
    */
-  importContacts: function(addressbook) {
+  importContacts: function(abUI, addressbook) {
 
     var filePickerInterface = Components.interfaces.nsIFilePicker;
     var filePicker = Components.classes["@mozilla.org/filepicker;1"].createInstance(filePickerInterface);
@@ -139,11 +142,14 @@ var AddressbookUtil = {
     var returnValue = filePicker.show();
     if (returnValue == filePickerInterface.returnOK) {
 
-      var inputStream = Components.classes["@mozilla.org/network/file-input-stream;1"]
+      // add 'Tag/Category' for import, get from Tag selector
+      let addTag = document.getElementById('selectedTag').value;
+
+      let inputStream = Components.classes["@mozilla.org/network/file-input-stream;1"]
         .createInstance(Components.interfaces.nsIFileInputStream);
 
-      // eslint  reports: Invalid number  //                                    TODO
-      inputStream.init(filePicker.file, 0x01, 0444, 0); // readonly
+      // eslint  reports: Invalid number  0444         //                       TODO
+/**/      inputStream.init(filePicker.file, 0x01, 0444, 0); // readonly
 
       var fileContents = NetUtil.readInputStreamToString(
         inputStream,
@@ -152,29 +158,27 @@ var AddressbookUtil = {
 
       inputStream.close();
 
-      let extension = filePicker.file.leafName.split('.').pop().toLowerCase();
+      var extension = filePicker.file.leafName.split('.').pop().toLowerCase();
 
       // Importing LDIF data files and parse it as vCard (see descriptions!)
       if (extension == 'ldif') {
         var fileContents = AddressbookUtil.parseLDIF(fileContents);
       }
 
-      let contactUid = AddressbookUtil.parseContacts(addressbook, fileContents, filePicker.file.leafName);
+      var contactUid = AddressbookUtil.parseContacts(fileContents, filePicker.file.leafName, addTag, abUI);
 
       return contactUid;
     }
   },
 
-  parseContacts: function(addressbook, contents, source) {
+  parseContacts: function(contents, source, addTag, abUI) {
 
-    //performance messures
-    // for disabling set 'enablePerf' to false
+    //performance messures; for disabling set 'enablePerf' to false             //XXXX PERF
     var enablePerf = true;
     var perf = [];
     function getPerfNow() {
       if (enablePerf) {perf.push(performance.now()); }
     }
-
 
     getPerfNow();
 
@@ -182,8 +186,9 @@ var AddressbookUtil = {
     try {
       var contacts = ICAL.parse(contents);
     } catch (e) {
-      console.error("  ICAL ERROR ", source, "\n  message: " + e.message + "\n  contents:\n" + contents); //      TODO
-      setABStatus("ICAL ERROR " + source + " message: "+ e.message); //    //STATUS
+      console.error("vContacts ERROR ICAL", source, "\n  message: " + e.message + "\n  contents:\n" + contents);
+      abUI.setState({ abError: ('ICAL ' + source + ":\n" + e.message + "\ncontents:\n" + contents)});
+      document.getElementById("errorStatus").style.display = "block";
       return;
     }
     getPerfNow();
@@ -198,6 +203,7 @@ var AddressbookUtil = {
     var lastUid;
     var nContacts=0;
 
+    /* eslint-disable  array-callback-return  */
     var contactPromises = contacts.map(function(vcard) {
       var contact = new ICAL.Component(vcard);
 
@@ -214,7 +220,7 @@ var AddressbookUtil = {
       }
 
       // get the photo
-      var photo = undefined;
+      var photo;
       var photoProperty = contact.getFirstProperty("photo");
 
       if (photoProperty) {
@@ -236,8 +242,23 @@ var AddressbookUtil = {
         }
       }
 
+      // add categories for imported
+      if (addTag != '%none%') {
+        let cCategories = contact.getFirstPropertyValue("categories");
+        if (cCategories != null) {
+          if (typeof cCategories === 'string') cCategories = [cCategories];
+
+          cCategories = cCategories.filter(function(e) {
+            return e !== addTag;
+          });
+          cCategories.push(addTag);
+        } else {
+          cCategories=[addTag];
+        }
+        contact.updatePropertyWithValue("categories",cCategories);
+      }
+
       lastUid = contact.getFirstPropertyValue("uid");
-      console.log(" parseContacts   lastUid: ", lastUid); //                    XXX Test
 
       return {
         name: name.trim(),
@@ -253,43 +274,44 @@ var AddressbookUtil = {
       //TODO  Importing a contact with same UID and new REV to overwrite the current contact   //TODO
 
       // add the contact to the addressbook
-      addressbook.add(contact);
+      Addressbook.open(indexedDB).then(function(addrbook) {
+        addrbook.add(contact)
+      });
       nContacts++;
     });
+
+    /* eslint-enable  array-callback-return  */
 
     getPerfNow();
 
     if (enablePerf) {
-      console.log("Imported cards parsed with ICAL  perf:: \n",
+      console.log("Imported cards parsed with ICAL  perf:: \n", //XXXX
         "\n  # of cards processed                 ", nContacts,
         "\n  parsed all cards                     ", perf[1] - perf[0],
         "\n  converted to jcards and added to AB  ", perf[2] - perf[1]);
     }
 
-
-    setABStatus("Contacts imported \n" + nContacts); //                          //STATUS
-
     return lastUid; //    //contactPromises;
   },
 
 
-  newContact: function(addressbook) {
+  newContact: function(abUI) {
     let contactString = AddressbookUtil.newContactDefault;
     // get a unique UID
-    newContactUid = AddressbookUtil.uuidGen();
-    contactString = contactString.replace('%%uid%%', newContactUid);
+    this.newContactUid = AddressbookUtil.uuidGen();
+    contactString = contactString.replace('%%uid%%', this.newContactUid);
     contactString = contactString.replace('%%prodid%%', this.prodid);
 
-    var revDate = ICAL.Time.now().toString(); //     // "2016-11-19T14:26:18"
+    var revDate = ICAL.Time.now().toString(); //           "2016-11-19T14:26:18"
     contactString = contactString.replace('%%date%%', revDate);
 
-    this.newContactUid = AddressbookUtil.parseContacts(addressbook, contactString, 'newContact');
+    // add 'Tag/Category' for import, get from Tag selector
+    let addTag = document.getElementById('selectedTag').value;
 
-    console.log(" abUtil   contactUid: ", newContactUid);
+    this.newContactUid = AddressbookUtil.parseContacts(contactString, 'newContact', addTag, abUI);
     return;
   },
   newContactUid: "",
-
 
   uuidGen: function() {
     var uuidGenerator = Components.classes["@mozilla.org/uuid-generator;1"]
@@ -298,6 +320,11 @@ var AddressbookUtil = {
     return uuid.substring(1, uuid.length-1).toString();
   },
 
+  unique: function (a) {
+      return a.sort().filter(function(item, pos, ary) {
+          return !pos || item != ary[pos - 1];
+      })
+  },
 
   b64toBlob: function(b64Data, contentType, sliceSize) {
     contentType = contentType || '';

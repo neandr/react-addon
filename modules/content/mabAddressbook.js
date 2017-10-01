@@ -44,24 +44,24 @@ Addressbook.prototype = {
   * @returns {Promise} - promise of open connection to db.
   **/
   open: function() {
-    var addrbook = this;
+    var self = this;
     var indexedDB = this.indexedDB;
 
     return new Promise(function(resolve, reject) {
       var request = indexedDB.open(DB_NAME, DB_VERSION);
 
       request.onsuccess = function(event) {
-        addrbook._onsuccess(event); //XXX
-        resolve(addrbook);
+        self._onsuccess(event);
+        resolve(self);
       };
 
       request.onerror = function(event) {
-        addrbook._onerror(event); //XXX
+        self._onerror(event);
         reject(event.target.error);
       };
 
       request.onupgradeneeded = function(event) {
-        addrbook._onupgradeneeded(event); //XXX
+        self._onupgradeneeded(event);
       };
     });
   },
@@ -151,81 +151,6 @@ Addressbook.prototype = {
         ]]
       ]
     });
-
-    /*------------------
-    //  enable for more initial testing
-    //
-    contactsStore.add({name: "Blank Perreault", email: "bob.perreault@viagenie.ca" , jcards: [
-      ["vcard", [
-        ["version", {}, "text", "4.0"],
-        ["uid", {}, "text", "e3ea2bf3-f597-4b08-bd4c-0a26b27f4501"],
-        ["fn", {}, "text", "Blank Perreault"],
-        ["n", {}, "text", ["Perreault", "Blank", "Joe", "Dr.", ["ing. jr", "M.Sc."]] ],
-        ["nickname", {}, "text", "pBob,Perri"],
-        ["bday", {}, "date-and-or-time", "1980-02-03"],
-        ["anniversary", {}, "date-and-or-time", "2009-08-08T14:30:00-05:00" ],
-        ["lang", { "pref": "1" }, "language-tag", "fr"],
-        ["lang", { "pref": "2" }, "language-tag", "en"],
-        ["rev", {}, "text", "2000-12-31"]
-      ]]
-    ]});
-
-    contactsStore.add({name: "mail2 Perreault", email: "testXX@yyyy.ca" , jcards: [
-      ["vcard", [
-        ["version", {}, "text", "4.0"],
-        ["uid", {}, "text", "e3ea2bf3-f597-4b08-bd4c-0a26b27f4501b"],
-        ["fn", {}, "text", "mail2 Perreault"],
-        ["n", {}, "text", ["Perreault", "mail2", "", "", ""] ],
-        ["nickname", {}, "text", "ptest"],
-        ["bday", {}, "date-and-or-time", "1980-02-03"],
-        ["anniversary", {}, "date-and-or-time", "2009-08-08T14:30:00-05:00" ],
-        ["rev", {}, "text", "2000-12-31"],
-        ["email", { "type": "home" }, "text", "test <test@eins.ca>" ],
-        ["email", { "type": "work" }, "text", "test <test@zwei.ca>" ]
-      ]]
-    ]});
-
-    contactsStore.add({name: "mail Perreault", email: "testXX@yyyy.ca" , jcards: [
-      ["vcard", [
-        ["version", {}, "text", "4.0"],
-          ["uid", {}, "text", "e3ea2bf3-f597-4b08-bd4c-0a26b27f4501a"],
-          ["fn", {}, "text", "mail Perreault"],
-          ["n", {}, "text", ["Perreault", "mail", "", "", ""] ],
-          ["nickname", {}, "text", "ptest"],
-          ["bday", {}, "date-and-or-time", "1980-02-03"],
-          ["anniversary", {}, "date-and-or-time", "2009-08-08T14:30:00-05:00" ],
-          ["rev", {}, "text", "2000-12-31"],
-          ["email", { "type": "work" }, "text", "test <test@xxxx.ca>" ]
-        ]]
-    ]});
-
-    contactsStore.add({name: "Paula Perreault", email: "paula.perreault@xyx.us" , jcards: [
-      ["vcard", [
-        ["version", {}, "text", "4.0"],
-          ["uid", {}, "text", "e3ea2bf3-f597-4b08-bd4c-0a26b27f4501"],
-          ["fn", {}, "text", "Paula Perreault"],
-          ["n", {}, "text", ["Perreault", "Paula", "Maria","", ["ing."]] ],
-          ["nickname", {}, "text", "pPaula"],
-          ["categories", {}, "text", ["Testing"]],
-          ["bday", {}, "date-and-or-time", "1980-10-03"],
-          ["anniversary", {}, "date-and-or-time", "2008-08-08T08:08:00-02:00" ],
-          ["gender", {}, "text", "F"],
-          ["lang", { "pref": "1" }, "language-tag", "fr"],
-          ["lang", { "pref": "2" }, "language-tag", "en"],
-          ["org", { "type": "work" }, "text", "Viagenie"],
-          ["adr", { "type": "work" }, "text", [ "", "Suite D2-630", "2875 Laurier", "Quebec", "QC", "G1V 2M2", "Canada" ] ],
-          ["tel", { "type": ["work", "voice"], "pref": "1" }, "uri", "tel:+1-418-656-9254;ext=102" ],
-          ["tel", { "type": ["work", "cell", "voice", "video", "text"] }, "uri", "tel:+1-418-262-6501" ],
-          ["email", { "type": "work" }, "text", "Bob Perreault <bob.perreault@viagenie.ca>" ],
-          ["geo", { "type": "work" }, "uri", "geo:46.772673,-71.282945"],
-          ["key", { "type": "work" }, "uri", "http://www.viagenie.ca/bob.perreault/bob.asc" ],
-          ["tz", {}, "utc-offset", "-05:00"],
-          ["url", { "type": "home" }, "uri", "http://nomis80.org"],
-          ["rev", {}, "text", "2000-12-31"],
-          ["note", {}, "text", "This is a Note text - line1 \n **** line2"]
-        ]]
-    ]});
-    ------------------*/
   },
 
   add: function(rawContact) {
@@ -268,12 +193,21 @@ Addressbook.prototype = {
       })
       .then(function(rawContacts) {
         return rawContacts.map(function(rawContact) {
+
+        //  console.log(" ... getAllNameIdAndPhoto  uuid:" + //        //XXXX
+        //    rawContact.uuid + " uid:" +
+        //    Contact.prototype._findProperty('uid', rawContact.jcards));
+
           var tags = Contact.prototype._findProperty('categories', rawContact.jcards);
           self.collectTags(tags);
+
+          DatabaseConnection.lastContactId = rawContact.uuid;
+          DatabaseConnection.lastContactUID = Contact.prototype._findProperty('uid', rawContact.jcards);
+
           return { name: rawContact.name,
             categories: tags,
-            id: rawContact.uuid,
-            uid: Contact.prototype._findProperty('uid', rawContact.jcards),
+            id: DatabaseConnection.lastContactId,
+            uid: DatabaseConnection.lastContactUID,
             photo: Images.getPhotoURL(rawContact.photo)
           };
         });

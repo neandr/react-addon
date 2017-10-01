@@ -16,7 +16,7 @@ let ContactSidebar = props =>
       tagCollection={props.tagCollection}
     />
 
-    <div id="contacts-list" className="contactsList">
+    <div className="contactsList">
       {props.contactNames.map(function(contact) {
 
         var isSelected = typeof(props.selected) == 'number'
@@ -28,6 +28,7 @@ let ContactSidebar = props =>
             image={contact.photo}
             viewContact={props.viewContact}
             selected={isSelected}
+            key={"c" + contact.id}
           />
         );
       })}

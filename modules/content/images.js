@@ -21,7 +21,7 @@ Images.handleURLRevoke = function(photo) {
 **/
 Images.getPhotoURL = function(photo) {
   if (photo != null)
-    //console.log("   getPhotoURL :", photo.valueOf().toString())
+    // console.log("   getPhotoURL :", photo.valueOf().toString())
 
     // if (photo) {
     if (photo &&

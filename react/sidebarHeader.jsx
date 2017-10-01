@@ -43,7 +43,7 @@ let AB_header = props =>
 let SidebarHeader = React.createClass({
   renderTag1: function() {
     return (
-      <option value={"%none%"}>
+      <option value={"%none%"} key={"--"}>
         {" -- "}
       </option>
     );
@@ -51,7 +51,7 @@ let SidebarHeader = React.createClass({
 
   renderTags: function(tag) {
     return (
-      <option value={tag}>
+      <option value={tag} key={tag}>
         {tag}
       </option>
     );

@@ -31,7 +31,7 @@ let ContactField = React.createClass({
     option = option.toUpperCase();
     let isTrue = option == x;
     return (
-      <option defaultValue={option} checked={isTrue}>
+      <option defaultValue={option} checked={isTrue} key={option}>
         {option}
       </option>
     );

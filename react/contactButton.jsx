@@ -18,7 +18,6 @@ let ContactButton = props => {
 
   return (
     <div
-      id="contact-name"
       className={contactname}
       onClick={event => props.viewContact(event, contact.id, contact.name, contact.uid, contact.listId)}
     >
