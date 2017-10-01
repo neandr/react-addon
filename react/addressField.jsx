@@ -28,7 +28,7 @@ let AddressField = props => {
           count++;
           if (count == 7) {
             return (
-              <div>
+              <div key={"addr"+ count}>
                 <div className="displayNone">
                   {items[0]}
                 </div>
