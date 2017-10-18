@@ -1,6 +1,17 @@
-vContacts  Project        Notes/Status                 2017-09-29
+vContacts  Project        Notes/Status                 2017-10-18
 
-Current Status ____________________________
+  Current Status ____________________________    vContacts_2017-10-18.00.xpi
+    See https://github.com/neandr/vContacts/releases
+
+  * Sidebar with Filter, Scrolling and selection
+    Contacts are filtered by FirstName/LastName and/or tag/categories, the
+    sorted resulted contacts are shown on the sidebar.
+    The Sidebar offers scrolling with all (filtered) contacts.
+    No problem with > 3000 contacts using mouse wheel or using a
+    a slider with mouse click.
+
+
+vContacts  Project        Notes/Status                 2017-09-29
 
   * Mailto supported for multiple selected contacts with To, Cc, Bcc. Also
     copying the collected mail addresses to the clipboard
