@@ -34,7 +34,7 @@ h4 {
   display: flex;
 }
 
-.flexx1 {
+.flexAuto {
   flex: auto;
 }
 
@@ -63,7 +63,7 @@ h4 {
   text-align: center
 }
 
-.sym {
+.chrSymbol {
   align-items: center;
   display: flex;
   color: grey
@@ -144,12 +144,12 @@ h4 {
   height: 14px;
 }
 
-.inputIconR {
+.inputIconRight {
   position: relative;
   left: -24px;
   top: 12px;
-  width: 12px;
-  height: 12px;
+  width: 14px;
+  height: 14px;
 }
 
 
@@ -168,7 +168,7 @@ h4 {
   font-size: 0.8em;
 }
 
-.tag = {
+.tagItem {
   overflow: hidden;
   color: black;
   background-color: RGBA(180, 189, 183, 0.9);
@@ -181,63 +181,8 @@ h4 {
   white-space: nowrap;
 }
 
-/* ---- Sidebar Styling  ------ */
-
-.abSidebar {
-  overflow: hidden;
-  float: left;
-  background-color: rgb(243, 244, 244);
-  height: 100vh;
-  width: 30vw;
-}
-
-#sidebar-buttons{
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-around;
-}
-
-#sidebar-buttons input[type="button"]{
-  background-color: white;
-  border-radius: 2px;
-  border: 1px solid #ccc;
-  padding-top:5px;
-  padding-bottom: 5px;
-  width: 70px;
-}
-
-#sidebar-buttons input[type="button"]:hover{
-  background-color: #e5e5e5;
-  cursor: pointer;
-}
-
-.search-bar {
-  margin-bottom: 8px;
-  border-radius: 4px;
-  border: 1px solid #ccc;
-  color: #333;
-  padding-top: 3px;
-  padding-bottom: 3px;
-  font-size: 0.9em;
-}
-
-.search-bar:focus {
-  border-color: #ddd;
-  box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102, 175, 233, 0.6);
-}
-
 
 /*  ----------- Contact Styling ---------------- */
-.contact-detail {
-  width: 90%;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  text-align: left;
-  white-space: nowrap;
-  margin: auto;
-  padding-left: 5px;
-}
-
 .contact-group {
   background-color: rgba(221, 224, 210, 0.4);
   color: gray;
@@ -247,21 +192,6 @@ h4 {
   margin-top: 15px;
   margin-bottom: 2px;
   text-align: center;
-}
-
-.contact-name{
-  display: flex;
-  padding: 8px;
-  margin: auto;
-}
-
-.contact-name.true{
-  background-color: rgba(196, 221, 196, 0.8);
-}
-
-.contact-name:hover{
-  background-color: rgba(220, 245, 220, 0.8) !important;
-  cursor: pointer;
 }
 
 
@@ -327,7 +257,6 @@ h4 {
   width: 14px;
 }
 
-
 .profile-img {
   border-radius: 50%;
   height: 140px;
@@ -343,6 +272,7 @@ h4 {
   border-radius: 50%;
   width: 25px;
   height: 25px;
+  pointer-events: none;
 }
 
 .mainImg {

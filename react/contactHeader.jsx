@@ -227,7 +227,7 @@ let ContactHeader = React.createClass({
             <div className="contactLabel">
               {" "}{"Nick"}
             </div>
-            <div className="sym">
+            <div className="chrSymbol">
               {" "}{"\u263A"}
             </div>
             <input
@@ -244,7 +244,7 @@ let ContactHeader = React.createClass({
             <div className="contactLabel">
               {" "}{"Birthday"}
             </div>
-            <div className="sym">
+            <div className="chrSymbol">
               {" "}{"\u2665"}
             </div>
             <input
@@ -261,7 +261,7 @@ let ContactHeader = React.createClass({
             <div className="contactLabel">
               {" "}{"Anniversay"}
             </div>
-            <div className="sym">
+            <div className="chrSymbol">
               {" "}{"\u263C "}
             </div>
             <input

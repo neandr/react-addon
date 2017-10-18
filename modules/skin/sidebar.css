@@ -1,4 +1,36 @@
-/* --- Sidebar  ------------------- */
+/* ---- Sidebar Styling  ------ */
+
+.abSidebar {
+  overflow: hidden;
+  float: left;
+  background-color: rgb(243, 244, 244);
+  /* height: 100vh;  */
+  width: 30vw;
+  display: flex;
+  flex-direction: column;
+}
+
+#sidebar-buttons{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
+#sidebar-buttons input[type="button"]{
+  background-color: white;
+  border-radius: 2px;
+  border: 1px solid #ccc;
+  padding-top:5px;
+  padding-bottom: 5px;
+  width: 70px;
+}
+
+#sidebar-buttons input[type="button"]:hover{
+  background-color: #e5e5e5;
+  cursor: pointer;
+}
+
+
 
 /* --- abStatus and abError --- */
 .abStatus {
@@ -76,15 +108,86 @@
 
 
 /* --- contactsSidebar --- */
-.contactsSidebar {
+#contactSidebar {
   display: flex;
   flex-direction: column;
   height: 93vh;
-  width: 100%
+  width: 100%;
+  overflow-y: hidden;
 }
 
-.contactsList {
-  /* flex: 1 1 auto; */
-  overflow-y: auto;
-  margin-left: 5px;
+#contactList {
+  flex: 1 1 auto;
+  overflow-y: auto;   /* ???? */
+  /* margin-left: 5px;   */
+  display: flex;
+  overflow-y: hidden;
+}
+
+.contact-detail {
+  width: 90%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: left;
+  white-space: nowrap;
+  margin: auto;
+  padding-left: 5px;
+  pointer-events: none;
+}
+
+.contactList_name{
+  display: flex;
+  padding: 8px;
+  margin: auto;
+}
+
+.contactList_name.true{
+  background-color: rgba(196, 221, 196, 0.8);
+}
+
+.contactList_name:hover{
+  background-color: rgba(220, 245, 220, 0.8) !important;
+  cursor: pointer;
+}
+
+
+/* ---   custom sidebar experimental ---- */
+
+.contactListScroll {  /* --see databaseConnection --- */
+  background-color: #89b4ab;
+  height:20px;
+  margin-top: 0px;
+  /* pointer-events: none; */
+  /*  overflow-y: hidden; ???? */
+}
+
+#contactList_Scroller {
+  background-color: #c3d2c0;
+  display: flex;
+  flex-direction: column;
+  overflow-y: hidden;
+}
+
+.contactList.clBegin, .contactList.clEnd {
+  /* background-color: #739076; */
+  height:10px;
+  overflow-y: hidden;
+  cursor: pointer;
+}
+
+.contactListArrow {
+  height: 10px;
+  margin-bottom: 5px;
+  pointer-events: none;
+}
+
+.contactList.clScroll {
+  background-color: #ced2cd;
+  border: 1px;
+  width: 12px;
+  overflow-y: hidden;
+}
+
+.contactList.clFlex {
+  flex:1;
 }

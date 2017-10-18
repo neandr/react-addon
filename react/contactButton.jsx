@@ -7,27 +7,22 @@
 * It displays their profile image, name and displays their contact when clicked
 **/
 let ContactButton = props => {
-  let contactname;
-  if (props.selected) {
-    contactname = "true contact-name";
-  } else {
-    contactname = "contact-name";
-  }
-
-  let contact = props.contact;
+  let contactClass = (props.isSelected) ? "true contactList_name" : "contactList_name";
+  //let contactClass = (props.isSelected) ? "true contact-name" : "contact-name";
 
   return (
-    <div
-      className={contactname}
-      onClick={event => props.viewContact(event, contact.id, contact.name, contact.uid, contact.listId)}
+    <div id={"cb" + props.index}
+      className={contactClass}
+      onClick={event => props.viewContact(event, props.contact)}
     >
       <ProfileImage
         type="sidebar"
         className="profile-img-sidebar"
-        image={props.image}
+        image={props.contact.photo}
       />
-      <li className="contact-detail" key={contact.id}>
-        {contact.name}
+
+      <li className="contact-detail" key={props.contact.id}>
+        {props.contact.name}
       </li>
     </div>
   );

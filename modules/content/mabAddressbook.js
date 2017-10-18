@@ -192,12 +192,8 @@ Addressbook.prototype = {
         return transaction.getAll();
       })
       .then(function(rawContacts) {
-        return rawContacts.map(function(rawContact) {
 
-        //  console.log(" ... getAllNameIdAndPhoto  uuid:" + //        //XXXX
-        //    rawContact.uuid + " uid:" +
-        //    Contact.prototype._findProperty('uid', rawContact.jcards));
-
+        return rawContacts.map(function(rawContact, index) {
           var tags = Contact.prototype._findProperty('categories', rawContact.jcards);
           self.collectTags(tags);
 
@@ -244,8 +240,11 @@ Addressbook.prototype = {
   * @param {Integer} id - id of contact to be deleted.
   * @returns {Promise} to delete contact of input id
   **/
-  deleteById: function(contactId) {
-    return this._contactRequest("readwrite", function(transaction) { return transaction.delete(contactId);});
+  deleteById: function(id) {
+    return this._contactRequest("readwrite",
+      function(transaction) {
+        return transaction.delete(id);
+      });
   },
 
   /**

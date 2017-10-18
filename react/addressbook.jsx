@@ -2,7 +2,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.  */
 
-var abRevision = '171001.22';
+var abRevision = '171018.00';
 
 // Fields options
 let abEmail = { key: "email", name: "Email", options: ["Work", "Home"] };
@@ -71,7 +71,12 @@ let AddressBook = React.createClass({
       abStatus: "",
       abError: "",
 
-      contactsList: [],
+      contactDB: [],
+      contactID: [],
+      listPos: 0,
+
+      contactList: [],
+      contactListScroll: this.contactListScroll0,
       listId: null,
       listIdLast: null,
       selectedIds: [],
@@ -97,6 +102,8 @@ let AddressBook = React.createClass({
       selectedMailto: ""
     };
   },
+
+  contactListScroll0: { height: '10px', marginTop: '0px', backgroundColor: '#739076', pointerEvents: 'none' },
 
   componentDidMount: function() {
     this.loadInContacts();
@@ -140,8 +147,14 @@ let AddressBook = React.createClass({
     let self = this;
     document.getElementById('searchNames').value = ""; //XXXX direct access ?? OK?
 
+    var scroll2def = this.state.contactListScroll;
+    scroll2def.height = '10px';
+    scroll2def.marginTop = '0px';
+
     self.setState({
-      searchItem: ""
+      searchItem: "",
+      listPos: 0,
+      contactListScroll: scroll2def
     });
     Addressbook.open(indexedDB)
       .then(self.loadInContacts);
@@ -201,7 +214,6 @@ let AddressBook = React.createClass({
   },
 
   makeFirst: function(index, fieldID) {
-    // console.log(" ab  makeFirst", index, fieldID);
     ContactParser.makeFirst(this, index, fieldID);
   },
 
@@ -231,42 +243,83 @@ let AddressBook = React.createClass({
     ContactParser.updateProfileImage(this, image);
   },
 
-  setContactID: function(event, id, name, uid, listId) {
+  click4Contact: function(event, contact) {
+    if ((event.target.id !== "contactList_Scoll") &&
+      (event.target.className.search("contactList") == -1)) return;
+
+    var listLen, listPos, listId;
+    listLen = this.state.contactID.length;
+
+    if (event.target.className.search("clBegin") !== -1) {
+      listPos = 0;
+    } else if (event.target.className.search("clEnd") !== -1) {
+      listPos = listLen -1;
+    } else {
+      //---------------------------------------------------
+      //  custom sidebar experimental
+      //---------------------------------------------------
+      var evClY = event.clientY;
+
+      var clTop = document.getElementsByClassName('clScroll')[0].offsetTop;
+      var evPos = (evClY - clTop);
+
+      var clScroll = document.getElementsByClassName('clScroll')[0].clientHeight;
+      var clFlex =document.getElementsByClassName('clFlex')[0].clientHeight;
+      var clHeight = clScroll + clFlex;
+
+      listPos = parseInt(listLen/clHeight * evPos, 10);
+    }
+    listId = this.state.contactID[listPos];
+
+    //XXX
+    //var contact = ContactParser.searchContact(this.state.contactDB, 'id', listId);
+    //console.log(" click4Contact ", " evClY:", evClY, " clTop:", clTop);
+    //console.log(" click4Contact ", "clHeight:", clHeight, " evPos:", evPos);
+    //console.log(" click4Contact ", "listLen:", listLen, " listPos:", listPos, " listId: " + listId, "\n", contact);
+    //---------------------------------------------------
+
+    DatabaseConnection.getContactDetails(listId, this, listPos);
+  },
+
+  viewContact: function(event, contact) {
+
     var self = this;
-    let log, selected, index, listIdLast;
+    let log, selectedIds, index, listId, listIdLast;
 
     // don't change 'contact' if editing is active
     if (this.state.editing === true) {
       return;
     }
 
-    selected = this.state.selectedIds;
+    listId = contact.id;
+    selectedIds = self.state.selectedIds;
 
     // *** debugging use ***
     //   On sidebar select the contact,
     //   with  [Shift] [Alt] cursor click show the raw vCard data
-    if (event.altKey && event.shiftKey && selected.length === 1) {
-      this.showContactRaw(listId);
+    if (event.altKey && event.shiftKey && selectedIds.length === 1) {
+      var listPos = self.state.contactID[listId];
+      this.showContactRaw(listPos);
     } else
 
     // mark contacts on sidebar for further action(s)
-    if ((event.ctrlKey || event.metaKey) && selected.length > 0) {
-      index = selected.indexOf(id);
+    if ((event.ctrlKey || event.metaKey) && selectedIds.length > 0) {
+      index = selectedIds.indexOf(listId);
+
       if (index === -1) {
         // selects contact
-        selected.push(id);
+        selectedIds.push(listId);
         listIdLast = listId;
       } else {
         // deselects contact
-        selected.splice(index, 1);
+        selectedIds.splice(index, 1);
       }
 
-      log = ("Contacts selected  " + selected.length + " : " +
-        selected.toString()).trunc(42) + ' ' + listId;
-      //console.log(log); //XXXX
+      log = ("Contacts selected len: " + selectedIds.length + "\n : " +
+        selectedIds.toString()).trunc(42) + ' ' + listId;
 
       this.setState({
-        selectedIds: selected,
+        selectedIds: selectedIds,
         listIdLast: listId,
         abStatus: (log)
       });
@@ -274,22 +327,25 @@ let AddressBook = React.createClass({
 
     // build selectedIds from first to last selected contact using shift cursor select
     if (event.shiftKey) {
-      var nextId, first = self.state.listIdLast, last = listId;
+      var nextId;
+      var first = self.state.contactID.indexOf(self.state.listIdLast);
+      var last = self.state.contactID.indexOf(listId);
+
       if (first > last) {
-        first = listId;
-        last = self.state.listIdLast;
+        var x = first;
+        first = last;
+        last = x;
       }
       for (var i= first; i < last + 1; i++) {
-        nextId = self.state.contactsList[i].id;
-        if (selected.indexOf(nextId) == -1)
-          selected.push(nextId);
+        var nextId = self.state.contactID[i];
+        if (selectedIds.indexOf(nextId) == -1)
+          selectedIds.push(nextId);
       }
 
-      log = "Contacts selection of items: " + selected.length;
-      //console.log(log); //XXXX
+      log = "Contacts: " + selectedIds.length + selectedIds.toString();
 
       this.setState({
-        selectedIds: selected,
+        selectedIds: selectedIds,
         listId: listId,
         listIdLast: listId,
         abStatus: (log)
@@ -297,24 +353,19 @@ let AddressBook = React.createClass({
 
     } else {
       // open the selected contact to display/edit/etc it's details
-      this.setState({
-        selectedIds: [id],
-        name: name,
-        listId: listId,
-        listIdLast: listId
-      });
-      DatabaseConnection.getContactDetails(id, this);
+      log = "Contact selected  listId: " + listId;
+      //console.log(log); //XXXX
+
+      DatabaseConnection.getContactDetails(listId, this);
     }
   },
 
-  showContactRaw: function(listId) {
+  showContactRaw: function(listPos) {
     let log =
       "  Display vCard source :  " +
       this.state.contact.name +
-      "  uuid:" +
-      this.state.contact.uuid +
-      "  (listId:" +
-      listId +
+      "  (listPos:" +
+      listPos +
       ")\n" +
       JSON.stringify(this.state.contact).replace(/\],\[/g, "\n");
     alert(log); //          change to normal dialog not 'alert'               //TODO
@@ -330,13 +381,13 @@ let AddressBook = React.createClass({
             Close
           </button>
 
-          <div className="flexx1"/>
+          <div className="flexAuto"/>
 
           <button className="buttons" onClick={this.editContact}>
             Edit
           </button>
 
-          <div className="flexx1"/>
+          <div className="flexAuto"/>
 
           <button
             className="buttons"
@@ -352,13 +403,13 @@ let AddressBook = React.createClass({
             Save
           </button>
 
-          <div className="flexx1"/>
+          <div className="flexAuto"/>
 
           <button className="buttons" onClick={this.editCancel}>
             Cancel
           </button>
 
-          <div className="flexx1"/>
+          <div className="flexAuto"/>
         </div>
       );
     }
@@ -485,7 +536,7 @@ let AddressBook = React.createClass({
         {" "}{uCategories.map(function(nextCat) {
           return (
             <div key={nextCat}>
-              <button className="tag">
+              <button className="tagItem">
                 {nextCat}
               </button>
               <button className={removeButton} onClick={self.removeTag}>
@@ -556,10 +607,7 @@ let AddressBook = React.createClass({
 
   openMailto() {
     var self = this;
-    var mode;
-
-    var selected = self.state.selectedIds;
-    DatabaseConnection.mailtoAdr(selected, self);
+    DatabaseConnection.mailtoAdr(self.state.selectedIds, self);
   },
 
   closeMailto() {
@@ -654,6 +702,7 @@ let AddressBook = React.createClass({
    */
   renderNoContact: function() {
     var self = this;
+
     return (
       <div id="ab-window" className="abWindow">
         <div id="ab-Container">
@@ -685,12 +734,21 @@ let AddressBook = React.createClass({
 
             <ContactSidebar
               contactHeader={self.state.headerList}
-              contactNames={self.state.contactsList}
-              viewContact={self.setContactID}
+              contactList={self.state.contactList}
+              contactDB={self.state.contactDB}
+              contactID={self.state.contactID}
+              listPos={self.state.listPos}
+              abUI={self}
+              abStatus={self.state.abStatus}
+              selectedIds={self.state.selectedIds}
+              contactListScroll={self.state.contactListScroll}
+
+              viewContact={self.viewContact}
+              click4Contact={self.click4Contact}
               image={self.state.photoUrl}
               add={self.addContact}
               searchNames={self.searchNames}
-              clearNames={self.clearSearchNames}
+              clearSearchNames={self.clearSearchNames}
               searchTags={self.searchTags}
               tagCollection={CategoryCollection}
             />
@@ -781,13 +839,21 @@ let AddressBook = React.createClass({
             />
 
             <ContactSidebar
+              abUI={self}
               contactHeader={self.state.headerList}
-              contactNames={self.state.contactsList}
-              viewContact={self.setContactID}
-              selected={self.state.selectedIds}
+              contactList={self.state.contactList}
+              contactDB={self.state.contactDB}
+              contactID={self.state.contactID}
+              listPos={self.state.listPos}
+              abStatus={self.state.abStatus}
+              contactListScroll={self.state.contactListScroll}
+
+              viewContact={self.viewContact}
+              click4Contact={self.click4Contact}
+              selectedIds={self.state.selectedIds}
               image={self.state.photoUrl}
               searchNames={self.searchNames}
-              clearNames={self.clearSearchNames}
+              clearSearchNames={self.clearSearchNames}
               searchTags={self.searchTags}
               tagCollection={CategoryCollection}
             />
@@ -803,7 +869,7 @@ let AddressBook = React.createClass({
                 image={self.state.photoUrl}
               />
 
-              <div className="flexx1"/>
+              <div className="flexAuto"/>
 
               <div id="ab-main-tagSection" className="abMainTagSection">
                 <div id="ab-main-tagEdit">
@@ -834,8 +900,10 @@ let AddressBook = React.createClass({
             </div>
 
             <div id="ab-main-sections" className="abMainSections">
+
               {self.state.contactSections.map(self.renderContactSection)}
               {self.renderNotes()}
+
             </div>
           </div>
         </div>
@@ -843,8 +911,10 @@ let AddressBook = React.createClass({
     );
   },
 
+
   render: function() {
     let self = this;
+
     if (self.state.selectedIds.length === 0) {
       // console.log("NO CONTACT VIEW");
       return self.renderNoContact();

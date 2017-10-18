@@ -41,6 +41,34 @@ let AB_header = props =>
   </div>;
 
 let SidebarHeader = React.createClass({
+
+  componentDidMount: function() { //TODO   add event to component only !
+    document.addEventListener("wheel", event => this.scrollContacts(event));
+  },
+
+  oldT: 0,
+
+  scrollContacts: function(event) {
+    console.log("scrollContacts  className:", event.target.className, " id:", event.target.id);
+
+    if (event.target.className.search("contactList") > -1) {
+      var newT = new Date();
+
+      if ((newT - this.oldT) > 100) {
+        this.oldT = newT;
+
+        var inkr = (event.deltaY > 0) ? 1 : -1;
+        var a = this.props.listPos + inkr;
+        a = a > this.props.contactID.length -1 ? this.props.contactID.length -1 : a;
+        a = a < 0 ? 0:a;
+        this.props.abUI.setState({
+          abStatus: "new pointer: " + a,
+          listPos: a
+        });
+      }
+    }
+  },
+
   renderTag1: function() {
     return (
       <option value={"%none%"} key={"--"}>
@@ -91,9 +119,9 @@ let SidebarHeader = React.createClass({
             value={this.props.searchNamesValue}
           />
           <img
-            id="clearNames"
-            className="inputIconR"
-            onClick={this.props.clearNames}
+            id="clearSearchNames"
+            className="inputIconRight"
+            onClick={this.props.clearSearchNames}
             src="images/glyphicons_207_remove_2.png"
           />
         </div>

@@ -308,14 +308,14 @@ ContactParser.makeFirst = function(abUI, tempSectionIndex, propertyID) {
   }
 
 
-/*--------------
-  // Adds property to contact
-  var _Contact = abUI.state.contact;
-  var name = tempSection.key;
-  var type = tempSection.options[0];
-  var property = _Contact.jcards[0].addPropertyWithValue(name, content);
-  property.setParameter("type", type);
-------------*/
+  /*--------------
+    // Adds property to contact
+    var _Contact = abUI.state.contact;
+    var name = tempSection.key;
+    var type = tempSection.options[0];
+    var property = _Contact.jcards[0].addPropertyWithValue(name, content);
+    property.setParameter("type", type);
+  ------------*/
 
   tempSections[tempSectionIndex] = newSection;
 
@@ -373,43 +373,41 @@ ContactParser.addContactDetail = function(abUI, tempSectionIndex) {
  *  Renames a contact on the sidebar
  * @param {Integer} id The id of the contact to be renamed
  * @param {string}  name The new name of the contact
- * @param {Array}   contactsList The list of contacts displayed on the sidebar
+ * @param {Array}   _contactsList The list of contacts displayed on the sidebar
  */
-ContactParser.rename = function(contactsList, id, name) {
-  for (var i = 0; i < contactsList.length; i++) {
-    if (contactsList[i].id == id) {
-      contactsList[i].name = name;
+ContactParser.rename = function(_contactsList, id, name) {
+  for (var i = 0; i < _contactsList.length; i++) {
+    if (_contactsList[i].id == id) {
+      _contactsList[i].name = name;
       return;
     }
   }
 };
 
 /**
- *  Deletes a contact from the sidebar/contactsList
- * @param {Array}     contactsList The list of contacts displayed on the sidebar
+ *  Deletes a contact from the sidebar/contactList
+ * @param {Array}     _contactsList The list of contacts displayed on the sidebar
  * @param {Integer}   id The id of the contact to be deleted
- * @returns {Array}   contactsList The list of contacts with the desired contact removed
+ * @returns {Array}   _contactsList The list of contacts with the desired contact removed
  */
-ContactParser.deleteContact = function(contactsList, id) {
-  var index = contactsList.findIndex(function(contact) {
+ContactParser.deleteContact = function(_contactsList, id) {
+
+  var index = _contactsList.findIndex(function(contact) {
     return contact.id == id;
   });
-  contactsList.splice(index, 1);
-  return contactsList;
+  _contactsList.splice(index, 1);
+  return _contactsList;
 };
 
 /**
- *  Search a contact using 'uid' from the sidebar/contactsList
- * @param {Array}     contactsList The list of contacts displayed on the sidebar
- * @param {string}   uid The id of the contact to be deleted
- * @returns {id}     id of contacts with the desired uid
+ *  Search a contact using 'typ' with 'detail' from contactDB/contactList
+ * @param {Array}    list The list of contacts
+ * @param {string}   typ The typ of the contact to be searched
+ * @param {string}   detail The value of the typ to be searched
+ * @returns {object}  the first matching contact
  */
-ContactParser.searchUid = function(contactsList, uid) {
-  var index = contactsList.findIndex(function(contact) {
-    return contact.uid == uid;
-  });
-  var cId = contactsList.index;
-  return cId;
+ContactParser.searchContact = function(list, typ, detail) {
+  return list[list.findIndex(function(el) { return el[typ] == detail})]
 };
 
 
@@ -420,11 +418,11 @@ ContactParser.searchUid = function(contactsList, uid) {
  *  Saves the contact details from the temporary details for the UI
  * @param {Array}    uiPersonalSection The permanent details to save to
  * @param {Contact}  contact The contact to save
- * @param {Array}    contactsList The list of all contacts
- * @param {string}   name The name of the contact before editing
+ * @param {Array}    _contactsList The list of all contacts
+* @param {string}   name The name of the contact before editing
  * @param {Integer}  id The id of the contact being saved
  */
-ContactParser.saveContactPersonalDetails = function(uiPersonalSection, contact, contactsList, name, id) {
+ContactParser.saveContactPersonalDetails = function(uiPersonalSection, contact, _contactsList, name, id) {
 
   uiPersonalSection['note'].content = document.getElementById('currentNotes').value;
 
@@ -436,7 +434,7 @@ ContactParser.saveContactPersonalDetails = function(uiPersonalSection, contact, 
       case 'name' :
         var cN = uiPersonalSection['n'].property.jCal[3];
         var cName = cN[1] + " " + cN[0];
-        this.rename(contactsList, id, cName);
+        this.rename(_contactsList, id, cName);
         uiPersonalSection['fn'].content = cName;
         uiPersonalSection['name'].content = cName;
         uiPersonalSection['name'].property.jCal[3] = cName;
@@ -458,12 +456,12 @@ ContactParser.saveContactPersonalDetails = function(uiPersonalSection, contact, 
 
 /**
  *  Saves the image of a contact to the sidebar/contacts list
- * @param {Array}     contactsList The list of all contacts
+ * @param {Array}     _contactsList The list of all contacts
  * @param {Contact}   contact The contact to save
  * @param {Integer}   id The id of the contact being saved
  */
-ContactParser.saveContactPhotoToContactsList = function(contactsList, id, contact) {
-  var _Contact = contactsList.find(function(contact) {
+ContactParser.saveContactPhotoToContactsList = function(_contactsList, id, contact) {
+  var _Contact = _contactsList.find(function(contact) {
     return contact.id == id;
   });
   Contact.photo = Images.getPhotoURL(contact.photo);
@@ -481,21 +479,11 @@ ContactParser.saveContactSections = function(uiContactSection, permanentSection,
   for (var i in uiContactSection) {
     var currentName = uiContactSection[i].name;
 
-    // console.log("\n saveContactSections     currentName", currentName); //XXXX
-
     var fields = [];
     for (var j = 0; j < uiContactSection[i].fields.length; j++) {
 
       var pushProperty = this.findCloneProperty(contact, uiContactSection[i].fields[j].property);
       var pushContent = uiContactSection[i].fields[j].content;
-
-      /*------
-      console.log("\n                 -------->          ", currentName, //XXXX
-        "  i/j: ", i, j,
-        "\n   pushProperty:", JSON.stringify(pushProperty),
-        "\n   pushContent: ", pushContent,
-        "\n   fieldID: ", uiContactSection[i].fields[j].fieldID);
-      --------*/
 
       fields.push({
         currentOption: uiContactSection[i].fields[j].currentOption,
