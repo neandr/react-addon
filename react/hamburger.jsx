@@ -43,11 +43,22 @@ let HHmenu = props =>
         className="hambgLink"
         onClick={() =>
           AddressbookUtil.openLink(
+            "https://neandr.github.io/vContacts/Readme.html"
+          )}
+      >
+        {"Project Overview / Dokumentation"}
+      </div>
+
+      <div
+        className="hambgLink"
+        onClick={() =>
+          AddressbookUtil.openLink(
             "https://neandr.github.io/vContacts/notes.txt"
           )}
       >
         {"Notes/Status"}
       </div>
+
       <div
         className="hambgLink"
         onClick={() =>

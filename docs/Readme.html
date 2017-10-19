@@ -1,278 +1,338 @@
-<!DOCTYPE HTML>
+<!DOCTYPE html>
 <html>
- <head>
-  <meta charset="utf-8"/>
-  <title>
-   Made with Remarkable!
-  </title>
-  <link href="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.1/styles/github.min.css" rel="stylesheet"/>
-  <style type="text/css">
-   body,table tr{background-color:#fff}table tr td,table tr th{border:1px solid #ccc;text-align:left;padding:6px 13px;margin:0}pre code,table,table tr{padding:0}hr,pre code{background:0 0}body{font:16px Helvetica,Arial,sans-serif;line-height:1.4;color:#333;word-wrap:break-word;padding:10px 15px}strong,table tr th{font-weight:700}h1{font-size:2em;margin:.67em 0;text-align:center}h2{font-size:1.75em}h3{font-size:1.5em}h4{font-size:1.25em}h1,h2,h3,h4,h5,h6{font-weight:700;position:relative;margin-top:15px;margin-bottom:15px;line-height:1.1}h1,h2{border-bottom:1px solid #eee}hr{height:0;margin:15px 0;overflow:hidden;border:0;border-bottom:1px solid #ddd}a{color:#4183C4}a.absent{color:#c00}ol,ul{padding-left:15px;margin-left:5px}ol{list-style-type:lower-roman}table tr{border-top:1px solid #ccc;margin:0}table tr:nth-child(2n){background-color:#aaa}table tr td :first-child,table tr th :first-child{margin-top:0}table tr td:last-child,table tr th :last-child{margin-bottom:0}img{max-width:100%}blockquote{padding:0 15px;border-left:4px solid #ccc}code,tt{margin:0 2px;padding:0 5px;white-space:nowrap;border:1px solid #eaeaea;background-color:#f8f8f8;border-radius:3px}pre code{margin:0;white-space:pre;border:none}.highlight pre,pre{background-color:#f8f8f8;border:1px solid #ccc;font-size:13px;line-height:19px;overflow:auto;padding:6px 10px;border-radius:3px}
-  </style>
- </head>
- <body>
-  <h2 id="thunderbird-vcontacts-ndash-move-to-a-modern-addressbook-rev17101800">
-   Thunderbird vContacts
-   <small>
-    –
-    <em>
-     Move to a modern Addressbook
-    </em>
-   </small>
-   <small>
-    <small>
-     rev.171018.00
-    </small>
-   </small>
-  </h2>
-  <p>
-   <em>
-    <strong>
-     vContacts
-    </strong>
-    was
-    <a href="https://github.com/Thunderbird301/react-addon/wiki">
-     initialized
-    </a>
-    at the SCHOOL OF ENGINEERING AND COMPUTER SCIENCE/VUW, New Zealand.
-   </em>
-   <br/>
-   <em>
-    The project was aimed to build a modern addressbook based on industry standards, using modern technologies and to replace the current proprietary data store (mork) with a database.
-   </em>
-   <br/>
-   <em>
-    <strong>
-     vContacts
-    </strong>
-    will be moved forward with the initial ideas in mind and to show modern web technologies can be combined with the legacy Thunderbird project.
-   </em>
-  </p>
-  <hr/>
-  <h4 id="vcontacts-overview-current-feature-set">
-   vContacts Overview / Current Feature set
-  </h4>
-  <p>
-   <strong>
-    vContacts
-   </strong>
-   is a normal
-   <strong>
-    TB Extension
-   </strong>
-   , the most current XPI can be downloaded
-   <a href="https://github.com/neandr/vContacts/releases">
-    [from here]
-   </a>
-   <br/>
-   The XPI installs into Thunderbird as usual.
-   <br/>
-   <img alt="XPIIcon" src="https://neandr.github.io/vContacts/customize.png"/>
-   <br/>
-   The “vContacts” toolbar button has to be added to the TB menu bar with the “Customize” feature on the main toolbar.
-  </p>
-  <p>
-   <strong>
-    vContacts
-   </strong>
-   starts with two default contacts, feel free to modify/delete.
-  </p>
-  <p>
-   <strong>
-    New Contacts
-   </strong>
-   can be added when the contact section is closed: The button [ + ] will add a new contact template.
-   <br/>
-   Also the Main Menu (Hamburger Menu) has a ‘Add new Contact’
-  </p>
-  <p>
-   <strong>
-    Import Contacts
-   </strong>
-   <br/>
-   The import currently reads
-   <strong>
-    vCard
-   </strong>
-   (.vcf) and
-   <strong>
-    LDIF
-   </strong>
-   (.LDIF) contact files. That way
-   <strong>
-    TB/Addressbook
-   </strong>
-   data which has been exported before with the LDIF format (and extension *.ldif) can be added.
-  </p>
-  <p>
-   For tesing purpose a
-   <strong>
-    VCF Generator
-   </strong>
-   is provided as part of the project
-   <a href="https://github.com/neandr/vContacts/tree/master/generateVCF">
-    [see here]
-   </a>
-   . It generates VCF addresses for test purpose and writes to an output file, it uses German based names, locations, generates tel/communication and mail entries, gender, birthday/anniversary dates. Each vCard has also a rev code and an UUID.
-  </p>
-  <p>
-   <strong>
-    Export vCard
-   </strong>
-   Selected contact(s) can be exported to vCard files.
-  </p>
-  <p>
-   <strong>
-    Mailto/Links
-   </strong>
-   showing on contact details are active for ‘mailto’ and normal ‘url’. So clicking on it will directly open a TB Compose window or open the web browser for http/https links.
-  </p>
-  <p>
-   <strong>
-    Mailto with preferred address(es) with To/CC/BCC
-   </strong>
-   <br/>
-   Selecting multiple contacts allow to collect their preferred ‘mailto’ addresses and show them on another dialog. That dialog can used to edit the contacts, add additional before choosing the To, CC or Bcc addressing which will be used on the TB Compose dialog.
-  </p>
-  <p>
-   <strong>
-    Tag/Categories
-   </strong>
-   <br/>
-   Each contact can hold tags/categories. Same ‘default’ tags come with the installation, more will be loaded with contact import. A later vContact version will allow to define/edit/delete tags.
-  </p>
-  <p>
-   <strong>
-    Contact Lists
-   </strong>
-   <br/>
-   vContact doesn’t work with contact lists as they are offered by Thunderbird/Addressbook. An alternative concept is the use of tags/categories. On the Contacts Sidebar a menu can be used to filter for a certain tag/category and to start bulk actions like ‘mailto’ or delete, more to come.
-  </p>
-  <p>
-   <strong>
-    vContact Main Menu
-   </strong>
-   <small>
-    – Hambuger Menu
-   </small>
-   <br/>
-   A slide-in menu offers additional functionality
-   <br/>
-   <img alt="pic1" src="https://neandr.github.io/vContacts/vContacts_topmenu.png"/>
-   <br/>
-   With the top left button the menu is opened to show more handles:
-  </p>
-  <p>
-   <img alt="pic2" src="https://neandr.github.io/vContacts/hambg_Menu_contactclosed.png"/>
-  </p>
-  <p>
-   Some menu items link to project documentation and the GIT project.
-  </p>
-  <h4 id="vcontact-screenshots">
-   vContact Screenshots
-  </h4>
-  <p>
-   Next two pic show a selected contact to be displayed the details on the right, the second is the contact in edit mode.
-  </p>
-  <p>
-   <img alt="opened" src="https://neandr.github.io/vContacts/Contact_opened.png"/>
-  </p>
-  <p>
-   <img alt="edit" src="https://neandr.github.io/vContacts/Contact_Edit.png"/>
-  </p>
-  <p>
-   <strong>
-    Working with Tags/categories
-   </strong>
-  </p>
-  <p>
-   <img alt="tag1" src="https://neandr.github.io/vContacts/Tag_add_1.png"/>
-   <img alt="tag2" src="https://neandr.github.io/vContacts/Tag_add_2.png"/>
-   <br/>
-   In Edit mode the button [Add Tag] allows to open a dropdown menu to select an additional one
-  </p>
-  <p>
-   <strong>
-    Change Preferred attribute
-   </strong>
-   <br/>
-   <img alt="prio_1" src="https://neandr.github.io/vContacts/Phone_change_prio_1.png"/>
-   <br/>
-   <img alt="prio_2" src="https://neandr.github.io/vContacts/Phone_change_prio_2.png"/>
-  </p>
-  <p>
-   Use the arrow up button to make the entry the top one. For that a preferred mailto address can be set (see mailto below).
-  </p>
-  <p>
-   <strong>
-    Mailto / Compose Message for Contacts
-   </strong>
-  </p>
-  <p>
-   Composing a message to a single contact just click on the mailto link.
-  </p>
-  <p>
-   For sending to multiple addresses select the contacts on the sidebar …
-   <br/>
-   <img alt="Mailto_1" src="https://neandr.github.io/vContacts/Mailto_1.png"/>
-  </p>
-  <p>
-   … open the Main Menu on the top …
-   <br/>
-   <img alt="Mailto_2" src="https://neandr.github.io/vContacts/Mailto_2.png"/>
-   <br/>
-   and select the link “Mailto selected Contact(s)”
-  </p>
-  <p>
-   On the next dialog the selected mailto addresses are shown, additional addresses can be added or others removed etc.
-  </p>
-  <p>
-   <img alt="Mailto_3" src="https://neandr.github.io/vContacts/Mailto_3.png"/>
-   <br/>
-   Use the [To] or [CC] or [BCC] to open a compose window with to assembled addresses or copy them to the copy/paste buffer. The copied addresses can be added directly to one of the rows [To] or [CC] or [BCC] on the compose window.
-  </p>
-  <p>
-   <img alt="Mailto_4" src="https://neandr.github.io/vContacts/Mailto_4.png"/>
-  </p>
-  <hr/>
-  <h3 id="vcontact-status-prove-of-concept">
-   vContact Status
-   <small>
-    -
-    <em>
-     Prove of Concept
-    </em>
-   </small>
-  </h3>
-  <p>
-   vContact is in very early development state, little debugged, not tuned for performance, not fully tested and lot of functionality needs completion (e.g. using tags/categories, rendering of addresses, editing of personal and contact items).
-  </p>
-  <p>
-   <i>
-    <strong>
-     Use it on your own risk
-    </strong>
-    – which should be low risk, vContact doesn’t write back to any TB environment.
-   </i>
-  </p>
-  <p>
-   <strong>
-    HELP NEEDED
-   </strong>
-   <br/>
-   For further development feedback is very much welcomed, for the functionality, for the UI, for the coding, for documentation, for testing functions …
-   <br/>
-   Please use the [GIT issues]
-  </p>
-  <script src="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.1/highlight.min.js">
-  </script>
-  <script>
-   hljs.initHighlightingOnLoad();
-  </script>
-  <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript">
-  </script>
-  <script type="text/javascript">
-   MathJax.Hub.Config({"showProcessingMessages" : false,"messageStyle" : "none","tex2jax": { inlineMath: [ [ "$", "$" ] ] }});
-  </script>
- </body>
+  <head>
+      <meta charset="utf-8" />
+      <title>Readme</title>
+      <style>.markdown-preview:not([data-use-github-style]) { padding: 2em; font-size: 1.2em; color: rgb(85, 85, 85); background-color: white; overflow: auto; }
+.markdown-preview:not([data-use-github-style]) > :first-child { margin-top: 0px; }
+.markdown-preview:not([data-use-github-style]) h1, .markdown-preview:not([data-use-github-style]) h2, .markdown-preview:not([data-use-github-style]) h3, .markdown-preview:not([data-use-github-style]) h4, .markdown-preview:not([data-use-github-style]) h5, .markdown-preview:not([data-use-github-style]) h6 { line-height: 1.2; margin-top: 1.5em; margin-bottom: 0.5em; color: rgb(3, 3, 3); }
+.markdown-preview:not([data-use-github-style]) h1 { font-size: 2.4em; font-weight: 300; }
+.markdown-preview:not([data-use-github-style]) h2 { font-size: 1.8em; font-weight: 400; }
+.markdown-preview:not([data-use-github-style]) h3 { font-size: 1.5em; font-weight: 500; }
+.markdown-preview:not([data-use-github-style]) h4 { font-size: 1.2em; font-weight: 600; }
+.markdown-preview:not([data-use-github-style]) h5 { font-size: 1.1em; font-weight: 600; }
+.markdown-preview:not([data-use-github-style]) h6 { font-size: 1em; font-weight: 600; }
+.markdown-preview:not([data-use-github-style]) strong { color: rgb(3, 3, 3); }
+.markdown-preview:not([data-use-github-style]) del { color: rgb(126, 126, 126); }
+.markdown-preview:not([data-use-github-style]) a, .markdown-preview:not([data-use-github-style]) a code { color: black; }
+.markdown-preview:not([data-use-github-style]) img { max-width: 100%; }
+.markdown-preview:not([data-use-github-style]) > p { margin-top: 0px; margin-bottom: 1.5em; }
+.markdown-preview:not([data-use-github-style]) > ul, .markdown-preview:not([data-use-github-style]) > ol { margin-bottom: 1.5em; }
+.markdown-preview:not([data-use-github-style]) blockquote { margin: 1.5em 0px; font-size: inherit; color: rgb(126, 126, 126); border-color: rgb(214, 214, 214); border-width: 4px; }
+.markdown-preview:not([data-use-github-style]) hr { margin: 3em 0px; border-top: 2px dashed rgb(214, 214, 214); background: none; }
+.markdown-preview:not([data-use-github-style]) table { margin: 1.5em 0px; }
+.markdown-preview:not([data-use-github-style]) th { color: rgb(3, 3, 3); }
+.markdown-preview:not([data-use-github-style]) th, .markdown-preview:not([data-use-github-style]) td { padding: 0.66em 1em; border: 1px solid rgb(214, 214, 214); }
+.markdown-preview:not([data-use-github-style]) code { color: rgb(3, 3, 3); background-color: rgb(240, 240, 240); }
+.markdown-preview:not([data-use-github-style]) pre.editor-colors { margin: 1.5em 0px; padding: 1em; font-size: 0.92em; border-radius: 3px; background-color: rgb(245, 245, 245); }
+.markdown-preview:not([data-use-github-style]) kbd { color: rgb(3, 3, 3); border-width: 1px 1px 2px; border-style: solid; border-color: rgb(214, 214, 214) rgb(214, 214, 214) rgb(199, 199, 199); border-image: initial; background-color: rgb(240, 240, 240); }
+.markdown-preview[data-use-github-style] { font-family: "Helvetica Neue", Helvetica, "Segoe UI", Arial, freesans, sans-serif; line-height: 1.6; word-wrap: break-word; padding: 30px; font-size: 16px; color: rgb(51, 51, 51); background-color: rgb(255, 255, 255); overflow: scroll; }
+.markdown-preview[data-use-github-style] > :first-child { margin-top: 0px !important; }
+.markdown-preview[data-use-github-style] > :last-child { margin-bottom: 0px !important; }
+.markdown-preview[data-use-github-style] a:not([href]) { color: inherit; text-decoration: none; }
+.markdown-preview[data-use-github-style] .absent { color: rgb(204, 0, 0); }
+.markdown-preview[data-use-github-style] .anchor { position: absolute; top: 0px; left: 0px; display: block; padding-right: 6px; padding-left: 30px; margin-left: -30px; }
+.markdown-preview[data-use-github-style] .anchor:focus { outline: none; }
+.markdown-preview[data-use-github-style] h1, .markdown-preview[data-use-github-style] h2, .markdown-preview[data-use-github-style] h3, .markdown-preview[data-use-github-style] h4, .markdown-preview[data-use-github-style] h5, .markdown-preview[data-use-github-style] h6 { position: relative; margin-top: 1em; margin-bottom: 16px; font-weight: bold; line-height: 1.4; }
+.markdown-preview[data-use-github-style] h1 .octicon-link, .markdown-preview[data-use-github-style] h2 .octicon-link, .markdown-preview[data-use-github-style] h3 .octicon-link, .markdown-preview[data-use-github-style] h4 .octicon-link, .markdown-preview[data-use-github-style] h5 .octicon-link, .markdown-preview[data-use-github-style] h6 .octicon-link { display: none; color: rgb(0, 0, 0); vertical-align: middle; }
+.markdown-preview[data-use-github-style] h1:hover .anchor, .markdown-preview[data-use-github-style] h2:hover .anchor, .markdown-preview[data-use-github-style] h3:hover .anchor, .markdown-preview[data-use-github-style] h4:hover .anchor, .markdown-preview[data-use-github-style] h5:hover .anchor, .markdown-preview[data-use-github-style] h6:hover .anchor { padding-left: 8px; margin-left: -30px; text-decoration: none; }
+.markdown-preview[data-use-github-style] h1:hover .anchor .octicon-link, .markdown-preview[data-use-github-style] h2:hover .anchor .octicon-link, .markdown-preview[data-use-github-style] h3:hover .anchor .octicon-link, .markdown-preview[data-use-github-style] h4:hover .anchor .octicon-link, .markdown-preview[data-use-github-style] h5:hover .anchor .octicon-link, .markdown-preview[data-use-github-style] h6:hover .anchor .octicon-link { display: inline-block; }
+.markdown-preview[data-use-github-style] h1 tt, .markdown-preview[data-use-github-style] h2 tt, .markdown-preview[data-use-github-style] h3 tt, .markdown-preview[data-use-github-style] h4 tt, .markdown-preview[data-use-github-style] h5 tt, .markdown-preview[data-use-github-style] h6 tt, .markdown-preview[data-use-github-style] h1 code, .markdown-preview[data-use-github-style] h2 code, .markdown-preview[data-use-github-style] h3 code, .markdown-preview[data-use-github-style] h4 code, .markdown-preview[data-use-github-style] h5 code, .markdown-preview[data-use-github-style] h6 code { font-size: inherit; }
+.markdown-preview[data-use-github-style] h1 { padding-bottom: 0.3em; font-size: 2.25em; line-height: 1.2; border-bottom: 1px solid rgb(238, 238, 238); }
+.markdown-preview[data-use-github-style] h1 .anchor { line-height: 1; }
+.markdown-preview[data-use-github-style] h2 { padding-bottom: 0.3em; font-size: 1.75em; line-height: 1.225; border-bottom: 1px solid rgb(238, 238, 238); }
+.markdown-preview[data-use-github-style] h2 .anchor { line-height: 1; }
+.markdown-preview[data-use-github-style] h3 { font-size: 1.5em; line-height: 1.43; }
+.markdown-preview[data-use-github-style] h3 .anchor { line-height: 1.2; }
+.markdown-preview[data-use-github-style] h4 { font-size: 1.25em; }
+.markdown-preview[data-use-github-style] h4 .anchor { line-height: 1.2; }
+.markdown-preview[data-use-github-style] h5 { font-size: 1em; }
+.markdown-preview[data-use-github-style] h5 .anchor { line-height: 1.1; }
+.markdown-preview[data-use-github-style] h6 { font-size: 1em; color: rgb(119, 119, 119); }
+.markdown-preview[data-use-github-style] h6 .anchor { line-height: 1.1; }
+.markdown-preview[data-use-github-style] p, .markdown-preview[data-use-github-style] blockquote, .markdown-preview[data-use-github-style] ul, .markdown-preview[data-use-github-style] ol, .markdown-preview[data-use-github-style] dl, .markdown-preview[data-use-github-style] table, .markdown-preview[data-use-github-style] pre { margin-top: 0px; margin-bottom: 16px; }
+.markdown-preview[data-use-github-style] hr { height: 4px; padding: 0px; margin: 16px 0px; background-color: rgb(231, 231, 231); border: 0px none; }
+.markdown-preview[data-use-github-style] ul, .markdown-preview[data-use-github-style] ol { padding-left: 2em; }
+.markdown-preview[data-use-github-style] ul.no-list, .markdown-preview[data-use-github-style] ol.no-list { padding: 0px; list-style-type: none; }
+.markdown-preview[data-use-github-style] ul ul, .markdown-preview[data-use-github-style] ul ol, .markdown-preview[data-use-github-style] ol ol, .markdown-preview[data-use-github-style] ol ul { margin-top: 0px; margin-bottom: 0px; }
+.markdown-preview[data-use-github-style] li > p { margin-top: 16px; }
+.markdown-preview[data-use-github-style] dl { padding: 0px; }
+.markdown-preview[data-use-github-style] dl dt { padding: 0px; margin-top: 16px; font-size: 1em; font-style: italic; font-weight: bold; }
+.markdown-preview[data-use-github-style] dl dd { padding: 0px 16px; margin-bottom: 16px; }
+.markdown-preview[data-use-github-style] blockquote { padding: 0px 15px; color: rgb(119, 119, 119); border-left: 4px solid rgb(221, 221, 221); }
+.markdown-preview[data-use-github-style] blockquote > :first-child { margin-top: 0px; }
+.markdown-preview[data-use-github-style] blockquote > :last-child { margin-bottom: 0px; }
+.markdown-preview[data-use-github-style] table { display: block; width: 100%; overflow: auto; word-break: keep-all; }
+.markdown-preview[data-use-github-style] table th { font-weight: bold; }
+.markdown-preview[data-use-github-style] table th, .markdown-preview[data-use-github-style] table td { padding: 6px 13px; border: 1px solid rgb(221, 221, 221); }
+.markdown-preview[data-use-github-style] table tr { background-color: rgb(255, 255, 255); border-top: 1px solid rgb(204, 204, 204); }
+.markdown-preview[data-use-github-style] table tr:nth-child(2n) { background-color: rgb(248, 248, 248); }
+.markdown-preview[data-use-github-style] img { max-width: 100%; box-sizing: border-box; }
+.markdown-preview[data-use-github-style] .emoji { max-width: none; }
+.markdown-preview[data-use-github-style] span.frame { display: block; overflow: hidden; }
+.markdown-preview[data-use-github-style] span.frame > span { display: block; float: left; width: auto; padding: 7px; margin: 13px 0px 0px; overflow: hidden; border: 1px solid rgb(221, 221, 221); }
+.markdown-preview[data-use-github-style] span.frame span img { display: block; float: left; }
+.markdown-preview[data-use-github-style] span.frame span span { display: block; padding: 5px 0px 0px; clear: both; color: rgb(51, 51, 51); }
+.markdown-preview[data-use-github-style] span.align-center { display: block; overflow: hidden; clear: both; }
+.markdown-preview[data-use-github-style] span.align-center > span { display: block; margin: 13px auto 0px; overflow: hidden; text-align: center; }
+.markdown-preview[data-use-github-style] span.align-center span img { margin: 0px auto; text-align: center; }
+.markdown-preview[data-use-github-style] span.align-right { display: block; overflow: hidden; clear: both; }
+.markdown-preview[data-use-github-style] span.align-right > span { display: block; margin: 13px 0px 0px; overflow: hidden; text-align: right; }
+.markdown-preview[data-use-github-style] span.align-right span img { margin: 0px; text-align: right; }
+.markdown-preview[data-use-github-style] span.float-left { display: block; float: left; margin-right: 13px; overflow: hidden; }
+.markdown-preview[data-use-github-style] span.float-left span { margin: 13px 0px 0px; }
+.markdown-preview[data-use-github-style] span.float-right { display: block; float: right; margin-left: 13px; overflow: hidden; }
+.markdown-preview[data-use-github-style] span.float-right > span { display: block; margin: 13px auto 0px; overflow: hidden; text-align: right; }
+.markdown-preview[data-use-github-style] code, .markdown-preview[data-use-github-style] tt { padding: 0.2em 0px; margin: 0px; font-size: 85%; background-color: rgba(0, 0, 0, 0.0392157); border-radius: 3px; }
+.markdown-preview[data-use-github-style] code::before, .markdown-preview[data-use-github-style] tt::before, .markdown-preview[data-use-github-style] code::after, .markdown-preview[data-use-github-style] tt::after { letter-spacing: -0.2em; content: " "; }
+.markdown-preview[data-use-github-style] code br, .markdown-preview[data-use-github-style] tt br { display: none; }
+.markdown-preview[data-use-github-style] del code { text-decoration: inherit; }
+.markdown-preview[data-use-github-style] pre > code { padding: 0px; margin: 0px; font-size: 100%; word-break: normal; white-space: pre; background: transparent; border: 0px; }
+.markdown-preview[data-use-github-style] .highlight { margin-bottom: 16px; }
+.markdown-preview[data-use-github-style] .highlight pre, .markdown-preview[data-use-github-style] pre { padding: 16px; overflow: auto; font-size: 85%; line-height: 1.45; background-color: rgb(247, 247, 247); border-radius: 3px; }
+.markdown-preview[data-use-github-style] .highlight pre { margin-bottom: 0px; word-break: normal; }
+.markdown-preview[data-use-github-style] pre { word-wrap: normal; }
+.markdown-preview[data-use-github-style] pre code, .markdown-preview[data-use-github-style] pre tt { display: inline; max-width: initial; padding: 0px; margin: 0px; overflow: initial; line-height: inherit; word-wrap: normal; background-color: transparent; border: 0px; }
+.markdown-preview[data-use-github-style] pre code::before, .markdown-preview[data-use-github-style] pre tt::before, .markdown-preview[data-use-github-style] pre code::after, .markdown-preview[data-use-github-style] pre tt::after { content: normal; }
+.markdown-preview[data-use-github-style] kbd { display: inline-block; padding: 3px 5px; font-size: 11px; line-height: 10px; color: rgb(85, 85, 85); vertical-align: middle; background-color: rgb(252, 252, 252); border-width: 1px; border-style: solid; border-color: rgb(204, 204, 204) rgb(204, 204, 204) rgb(187, 187, 187); border-image: initial; border-radius: 3px; box-shadow: rgb(187, 187, 187) 0px -1px 0px inset; }
+.markdown-preview[data-use-github-style] a { color: rgb(51, 122, 183); }
+.markdown-preview[data-use-github-style] code { color: inherit; }
+.markdown-preview[data-use-github-style] pre.editor-colors { padding: 0.8em 1em; margin-bottom: 1em; font-size: 0.85em; border-radius: 4px; overflow: auto; }
+.scrollbars-visible-always .markdown-preview pre.editor-colors .vertical-scrollbar, .scrollbars-visible-always .markdown-preview pre.editor-colors .horizontal-scrollbar { visibility: hidden; }
+.scrollbars-visible-always .markdown-preview pre.editor-colors:hover .vertical-scrollbar, .scrollbars-visible-always .markdown-preview pre.editor-colors:hover .horizontal-scrollbar { visibility: visible; }
+.markdown-preview .task-list-item-checkbox { position: absolute; margin: 0.25em 0px 0px -1.4em; }
+.bracket-matcher .region {
+  border-bottom: 1px dotted lime;
+  position: absolute;
+}
+
+.spell-check-misspelling .region {
+  border-bottom: 2px dotted rgba(255, 51, 51, 0.75);
+}
+.spell-check-corrections {
+  width: 25em !important;
+}
+
+pre.editor-colors {
+  background-color: white;
+  color: #555;
+}
+pre.editor-colors .invisible-character {
+  color: rgba(85, 85, 85, 0.2);
+}
+pre.editor-colors .indent-guide {
+  color: rgba(85, 85, 85, 0.2);
+}
+pre.editor-colors .wrap-guide {
+  background-color: rgba(85, 85, 85, 0.2);
+}
+pre.editor-colors .gutter {
+  color: #555;
+  background: white;
+}
+pre.editor-colors .gutter .line-number.folded,
+pre.editor-colors .gutter .line-number:after,
+pre.editor-colors .fold-marker:after {
+  color: #e87b00;
+}
+pre.editor-colors .invisible {
+  color: #555;
+}
+pre.editor-colors .selection .region {
+  background-color: #e1e1e1;
+}
+pre.editor-colors .bracket-matcher .region {
+  background-color: #C9C9C9;
+  opacity: .7;
+  border-bottom: 0 none;
+}
+pre.editor-colors.is-focused .cursor {
+  border-color: black;
+}
+pre.editor-colors.is-focused .selection .region {
+  background-color: #afc4da;
+}
+pre.editor-colors.is-focused .line-number.cursor-line-no-selection,
+pre.editor-colors.is-focused .line.cursor-line {
+  background-color: rgba(255, 255, 134, 0.34);
+}
+pre.editor-colors .syntax--source.syntax--gfm {
+  color: #444;
+}
+pre.editor-colors .syntax--gfm .syntax--markup.syntax--heading {
+  color: #111;
+}
+pre.editor-colors .syntax--gfm .syntax--link {
+  color: #888;
+}
+pre.editor-colors .syntax--gfm .syntax--variable.syntax--list {
+  color: #888;
+}
+pre.editor-colors .syntax--markdown .syntax--paragraph {
+  color: #444;
+}
+pre.editor-colors .syntax--markdown .syntax--heading {
+  color: #111;
+}
+pre.editor-colors .syntax--markdown .syntax--link {
+  color: #888;
+}
+pre.editor-colors .syntax--markdown .syntax--link .syntax--string {
+  color: #888;
+}
+.syntax--comment {
+  color: #999988;
+  font-style: italic;
+}
+.syntax--string {
+  color: #D14;
+}
+.syntax--string .syntax--source,
+.syntax--string .syntax--meta.syntax--embedded.syntax--line {
+  color: #5A5A5A;
+}
+.syntax--string .syntax--punctuation.syntax--section.syntax--embedded {
+  color: #920B2D;
+}
+.syntax--string .syntax--punctuation.syntax--section.syntax--embedded .syntax--source {
+  color: #920B2D;
+}
+.syntax--constant.syntax--numeric {
+  color: #D14;
+}
+.syntax--constant.syntax--language {
+  color: #606aa1;
+}
+.syntax--constant.syntax--character,
+.syntax--constant.syntax--other {
+  color: #606aa1;
+}
+.syntax--constant.syntax--symbol {
+  color: #990073;
+}
+.syntax--constant.syntax--numeric.syntax--line-number.syntax--find-in-files .syntax--match {
+  color: rgba(143, 190, 0, 0.63);
+}
+.syntax--variable {
+  color: #008080;
+}
+.syntax--variable.syntax--parameter {
+  color: #606aa1;
+}
+.syntax--keyword {
+  color: #222;
+  font-weight: bold;
+}
+.syntax--keyword.syntax--unit {
+  color: #445588;
+}
+.syntax--keyword.syntax--special-method {
+  color: #0086B3;
+}
+.syntax--storage {
+  color: #222;
+}
+.syntax--storage.syntax--type {
+  color: #222;
+}
+.syntax--entity.syntax--name.syntax--class {
+  text-decoration: underline;
+  color: #606aa1;
+}
+.syntax--entity.syntax--other.syntax--inherited-class {
+  text-decoration: underline;
+  color: #606aa1;
+}
+.syntax--entity.syntax--name.syntax--function {
+  color: #900;
+}
+.syntax--entity.syntax--name.syntax--tag {
+  color: #008080;
+}
+.syntax--entity.syntax--other.syntax--attribute-name {
+  color: #458;
+  font-weight: bold;
+}
+.syntax--entity.syntax--name.syntax--filename.syntax--find-in-files {
+  color: #E6DB74;
+}
+.syntax--support.syntax--constant,
+.syntax--support.syntax--function,
+.syntax--support.syntax--type {
+  color: #458;
+}
+.syntax--support.syntax--class {
+  color: #008080;
+}
+.syntax--invalid {
+  color: #F8F8F0;
+  background-color: #00A8C6;
+}
+.syntax--invalid.syntax--deprecated {
+  color: #F8F8F0;
+  background-color: #8FBE00;
+}
+.syntax--meta.syntax--structure.syntax--dictionary.syntax--json > .syntax--string.syntax--quoted.syntax--double.syntax--json,
+.syntax--meta.syntax--structure.syntax--dictionary.syntax--json > .syntax--string.syntax--quoted.syntax--double.syntax--json .syntax--punctuation.syntax--string {
+  color: #000080;
+}
+.syntax--meta.syntax--structure.syntax--dictionary.syntax--value.syntax--json > .syntax--string.syntax--quoted.syntax--double.syntax--json {
+  color: #d14;
+}
+.syntax--meta.syntax--diff,
+.syntax--meta.syntax--diff.syntax--header {
+  color: #75715E;
+}
+.syntax--css.syntax--support.syntax--property-name {
+  font-weight: bold;
+  color: #333;
+}
+.syntax--css.syntax--constant {
+  color: #099;
+}
+</style>
+  </head>
+  <body class='markdown-preview' data-use-github-style><h2 id="thunderbird-vcontacts-small-move-to-a-modern-addressbook-small-small-small-rev-171018-00-small-small-">Thunderbird vContacts <small>-- <em>Move to a modern Addressbook</em></small> <small><small>rev.171018.00</small></small></h2>
+<p>A <a href="https://github.com/Thunderbird301/react-addon/wiki">project initialized</a> at the SCHOOL OF ENGINEERING AND COMPUTER SCIENCE/VUW, New Zealand.<br>The project is aimed to build a modern addressbook based on industry standards, using modern technologies and to replace the current proprietary data store (mork) with a database.</p>
+<hr>
+<h4 id="vcontacts-overview-current-feature-set">vContacts Overview / Current Feature set</h4>
+<p><strong>vContacts</strong> is a normal <strong>TB Extension</strong>, the most current XPI can be downloaded <a href="https://github.com/neandr/vContacts/releases">[from here]</a><br>The XPI installs into Thunderbird as usual.<br><img src="https://neandr.github.io/vContacts/customize.png" alt="XPIIcon"><br>The &quot;vContacts&quot; toolbar button has to be added to the TB menu bar with the &quot;Customize&quot; feature on the main toolbar.</p>
+<p><strong>vContacts</strong> starts with two default contacts, feel free to modify/delete.</p>
+<p><strong>New Contacts</strong> can be added when the contact section is closed: The button [ + ] will add a new contact template.
+Also the Main Menu (Hamburger Menu) has a &#39;Add new Contact&#39;</p>
+<p><strong>Import Contacts</strong><br>The import currently reads <strong>vCard</strong> (.vcf) and <strong>LDIF</strong> (.LDIF) contact files. That way <strong>TB/Addressbook</strong> data which has been exported before with the LDIF format (and extension *.ldif) can be added.</p>
+<p>For tesing purpose a <strong>VCF Generator</strong> is provided as part of the project <a href="https://github.com/neandr/vContacts/tree/master/generateVCF">[see here]</a>. It generates VCF addresses for test purpose and writes to an output file, it uses German based names, locations, generates tel/communication and mail entries, gender, birthday/anniversary dates. Each vCard has also a rev code and an UUID.</p>
+<p><strong>Export vCard</strong> Selected contact(s) can be exported to vCard files.</p>
+<p><strong>Mailto/Links</strong> showing on contact details are active for &#39;mailto&#39; and normal &#39;url&#39;. So clicking on it will directly open a TB Compose window or open the web browser for http/https links.</p>
+<p><strong> Mailto with preferred address(es) with To/CC/BCC</strong><br>Selecting multiple contacts allow to collect their preferred &#39;mailto&#39; addresses and show them on another dialog. That dialog can used to edit the contacts, add additional before choosing the To, CC or Bcc addressing which will be used on the TB Compose dialog.</p>
+<p><strong>Tag/Categories</strong><br>Each contact can hold tags/categories. Same &#39;default&#39; tags come with the installation, more will be loaded with contact import. A later vContact version will allow to define/edit/delete tags.</p>
+<p><strong>Contact Lists</strong><br>vContact doesn&#39;t work with contact lists as they are offered by Thunderbird/Addressbook. An alternative concept is the use of tags/categories. On the Contacts Sidebar a menu can be used to filter for a certain tag/category and to start bulk actions like &#39;mailto&#39; or delete, more to come.</p>
+<p><strong> vContact Main Menu </strong> -- <em>Hambuger Menu</em>   </p>
+<p>A slide-in menu offers additional functionality<br><img src="https://neandr.github.io/vContacts/vContacts_topmenu.png" alt="pic1">   </p>
+<p>With the top left button the menu is opened to show more handles:  </p>
+<p><img src="https://neandr.github.io/vContacts/hambg_Menu_contactclosed.png" alt="pic2"></p>
+<p>Some menu items link to project documentation and the GIT project.</p>
+<hr>
+<h4 id="vcontact-screenshots">vContact Screenshots</h4>
+<p>Next two pic show a selected contact to be displayed with it details at the right part of the window, the second picture is a contact in edit mode.</p>
+<p><img src="https://neandr.github.io/vContacts/Contact_opened.png" alt="opened"></p>
+<p><img src="https://neandr.github.io/vContacts/Contact_Edit.png" alt="edit">   </p>
+<p><strong>Working with Tags/Categories</strong><br>To group contacts the Tags or Categories are used. Every contact can hold multiple tags, so it would &#39;belong&#39; to different groups, like &#39;Projects&#39; and &#39;FollowUp&#39;.</p>
+<p><img src="https://neandr.github.io/vContacts/Tag_add_1.png" alt="tag1"> <img src="https://neandr.github.io/vContacts/Tag_add_2.png" alt="tag2"><br>In Edit mode the button [Add Tag] allows to open a dropdown menu, the selected tag will be added to the contact. Delete tags in Edit mode with the [-] button.</p>
+<p><strong>Change Preferred/Default attribute</strong><br>The first entry for Phone, Email or Webpage is named the &#39;preferred&#39; attribute which will be used as a &#39;default&#39; eg. for collecting mail addresses.<br><img src="https://neandr.github.io/vContacts/Phone_change_prio_1.png" alt="prio_1"> <img src="https://neandr.github.io/vContacts/Phone_change_prio_2.png" alt="prio_2">   </p>
+<p>To change an entry to become the preferred one use the [up] arrow button.</p>
+<p><strong>Mailto / Compose Message for Contacts</strong><br>Composing a message to a single contact just click on the mailto link.   </p>
+<p>For sending to multiple addresses select the contacts on the sidebar ...<br><img src="https://neandr.github.io/vContacts/Mailto_1.png" alt="Mailto_1"></p>
+<p> ... open the Main Menu on the top ...<br> <img src="https://neandr.github.io/vContacts/Mailto_2.png" alt="Mailto_2"><br> ... and select the link &quot;Mailto selected Contact(s)&quot;   </p>
+<p>On the next dialog the selected mailto addresses are shown, additional addresses can be added or others be removed etc.   </p>
+<p><img src="https://neandr.github.io/vContacts/Mailto_3.png" alt="Mailto_3">   </p>
+<p>Use the [To] or [CC] or [BCC] to open a compose window with to assembled addresses. The [Copy mailto] copies to the copy/paste buffer. The copied addresses can be added directly to one of the rows [To] or [CC] or [BCC] on the compose window.</p>
+<p> <img src="https://neandr.github.io/vContacts/Mailto_4.png" alt="Mailto_4"></p>
+<hr>
+<h3 id="vcontact-status-small-_prove-of-concept_-small-">vContact Status <small>- <em>Prove of Concept</em></small></h3>
+<p>vContact is in very early development state, little debugged, not tuned for performance, not fully tested and lot of functionality needs completion (e.g. using tags/categories, rendering of addresses, editing of personal and contact items).</p>
+<p> <i><strong>Use it on your own risk</strong> -- which should be low risk, vContact doesn&#39;t write back to any TB environment.</i></p>
+<p><strong>HELP NEEDED</strong>
+For further development feedback is very much welcomed, for the functionality, for the UI, for the coding, for documentation, for testing functions ...
+Please use the [GIT issues]</p></body>
 </html>
