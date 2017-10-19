@@ -1,10 +1,11 @@
-## Thunderbird vContacts <small>-- *Move to a modern Addressbook*</small>
-<small><small>rev.171018.00</small></small>
+## Thunderbird vContacts <small>-- *Move to a modern Addressbook*</small> <small><small>rev.171018.00</small></small>
 
-A project initialized at the [SCHOOL OF ENGINEERING AND COMPUTER SCIENCE/VUW, New Zealand](https://neandr.github.io/vContacts/notes.txt).  
-The project is aimed to build a modern addressbook based on industry standards, using modern technologies and to replace the current proprietary data store (mork) with a database.
-
-#### Technical concepts
+_**vContacts** was [initialized](https://github.com/Thunderbird301/react-addon/wiki) at the SCHOOL OF ENGINEERING AND COMPUTER SCIENCE/VUW, New Zealand.   _
+_The project was aimed to build a modern addressbook based on industry standards, using modern technologies and to replace the current proprietary data store (mork) with a database._
+_**vContacts** will be moved forward with the initial ideas in mind and to show modern web technologies can be combined with the legacy Thunderbird project._ 
+   
+----   
+#### vContacts Overview / Current Feature set
 
 **vContacts** is a normal **TB Extension**, the most current XPI can be downloaded [[from here]](https://github.com/neandr/vContacts/releases)   
 The XPI installs into Thunderbird as usual.   
@@ -34,7 +35,7 @@ Each contact can hold tags/categories. Same 'default' tags come with the install
 **Contact Lists**  
 vContact doesn't work with contact lists as they are offered by Thunderbird/Addressbook. An alternative concept is the use of tags/categories. On the Contacts Sidebar a menu can be used to filter for a certain tag/category and to start bulk actions like 'mailto' or delete, more to come.
 
-#### vContact Main Menu <small> -- Hambuger Menu </small>
+**vContact Main Menu** <small> -- Hambuger Menu </small>
 A slide-in menu offers additional functionality  
 ![pic1](https://neandr.github.io/vContacts/vContacts_topmenu.png)  
 With the top left button the menu is opened to show more handles:  
@@ -60,18 +61,20 @@ In Edit mode the button [Add Tag] allows to open a dropdown menu to select an ad
 
 
 **Change Preferred attribute**   
-![prio_1](https://neandr.github.io/vContacts/Phone_change_prio_1.png) ![prio_2](https://neandr.github.io/vContacts/Phone_change_prio_2.png)   
+![prio_1](https://neandr.github.io/vContacts/Phone_change_prio_1.png) 
+    ![prio_2](https://neandr.github.io/vContacts/Phone_change_prio_2.png)   
 
 Use the arrow up button to make the entry the top one. For that a preferred mailto address can be set (see mailto below).
 
 
 **Mailto / Compose Message for Contacts**
 
-Composing a message to a single contact just click on the mailto link.    
+Composing a message to a single contact just click on the mailto link.   
+
 For sending to multiple addresses select the contacts on the sidebar ...   
 ![Mailto_1](https://neandr.github.io/vContacts/Mailto_1.png)
 
-open the Main Menu with on the top ...   
+... open the Main Menu on the top ...   
  ![Mailto_2](https://neandr.github.io/vContacts/Mailto_2.png)   
 and select the link "Mailto selected Contact(s)"   
 

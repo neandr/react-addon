@@ -1,0 +1,278 @@
+<!DOCTYPE HTML>
+<html>
+ <head>
+  <meta charset="utf-8"/>
+  <title>
+   Made with Remarkable!
+  </title>
+  <link href="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.1/styles/github.min.css" rel="stylesheet"/>
+  <style type="text/css">
+   body,table tr{background-color:#fff}table tr td,table tr th{border:1px solid #ccc;text-align:left;padding:6px 13px;margin:0}pre code,table,table tr{padding:0}hr,pre code{background:0 0}body{font:16px Helvetica,Arial,sans-serif;line-height:1.4;color:#333;word-wrap:break-word;padding:10px 15px}strong,table tr th{font-weight:700}h1{font-size:2em;margin:.67em 0;text-align:center}h2{font-size:1.75em}h3{font-size:1.5em}h4{font-size:1.25em}h1,h2,h3,h4,h5,h6{font-weight:700;position:relative;margin-top:15px;margin-bottom:15px;line-height:1.1}h1,h2{border-bottom:1px solid #eee}hr{height:0;margin:15px 0;overflow:hidden;border:0;border-bottom:1px solid #ddd}a{color:#4183C4}a.absent{color:#c00}ol,ul{padding-left:15px;margin-left:5px}ol{list-style-type:lower-roman}table tr{border-top:1px solid #ccc;margin:0}table tr:nth-child(2n){background-color:#aaa}table tr td :first-child,table tr th :first-child{margin-top:0}table tr td:last-child,table tr th :last-child{margin-bottom:0}img{max-width:100%}blockquote{padding:0 15px;border-left:4px solid #ccc}code,tt{margin:0 2px;padding:0 5px;white-space:nowrap;border:1px solid #eaeaea;background-color:#f8f8f8;border-radius:3px}pre code{margin:0;white-space:pre;border:none}.highlight pre,pre{background-color:#f8f8f8;border:1px solid #ccc;font-size:13px;line-height:19px;overflow:auto;padding:6px 10px;border-radius:3px}
+  </style>
+ </head>
+ <body>
+  <h2 id="thunderbird-vcontacts-ndash-move-to-a-modern-addressbook-rev17101800">
+   Thunderbird vContacts
+   <small>
+    –
+    <em>
+     Move to a modern Addressbook
+    </em>
+   </small>
+   <small>
+    <small>
+     rev.171018.00
+    </small>
+   </small>
+  </h2>
+  <p>
+   <em>
+    <strong>
+     vContacts
+    </strong>
+    was
+    <a href="https://github.com/Thunderbird301/react-addon/wiki">
+     initialized
+    </a>
+    at the SCHOOL OF ENGINEERING AND COMPUTER SCIENCE/VUW, New Zealand.
+   </em>
+   <br/>
+   <em>
+    The project was aimed to build a modern addressbook based on industry standards, using modern technologies and to replace the current proprietary data store (mork) with a database.
+   </em>
+   <br/>
+   <em>
+    <strong>
+     vContacts
+    </strong>
+    will be moved forward with the initial ideas in mind and to show modern web technologies can be combined with the legacy Thunderbird project.
+   </em>
+  </p>
+  <hr/>
+  <h4 id="vcontacts-overview-current-feature-set">
+   vContacts Overview / Current Feature set
+  </h4>
+  <p>
+   <strong>
+    vContacts
+   </strong>
+   is a normal
+   <strong>
+    TB Extension
+   </strong>
+   , the most current XPI can be downloaded
+   <a href="https://github.com/neandr/vContacts/releases">
+    [from here]
+   </a>
+   <br/>
+   The XPI installs into Thunderbird as usual.
+   <br/>
+   <img alt="XPIIcon" src="https://neandr.github.io/vContacts/customize.png"/>
+   <br/>
+   The “vContacts” toolbar button has to be added to the TB menu bar with the “Customize” feature on the main toolbar.
+  </p>
+  <p>
+   <strong>
+    vContacts
+   </strong>
+   starts with two default contacts, feel free to modify/delete.
+  </p>
+  <p>
+   <strong>
+    New Contacts
+   </strong>
+   can be added when the contact section is closed: The button [ + ] will add a new contact template.
+   <br/>
+   Also the Main Menu (Hamburger Menu) has a ‘Add new Contact’
+  </p>
+  <p>
+   <strong>
+    Import Contacts
+   </strong>
+   <br/>
+   The import currently reads
+   <strong>
+    vCard
+   </strong>
+   (.vcf) and
+   <strong>
+    LDIF
+   </strong>
+   (.LDIF) contact files. That way
+   <strong>
+    TB/Addressbook
+   </strong>
+   data which has been exported before with the LDIF format (and extension *.ldif) can be added.
+  </p>
+  <p>
+   For tesing purpose a
+   <strong>
+    VCF Generator
+   </strong>
+   is provided as part of the project
+   <a href="https://github.com/neandr/vContacts/tree/master/generateVCF">
+    [see here]
+   </a>
+   . It generates VCF addresses for test purpose and writes to an output file, it uses German based names, locations, generates tel/communication and mail entries, gender, birthday/anniversary dates. Each vCard has also a rev code and an UUID.
+  </p>
+  <p>
+   <strong>
+    Export vCard
+   </strong>
+   Selected contact(s) can be exported to vCard files.
+  </p>
+  <p>
+   <strong>
+    Mailto/Links
+   </strong>
+   showing on contact details are active for ‘mailto’ and normal ‘url’. So clicking on it will directly open a TB Compose window or open the web browser for http/https links.
+  </p>
+  <p>
+   <strong>
+    Mailto with preferred address(es) with To/CC/BCC
+   </strong>
+   <br/>
+   Selecting multiple contacts allow to collect their preferred ‘mailto’ addresses and show them on another dialog. That dialog can used to edit the contacts, add additional before choosing the To, CC or Bcc addressing which will be used on the TB Compose dialog.
+  </p>
+  <p>
+   <strong>
+    Tag/Categories
+   </strong>
+   <br/>
+   Each contact can hold tags/categories. Same ‘default’ tags come with the installation, more will be loaded with contact import. A later vContact version will allow to define/edit/delete tags.
+  </p>
+  <p>
+   <strong>
+    Contact Lists
+   </strong>
+   <br/>
+   vContact doesn’t work with contact lists as they are offered by Thunderbird/Addressbook. An alternative concept is the use of tags/categories. On the Contacts Sidebar a menu can be used to filter for a certain tag/category and to start bulk actions like ‘mailto’ or delete, more to come.
+  </p>
+  <p>
+   <strong>
+    vContact Main Menu
+   </strong>
+   <small>
+    – Hambuger Menu
+   </small>
+   <br/>
+   A slide-in menu offers additional functionality
+   <br/>
+   <img alt="pic1" src="https://neandr.github.io/vContacts/vContacts_topmenu.png"/>
+   <br/>
+   With the top left button the menu is opened to show more handles:
+  </p>
+  <p>
+   <img alt="pic2" src="https://neandr.github.io/vContacts/hambg_Menu_contactclosed.png"/>
+  </p>
+  <p>
+   Some menu items link to project documentation and the GIT project.
+  </p>
+  <h4 id="vcontact-screenshots">
+   vContact Screenshots
+  </h4>
+  <p>
+   Next two pic show a selected contact to be displayed the details on the right, the second is the contact in edit mode.
+  </p>
+  <p>
+   <img alt="opened" src="https://neandr.github.io/vContacts/Contact_opened.png"/>
+  </p>
+  <p>
+   <img alt="edit" src="https://neandr.github.io/vContacts/Contact_Edit.png"/>
+  </p>
+  <p>
+   <strong>
+    Working with Tags/categories
+   </strong>
+  </p>
+  <p>
+   <img alt="tag1" src="https://neandr.github.io/vContacts/Tag_add_1.png"/>
+   <img alt="tag2" src="https://neandr.github.io/vContacts/Tag_add_2.png"/>
+   <br/>
+   In Edit mode the button [Add Tag] allows to open a dropdown menu to select an additional one
+  </p>
+  <p>
+   <strong>
+    Change Preferred attribute
+   </strong>
+   <br/>
+   <img alt="prio_1" src="https://neandr.github.io/vContacts/Phone_change_prio_1.png"/>
+   <br/>
+   <img alt="prio_2" src="https://neandr.github.io/vContacts/Phone_change_prio_2.png"/>
+  </p>
+  <p>
+   Use the arrow up button to make the entry the top one. For that a preferred mailto address can be set (see mailto below).
+  </p>
+  <p>
+   <strong>
+    Mailto / Compose Message for Contacts
+   </strong>
+  </p>
+  <p>
+   Composing a message to a single contact just click on the mailto link.
+  </p>
+  <p>
+   For sending to multiple addresses select the contacts on the sidebar …
+   <br/>
+   <img alt="Mailto_1" src="https://neandr.github.io/vContacts/Mailto_1.png"/>
+  </p>
+  <p>
+   … open the Main Menu on the top …
+   <br/>
+   <img alt="Mailto_2" src="https://neandr.github.io/vContacts/Mailto_2.png"/>
+   <br/>
+   and select the link “Mailto selected Contact(s)”
+  </p>
+  <p>
+   On the next dialog the selected mailto addresses are shown, additional addresses can be added or others removed etc.
+  </p>
+  <p>
+   <img alt="Mailto_3" src="https://neandr.github.io/vContacts/Mailto_3.png"/>
+   <br/>
+   Use the [To] or [CC] or [BCC] to open a compose window with to assembled addresses or copy them to the copy/paste buffer. The copied addresses can be added directly to one of the rows [To] or [CC] or [BCC] on the compose window.
+  </p>
+  <p>
+   <img alt="Mailto_4" src="https://neandr.github.io/vContacts/Mailto_4.png"/>
+  </p>
+  <hr/>
+  <h3 id="vcontact-status-prove-of-concept">
+   vContact Status
+   <small>
+    -
+    <em>
+     Prove of Concept
+    </em>
+   </small>
+  </h3>
+  <p>
+   vContact is in very early development state, little debugged, not tuned for performance, not fully tested and lot of functionality needs completion (e.g. using tags/categories, rendering of addresses, editing of personal and contact items).
+  </p>
+  <p>
+   <i>
+    <strong>
+     Use it on your own risk
+    </strong>
+    – which should be low risk, vContact doesn’t write back to any TB environment.
+   </i>
+  </p>
+  <p>
+   <strong>
+    HELP NEEDED
+   </strong>
+   <br/>
+   For further development feedback is very much welcomed, for the functionality, for the UI, for the coding, for documentation, for testing functions …
+   <br/>
+   Please use the [GIT issues]
+  </p>
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.1/highlight.min.js">
+  </script>
+  <script>
+   hljs.initHighlightingOnLoad();
+  </script>
+  <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript">
+  </script>
+  <script type="text/javascript">
+   MathJax.Hub.Config({"showProcessingMessages" : false,"messageStyle" : "none","tex2jax": { inlineMath: [ [ "$", "$" ] ] }});
+  </script>
+ </body>
+</html>
