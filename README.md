@@ -1,6 +1,6 @@
 ## Thunderbird vContacts <small>-- *Move to a modern Addressbook*</small> <small><small>rev.171018.00</small></small>
 
-A [project initialized](https://github.com/neandr/vContacts/VUW-Project.md.html) at the SCHOOL OF ENGINEERING AND COMPUTER SCIENCE/VUW, New Zealand.   
+A [project initialized](https://neandr.github.io/vContacts/VUW-Project.md.html) at the SCHOOL OF ENGINEERING AND COMPUTER SCIENCE/VUW, New Zealand.   
 The project is aimed to build a modern addressbook based on industry standards, using modern technologies and to replace the current proprietary data store (mork) with a database.
 
 ---
