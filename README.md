@@ -1,6 +1,6 @@
 ## Thunderbird vContacts <small>-- *Move to a modern Addressbook*</small> <small><small>rev.171018.00</small></small>
 
-A [project initialized](https://github.com/Thunderbird301/react-addon/wiki) at the SCHOOL OF ENGINEERING AND COMPUTER SCIENCE/VUW, New Zealand.   
+A [project initialized](https://github.com/neandr/vContacts/VUW-Project.md.html) at the SCHOOL OF ENGINEERING AND COMPUTER SCIENCE/VUW, New Zealand.   
 The project is aimed to build a modern addressbook based on industry standards, using modern technologies and to replace the current proprietary data store (mork) with a database.
 
 ---
@@ -85,7 +85,7 @@ On the next dialog the selected mailto addresses are shown, additional addresses
 
 ![Mailto_3](https://neandr.github.io/vContacts/Mailto_3.png)   
 
-Use the [To] or [CC] or [BCC] to open a compose window with to assembled addresses. The [Copy mailto] copies to the copy/paste buffer. The copied addresses can be added directly to one of the rows [To] or [CC] or [BCC] on the compose window.
+Use the [To] or [CC] or [BCC] to open a compose window with the assembled addresses. The [Copy mailto] copies to the copy/paste buffer. The copied addresses can be added directly to one of the rows [To] or [CC] or [BCC] on the compose window.
 
  ![Mailto_4](https://neandr.github.io/vContacts/Mailto_4.png)
 
