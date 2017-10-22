@@ -14,7 +14,7 @@ function DatabaseConnection() { }
  * @param {AddressBook} abUI The addressbook UI component
  */
 DatabaseConnection.getContactDetails = function(id, abUI, listPos) {
-  console.log(" dbConnection.getContactDetails  listId:", id, "abUI: ", abUI, "  listPos:", listPos);
+  // console.log(" dbConnection.getContactDetails  listId:", id, "abUI: ", abUI, "  listPos:", listPos);
 
   // if edit mode on, leave
   if (abUI.state.editing == true) return;
@@ -65,7 +65,7 @@ DatabaseConnection.getContactDetails = function(id, abUI, listPos) {
       // Stores contact information in UI
       let _status1 = "Cursor   scrollDef.height: " + scrollDef.height + " marginTop: " + scrollDef.marginTop;
       let _status = "\nContact: " + id + " uid: " + contactUid + " listLen|listPos:" + listLen +"|"+listPos;
-      console.log("DatabaseConnection.getContactDetails: ", _status1, _status);
+      // console.log("DatabaseConnection.getContactDetails: ", _status1, _status);
 
       abUI.setState({
         contact: contact,

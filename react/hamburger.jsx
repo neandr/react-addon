@@ -68,16 +68,6 @@ let HHmenu = props =>
       >
         {"References"}
       </div>
-      <hr />
-      <div
-        className="hambgLink"
-        onClick={() =>
-          AddressbookUtil.openLink(
-            "https://github.com/neandr/vContacts/blob/master/README.md"
-          )}
-      >
-        {"Readme on Git"}
-      </div>
     </div>
 
     <div className="hambgRev">{props.abRev}</div>
