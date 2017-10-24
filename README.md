@@ -50,7 +50,10 @@ Some menu items link to project documentation and the GIT project.
 ----
 #### vContact Screenshots
 
-Next two pic show a selected contact to be displayed with it details at the right part of the window, the second picture is a contact in edit mode.
+Next two pictures show the addressbook with the left hand sidebar and the contact details on the right.
+
+On the sidebar the pull down menu for the tags/categories has been used to select "Golf" and there are three contacts matching that. The first contact is selected, the first picture shows the contact details, the second the same contact in edit mode.
+
 
 ![opened](https://neandr.github.io/vContacts/Contact_opened.png)
 
