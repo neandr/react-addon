@@ -91,6 +91,7 @@ Addressbook.prototype = {
     * Set up indexes for db
     **/
     contactsStore.createIndex("name", "name", { unique: false });
+    contactsStore.createIndex("email", "email", { unique: false });
     /**
      * Set up seed data for mock db
     **/
@@ -181,6 +182,7 @@ Addressbook.prototype = {
       });
   },
 
+
   /**
   * Return all contacts in db.
   * @returns {Promise} of an array of all contact objects in the db.
@@ -202,6 +204,7 @@ Addressbook.prototype = {
 
           return { name: rawContact.name,
             categories: tags,
+            email: Contact.prototype._findProperty('email', rawContact.jcards),
             id: DatabaseConnection.lastContactId,
             uid: DatabaseConnection.lastContactUID,
             photo: Images.getPhotoURL(rawContact.photo)

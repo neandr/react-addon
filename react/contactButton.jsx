@@ -22,8 +22,10 @@ let ContactButton = props => {
       />
 
       <li className="contact-detail" key={props.contact.id}>
-        {props.contact.name}
+        <div> {props.contact.name}</div>
+        <div className="textSmall"> {props.contact.email} </div>
       </li>
+
     </div>
   );
 };

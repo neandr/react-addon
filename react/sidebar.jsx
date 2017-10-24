@@ -11,8 +11,10 @@ let ContactSidebar = props =>
 
   <div id="contactSidebar" className="wheel">
     <SidebarHeader
-      searchNames={props.searchNames}
-      clearSearchNames={props.clearSearchNames}
+
+      searchDB={props.searchDB}
+      clearSearchDB={props.clearSearchDB}
+
       searchTags={props.searchTags}
       tagCollection={props.tagCollection}
       contactDB={props.contactDB}

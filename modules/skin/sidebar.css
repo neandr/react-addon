@@ -133,7 +133,15 @@
   margin: auto;
   padding-left: 5px;
   pointer-events: none;
+  display:flex;
+  flex-direction: column;
 }
+
+.textSmall {
+  font-size:.6em;
+  color:gray;
+}
+
 
 .contactList_name{
   display: flex;

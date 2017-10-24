@@ -105,23 +105,24 @@ let SidebarHeader = React.createClass({
           </select>
         </div>
 
+
         <div className="searchBar">
           <img
             className="inputIcon"
             src="images/glyphicons_027_search.png"
           />
           <input
-            id="searchNames"
+            id="searchDB"
             className="searchNames"
             type="text"
-            placeholder="Search Given- FamilyName "
-            onChange={this.props.searchNames}
-            value={this.props.searchNamesValue}
+            placeholder="Search Names and/or email"
+            onChange={this.props.searchDB}
+            value={this.props.searchDBValue}
           />
           <img
-            id="clearSearchNames"
+            id="clearSearchDB"
             className="inputIconRight"
-            onClick={this.props.clearSearchNames}
+            onClick={this.props.clearSearchDB}
             src="images/glyphicons_207_remove_2.png"
           />
         </div>

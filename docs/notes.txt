@@ -1,7 +1,17 @@
-vContacts  Project        Notes/Status                 2017-10-18
+vContacts  Project        Notes/Status                 2017-10-24
 
-  Current Status ____________________________    vContacts_2017-10-18.00.xpi
+  Current Status ____________________________    vContacts_2017-10-24.00.xpi
     See https://github.com/neandr/vContacts/releases
+
+  * Sidebar Search for Names and/or EMail improved
+    Entering a search string into the search box will start a lookup for a
+    matching with contact name (first and family name) and also for the
+    default/preferred email address. Search in case independent.
+
+  * Sidebar will now should also the default/preferred email address of the contact
+
+
+vContacts  Project        Notes/Status                 2017-10-18
 
   * Sidebar with Filter, Scrolling and selection
     Contacts are filtered by FirstName/LastName and/or tag/categories, the

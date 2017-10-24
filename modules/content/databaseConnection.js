@@ -141,7 +141,7 @@ DatabaseConnection.lastContactUID = "";
 
 DatabaseConnection.loadInContacts = function(abUI) {
 
-  var filter = abUI.state.searchItem != '' ? abUI.state.searchItem : "";
+  var filter = abUI.state.searchItem != "" ? abUI.state.searchItem : "";
   var filter2 = filter.split(" ")[1] || "";
   var filter1 = filter.split(" ")[0] || "";
 

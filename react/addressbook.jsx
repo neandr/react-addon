@@ -2,7 +2,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.  */
 
-var abRevision = '171018.02';
+var abRevision = '171024.00';
 
 // Fields options
 let abEmail = { key: "email", name: "Email", options: ["Work", "Home"] };
@@ -134,6 +134,105 @@ let AddressBook = React.createClass({
   },
 
 
+  contactList: [],
+  contactID: [],
+  lastSearchItem: "",
+  contactDBLength: 0,
+
+  searchDB: function(event) {
+
+    // ---- detailSearch ---------
+    function detailSearch(contactDB, searchItem, tagItem) {
+      var contactList = [];
+      var contactID = [];
+
+      tagItem = tagItem != '' ? tagItem : "";
+
+      console.log(" searchDB2   contactDB.length:", contactDB.length);
+      var time0 = new Date();
+
+      for (var i=0; i < contactDB.length; i++) {
+        if ((contactDB[i].name.toLowerCase().indexOf(searchItem.toLowerCase()) !== -1) ||
+          (contactDB[i].email.toLowerCase().indexOf(searchItem.toLowerCase()) !== -1)) {
+            if (tagItem != "") {
+              if (contactDB[i].categories.indexOf(tagItem) > -1) {
+                contactList.push(contactDB[i]);
+                contactID.push(contactDB[i].id);
+              }
+            } else {
+              contactList.push(contactDB[i]);
+              contactID.push(contactDB[i].id);
+            }
+        }
+      }
+      this.contactList = contactList;
+      this.contactID = contactID;
+
+      var time1 = new Date();
+      console.log(" searchDB3   searchItem:", searchItem, contactList.length, time1 -time0);
+      this.lastSearchLength = searchItem.length;
+
+      self.setState({
+        contactDB: contactList, //  contains contacts as stored in indexedDB
+        contactID: contactID, //  'id's of contacts selected by search and tags
+        abStatus: ('Contacts ' + contactID.length + ' of ' + this.contactDBLength)
+      });
+    } // ---- detailSearch ---------
+
+
+    let self = this;
+    var searchItem= event.target.value;
+    var time0 = new Date();
+
+    if ((searchItem.length == 1) || (searchItem.length < self.lastSearchLength)) {
+      self.lastSearchLength = 1;
+      Addressbook.open(indexedDB).then(function(addrbook) {
+        addrbook.getAllNameIdAndPhoto().then(function(contactDB) {
+          var time1 = new Date();
+
+          var totalContacts = contactDB.length -1;
+          this.contactDBLength = contactDB.length;
+
+          DatabaseConnection.lastContactId = contactDB[totalContacts].id;
+          DatabaseConnection.lastContactUID = contactDB[totalContacts].uid;
+
+          contactDB = contactDB.slice().sort((a, b) => a.name.toLowerCase() > b.name.toLowerCase());
+
+          var time2 = new Date();
+          console.log(" searchDB   searchItem:", searchItem, contactDB.length, time1 -time0, time2 - time1);
+
+          detailSearch(contactDB, searchItem, self.state.tagItem);
+          return contactDB;
+        });
+      });
+
+    } else {
+      // search in contactList
+      self.lastSearchLength = searchItem.length;
+      detailSearch(contactList, searchItem, self.state.tagItem);
+    }
+  },
+
+  clearSearchDB: function() {
+    let self = this;
+    document.getElementById('searchDB').value = ""; //XXXX direct access ?? OK?
+
+    var scroll2def = this.state.contactListScroll;
+    scroll2def.height = '10px';
+    scroll2def.marginTop = '0px';
+
+    this.lastSearchItem = "";
+
+    self.setState({
+      searchItem: "",
+      listPos: 0,
+      contactListScroll: scroll2def
+    });
+    Addressbook.open(indexedDB)
+      .then(self.loadInContacts);
+  },
+
+
   searchNames: function(event) {
     let self = this;
 
@@ -166,8 +265,11 @@ let AddressBook = React.createClass({
 
     let sTag = event.target.value === "%none%" ? "" : event.target.value;
     self.setState({ tagItem: sTag });
-    Addressbook.open(indexedDB)
-      .then(self.loadInContacts);
+
+    this.clearSearchDB();
+
+  //  Addressbook.open(indexedDB)
+  //    .then(self.loadInContacts);
   },
 
 
@@ -747,8 +849,10 @@ let AddressBook = React.createClass({
               click4Contact={self.click4Contact}
               image={self.state.photoUrl}
               add={self.addContact}
-              searchNames={self.searchNames}
-              clearSearchNames={self.clearSearchNames}
+
+              searchDB={self.searchDB}
+              clearSearchDB={self.clearSearchDB}
+
               searchTags={self.searchTags}
               tagCollection={CategoryCollection}
             />
@@ -852,8 +956,10 @@ let AddressBook = React.createClass({
               click4Contact={self.click4Contact}
               selectedIds={self.state.selectedIds}
               image={self.state.photoUrl}
-              searchNames={self.searchNames}
-              clearSearchNames={self.clearSearchNames}
+
+              searchDB={self.searchDB}
+              clearSearchDB={self.clearSearchDB}
+
               searchTags={self.searchTags}
               tagCollection={CategoryCollection}
             />
