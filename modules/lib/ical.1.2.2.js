@@ -1137,9 +1137,9 @@ ICAL.design = (function() {
     n: { defaultType: "text", structuredValue: ";", multiValue: "," },
     nickname: DEFAULT_TYPE_TEXT_MULTI,
  //   photo: { defaultType: "binary", allowedTypes: ["binary", "uri"] },
- //   detect binary or http(s) link 
-    photo: { 
-      defaultType: "binary", 
+ //   detect binary or http(s) link
+    photo: {
+      defaultType: "binary",
       allowedTypes: ["binary", "uri"],
       detectType: function(string) {
          return ((string.indexOf('https://') === 0) || (string.indexOf('http://') === 0) ? 'uri' : 'binary');
@@ -1682,7 +1682,7 @@ ICAL.parse = (function() {
     state.stack = [root];
     var nLine = 0;      //gW
     parser._eachLine(input, function(err, line) {
-      parser._handleContentLine(line, state);
+      parser._handleContentLine(line, state, nLine);  //gW
       nLine++     //gW
     });
 
@@ -1692,7 +1692,7 @@ ICAL.parse = (function() {
     // correctly in that case.
     if (state.stack.length > 1) {
       throw new ParserError(
-        'invalid ical body. component began but did not end; line#' + nLine    //gW
+        'invalid ical body. component began but did not end; Line #' + nLine    //gW
       );
     }
 
@@ -1757,7 +1757,7 @@ ICAL.parse = (function() {
    * @param {String} line               The content line to process
    * @param {ICAL.parse.parserState}    The current state of the line parsing
    */
-  parser._handleContentLine = function(line, state) {
+  parser._handleContentLine = function(line, state, nLine) {
     // break up the parts of the line
     var valuePos = line.indexOf(VALUE_DELIMITER);
     var paramPos = line.indexOf(PARAM_DELIMITER);
@@ -1799,7 +1799,7 @@ ICAL.parse = (function() {
       name = line.substring(0, paramPos).toLowerCase();
       parsedParams = parser._parseParameters(line.substring(paramPos), 0, state.designSet);
       if (parsedParams[2] == -1) {
-        throw new ParserError("Invalid parameters in '" + line + "'");
+        throw new ParserError("Invalid parameters in '" + line + "' Line #" + nLine);
       }
       params = parsedParams[0];
       lastParamIndex = parsedParams[1].length + parsedParams[2] + paramPos;
@@ -1807,7 +1807,7 @@ ICAL.parse = (function() {
         line.substring(lastParamIndex).indexOf(VALUE_DELIMITER)) !== -1) {
         value = line.substring(lastParamIndex + lastValuePos + 1);
       } else {
-        throw new ParserError("Missing parameter value in '" + line + "'");
+        throw new ParserError("Missing parameter value in '" + line + "' Line #" + nLine);
       }
     } else if (valuePos !== -1) {
       // without parmeters (BEGIN:VCAENDAR, CLASS:PUBLIC)
@@ -1842,7 +1842,7 @@ ICAL.parse = (function() {
        * the result correctly either.
        */
       throw new ParserError(
-        'invalid line (no token ";" or ":") "' + line + '"'
+        'invalid line (no token ";" or ":") "' + line + "' Line #" + nLine
       );
     }
 
@@ -1911,7 +1911,12 @@ ICAL.parse = (function() {
             !(name === 'version' && value === '4.0')) {
       state.designSet = design.getDesignSet("vcard3");
     }
-    state.component[1].push(result);
+
+    try {
+      state.component[1].push(result);
+    } catch (e) {
+      throw new ParserError(value + "'  Line #" + nLine);
+    }
   };
 
   /**
@@ -1960,7 +1965,7 @@ ICAL.parse = (function() {
 
       name = line.substr(lastParam + 1, pos - lastParam - 1);
       if (name.length == 0) {
-        throw new ParserError("Empty parameter name in '" + line + "'");
+        throw new ParserError("Empty parameter name in '" + line + "'  Line #" + nLine);
       }
       lcname = name.toLowerCase();
 
@@ -1993,7 +1998,7 @@ ICAL.parse = (function() {
           }
         if (pos === -1) {
           throw new ParserError(
-            'invalid line (no matching double quote) "' + line + '"'
+            'invalid line (no matching double quote) "' + line + "'  Line #" + nLine
           );
         }
         value = line.substr(valuePos, pos - valuePos);
@@ -3429,9 +3434,9 @@ ICAL.Binary = (function() {
       dec = tmp_arr.join('');
 
 
-      // expand for codes > 128 
+      // expand for codes > 128
       tmp_arr = []; cntrl = 0;
-      i =0, ac=0; 
+      i =0, ac=0;
       do {
         h1 = dec.charCodeAt(i++)
 

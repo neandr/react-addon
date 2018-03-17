@@ -2,7 +2,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.  */
 
-var abRevision = '171024.00';
+var abRevision = '180315.00';
 
 // Fields options
 let abEmail = { key: "email", name: "Email", options: ["Work", "Home"] };
@@ -56,6 +56,9 @@ let CategoryCollection = [];
 
 /* eslint-disable indent */
 
+    let displayNone = { display: "none" };
+    let displayBlock = { display: "block" };
+
 
 let AddressBook = React.createClass({
   getInitialState: function() {
@@ -70,6 +73,7 @@ let AddressBook = React.createClass({
       abRev: "Welcome to vContacts  rev:" + abRevision,
       abStatus: "",
       abError: "",
+      errorStatus: displayNone,
 
       contactDB: [],
       contactID: [],
@@ -761,7 +765,7 @@ let AddressBook = React.createClass({
 
   errorLink: function() {
     alert("vContact " + this.state.abError); //XXXX    change Alert dialog!
-    document.getElementById("errorStatus").style.display = "none";
+    this.setState({ errorStatus:displayNone} );
   },
 
   renderContactSection: function(contactSection) {
@@ -832,6 +836,7 @@ let AddressBook = React.createClass({
               abStatus={(self.state.abStatus).trunc(42)}
               abError={(self.state.abError)}
               errorLink={self.errorLink}
+              errorStatus={(self.state.errorStatus)}
             />
 
             <ContactSidebar
@@ -940,6 +945,7 @@ let AddressBook = React.createClass({
               abStatus={(this.state.abStatus).trunc(42)}
               abError={(this.state.abError)}
               errorLink={this.errorLink}
+              errorStatus={(self.state.errorStatus)}
             />
 
             <ContactSidebar

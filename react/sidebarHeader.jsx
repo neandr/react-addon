@@ -29,7 +29,7 @@ let AB_header = props =>
         </label>
       </div>
 
-      <div id="errorStatus" className="errorStatus" style={ { display: 'none' } } >
+      <div id="errorStatus" className="errorStatus" style= {props.errorStatus} >
         <label className="errorLink" onClick={props.errorLink}>
           {"vContact Error"}
         </label>

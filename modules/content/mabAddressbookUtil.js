@@ -63,31 +63,32 @@ var AddressbookUtil = {
    */
   exportContact: function(contacts, abUI) {
 
-    var filePickerInterface = Components.interfaces.nsIFilePicker;
-    var filePicker = Components.classes["@mozilla.org/filepicker;1"].createInstance(filePickerInterface);
-    var windowMediator = Cc["@mozilla.org/appshell/window-mediator;1"].getService(Ci.nsIWindowMediator);
-    var window = windowMediator.getMostRecentWindow(null);
+    var window = Cc["@mozilla.org/appshell/window-mediator;1"]
+        .getService(Ci.nsIWindowMediator).getMostRecentWindow(null);
 
-    filePicker.init(window, "Save contacts to", filePickerInterface.modeSave);
-    filePicker.appendFilter("vCard", "*.vcf; *.vcard");
-    filePicker.appendFilters(filePickerInterface.filterAll);
-    filePicker.filterIndex = 0;
+    var details = {};
+    details.title = 'Save contacts to VCF file"';
+    details.fileMode = 'modeSave';
+    details.filterName = "vCard";
+    details.filterextensions = ("*.vcf; *.vcard");
+    details.filterIndex = 1;
+
 
     // check if the contacts to export is an array or a single contact
     if (Array.isArray(contacts)) {
-      filePicker.defaultString = "contacts.vcf";
+      details.defaultString = "contacts.vcf";
     } else {
-      filePicker.defaultString = contacts.name + ".vcf";
+      details.defaultString = contacts.name + ".vcf";
       contacts = [contacts];
     }
+    details.contacts = contacts;
 
-    var returnValue = filePicker.show();
-
-    if (returnValue == filePickerInterface.returnOK || returnValue == filePickerInterface.returnReplace) {
+    AddressbookUtil.filePick(window, details, 
+      /*callback*/ function (file, details) {
 
       // iterate through all the contacts to be exported
       let all_vcards = "";
-      contacts.forEach(function(contact) {
+      details.contacts.forEach(function(contact) {
       // iterate through the jCards (assuming they are in Component form)
         contact.jcards.map(function(jcard) {
           jcard.updatePropertyWithValue("prodid", AddressbookUtil.prodid);
@@ -99,7 +100,14 @@ var AddressbookUtil = {
         .createInstance(Components.interfaces.nsIFileOutputStream);
 
       // eslint  reports: Invalid number  0666                                  //TODO
-/**/  foStream.init(filePicker.file, 0x02 | 0x08 | 0x20, 0666, 0); // write, create, truncate
+      try {
+        foStream.init(file, 0x02 | 0x08 | 0x20, 0666, 0); // write, create, truncate
+      } catch (e) {
+        abUI.setState({ abError:("Export failed: " + e.name)});
+        abUI.setState({ errorStatus: displayBlock });
+        console.error("vContacts Export: " + e);
+        return;
+      }
 
       var converter = Cc["@mozilla.org/intl/scriptableunicodeconverter"]
         .createInstance(Ci.nsIScriptableUnicodeConverter);
@@ -107,15 +115,17 @@ var AddressbookUtil = {
       converter.charset = "UTF-8";
       var inStream = converter.convertToInputStream(all_vcards);
 
-      NetUtil.asyncCopy(inStream, foStream, function(aResult) {
-        if (!Components.isSuccessCode(aResult)) {
-          // an error occurred!
-          console.error("vContacts ERROR Export: " + aResult);
-          abUI.setState({ abError:("Export: " + aResult)});
-        }
-      });
+      NetUtil.asyncCopy(inStream, foStream, 
+        function(aResult) {
+           if (!Components.isSuccessCode(aResult)) {
+             // an error occurred!
+             abUI.setState({ abError:("Export: " + aResult)});
+             abUI.setState({ errorStatus: displayBlock });
+             console.error("vContacts Export: " + aResult);
+           }
+        });
 
-    }
+    }); // filePick callback
   },
 
 
@@ -128,19 +138,18 @@ var AddressbookUtil = {
    */
   importContacts: function(abUI, addressbook) {
 
-    var filePickerInterface = Components.interfaces.nsIFilePicker;
-    var filePicker = Components.classes["@mozilla.org/filepicker;1"].createInstance(filePickerInterface);
-    var windowMediator = Cc["@mozilla.org/appshell/window-mediator;1"].getService(Ci.nsIWindowMediator);
-    var window = windowMediator.getMostRecentWindow(null);
+    var window = Cc["@mozilla.org/appshell/window-mediator;1"]
+        .getService(Ci.nsIWindowMediator).getMostRecentWindow(null);
 
-    filePicker.init(window, "Load contacts from", filePickerInterface.modeOpen);
-    filePicker.appendFilter("vCard/ldif", "*.vcf; *.vcard; *.ldif");
-    filePicker.appendFilters(filePickerInterface.filterAll);
-    filePicker.filterIndex = 0;
-    filePicker.defaultString = "contacts.vcf";
+    var details = {};
+    details.title = 'Load contacts from VCF/LDIF file"';
+    details.fileMode = 'modeOpen';
+    details.filterName = "vCard/ldif";
+    details.filterextensions = ("*.vcf; *.vcard; *.ldif");
+    details.filterIndex = 1;
 
-    var returnValue = filePicker.show();
-    if (returnValue == filePickerInterface.returnOK) {
+    AddressbookUtil.filePick(window, details, 
+      /*callback*/ function (file, details) {
 
       // add 'Tag/Category' for import, get from Tag selector
       let addTag = document.getElementById('selectedTag').value;
@@ -148,9 +157,8 @@ var AddressbookUtil = {
       let inputStream = Components.classes["@mozilla.org/network/file-input-stream;1"]
         .createInstance(Components.interfaces.nsIFileInputStream);
 
-      // eslint  reports: Invalid number  0444         //                       TODO
-/**/      inputStream.init(filePicker.file, 0x01, 0444, 0); // readonly
-
+      // eslint  reports: Invalid number  0444         //TODO
+      inputStream.init(file, 0x01, 0444, 0); //readonly
       var fileContents = NetUtil.readInputStreamToString(
         inputStream,
         inputStream.available(),
@@ -158,17 +166,17 @@ var AddressbookUtil = {
 
       inputStream.close();
 
-      var extension = filePicker.file.leafName.split('.').pop().toLowerCase();
+      var extension = file.leafName.split('.').pop().toLowerCase();
 
       // Importing LDIF data files and parse it as vCard (see descriptions!)
       if (extension == 'ldif') {
         var fileContents = AddressbookUtil.parseLDIF(fileContents);
       }
 
-      var contactUid = AddressbookUtil.parseContacts(fileContents, filePicker.file.leafName, addTag, abUI);
+      var contactUid = AddressbookUtil.parseContacts(fileContents, file.leafName, addTag, abUI);
 
       return contactUid;
-    }
+    }); // filePick callback
   },
 
   parseContacts: function(contents, source, addTag, abUI) {
@@ -186,9 +194,11 @@ var AddressbookUtil = {
     try {
       var contacts = ICAL.parse(contents);
     } catch (e) {
-      console.error("vContacts ERROR ICAL", source, "\n  message: " + e.message + "\n  contents:\n" + contents);
+
+      console.error("vContacts ERROR ICAL", source,
+        "\n  name: " + e.name +": " + e.message + "\n Stack: " + e.stack + "\n  contents:\n" + contents);
       abUI.setState({ abError: ('ICAL ' + source + ":\n" + e.message + "\ncontents:\n" + contents)});
-      document.getElementById("errorStatus").style.display = "block";
+      abUI.setState({ errorStatus: displayBlock });
       return;
     }
     getPerfNow();
@@ -225,8 +235,15 @@ var AddressbookUtil = {
 
       if (photoProperty) {
         if (photoProperty.type === "binary") {
-          var imageType = "image/" + photoProperty.getParameter("type").toLowerCase();
-          photo = AddressbookUtil.b64toBlob(photoProperty.getValues(), imageType);
+
+          try {
+            var imageType = "image/" + photoProperty.getParameter("type").toLowerCase();
+            photo = AddressbookUtil.b64toBlob(photoProperty.getValues(), imageType);
+          } catch (e) {
+            console.log("vContact parseContacts error  PHOTO: '", e.message,
+              "'  Contact Name: ", name,
+              "\n  ", e.stack.split('\n')[0]);
+          }
         }
 
 
@@ -331,6 +348,16 @@ var AddressbookUtil = {
     sliceSize = sliceSize || 512;
 
     var byteCharacters = atob(b64Data);
+
+    /*-----------
+    try {
+      var byteCharacters = atob(b64Data);
+    } catch (e) {
+      console.log("Error  PHOTO: ", e.message);
+      return;
+    }
+    -------------*/
+
     var byteArrays = [];
 
     for (var offset = 0; offset < byteCharacters.length; offset += sliceSize) {
@@ -394,6 +421,36 @@ var AddressbookUtil = {
       req.send();
     });
   },
+
+
+
+/**
+ * FilePicker   2017-12-01
+ * Changed to not use fp.show but fp.open which is async code
+ * (required for mozilla57)
+ */
+filePick: function (aWindow, details, callback) {
+//--------------------------------------------------------------------------
+   var nsIFilePicker = Ci.nsIFilePicker;
+   var fp = Cc["@mozilla.org/filepicker;1"].createInstance(nsIFilePicker);
+
+   fp.init(aWindow, details.title, nsIFilePicker[details.fileMode]);
+   fp.appendFilters(nsIFilePicker.filterAll);
+   fp.appendFilter(details.filterName, details.filterextensions);
+   fp.filterIndex = 0;
+
+   if (details.cDir && details.cDir.parent) fp.displayDirectory = details.cDir.parent;
+   if (details.defaultString) fp.defaultString= details.defaultString;
+
+    return new Promise(resolve => {
+      //show the window
+      fp.open(rv => {
+        if (rv == nsIFilePicker.returnOK || rv == nsIFilePicker.returnReplace) {
+        callback(fp.file, details);
+      }
+    });
+  })
+},
 
 
   /**
@@ -504,14 +561,14 @@ var AddressbookUtil = {
                + '\n';
             }
 
-		/*----------
-		street: workAddr
-		mozillaWorkStreet2: workAddr1
-		l: workCity
-		st: workState
-		postalCode: workZIP
-		c: workCountry
-		--------*/
+      /*----------
+      street: workAddr
+      mozillaWorkStreet2: workAddr1
+      l: workCity
+      st: workState
+      postalCode: workZIP
+      c: workCountry
+      --------*/
             //    if (ldif['street'] || ldif['mozillaWorkStreet2'] || ldif['l']
             if (ldif['street'] || ldif['l']
              || ldif['st'] || ldif['postalCode']
