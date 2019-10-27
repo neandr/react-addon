@@ -2,7 +2,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.  */
 
-var abRevision = '180315.00';
+var abRevision = '191027.00';
 
 // Fields options
 let abEmail = { key: "email", name: "Email", options: ["Work", "Home"] };

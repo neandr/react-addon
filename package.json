@@ -22,5 +22,10 @@
     "react": "^15.3.2",
     "react-dom": "^15.3.2",
     "react-modal": "^1.5.2"
-  }
+  },
+  "directories": {
+    "doc": "docs"
+  },
+  "devDependencies": {},
+  "keywords": []
 }

@@ -2,11 +2,11 @@
 
   <Description about="urn:mozilla:install-manifest">
     <!-- shortnameofaddon@firstname.lastname -->
-    <em:id>tbvcontacts@gneandr.de</em:id>
-    <!-- full name of addon, is displayed  -->     
+    <em:id>tbvcontacts@gNeandr.de</em:id>
+    <!-- full name of addon, is displayed  -->
     <em:name>vContacts</em:name>
     <!-- version number of addon -->
-    <em:version>0.1.2</em:version>
+    <em:version>0.2.2</em:version>
     <!-- author's name -->
     <em:creator>gNeandr/VUW Project Team</em:creator>
 
@@ -16,9 +16,9 @@
         <!-- Id to which mozilla application addon targets -->
         <em:id>{3550f703-e582-4d05-9a08-453d09bdfdc6}</em:id>
         <!-- minimium version that the add-on supports -->
-        <em:minVersion>35</em:minVersion>
+        <em:minVersion>60.0</em:minVersion>
         <!-- maximum version add-on supports, cannot be higher than current TB -->
-        <em:maxVersion>55.0</em:maxVersion>
+        <em:maxVersion>60.9</em:maxVersion>
       </Description>
     </em:targetApplication>
 
